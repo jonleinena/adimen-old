@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl'; // Import useTranslations
 
 import { Container } from '@/components/container';
 import { Button } from '@/components/ui/button';
@@ -16,6 +17,8 @@ export default async function HomePage() {
 }
 
 function HeroSection() {
+  const t = useTranslations(); // Get the translation function
+
   return (
     <section className='relative overflow-hidden lg:overflow-visible'>
       <Container className='relative rounded-lg bg-black py-20 lg:py-[140px]'>
@@ -25,9 +28,9 @@ function HeroSection() {
               Generate banners with DALL·E
             </span>
           </div>
-          <h1>Instantly craft stunning Twitter banners.</h1>
+          <h1>{t('hero.title')}</h1>
           <Button asChild variant='sexy'>
-            <Link href='/signup'>Get started for free</Link>
+            <Link href='/signup'>{t('hero.button')}</Link>
           </Button>
         </div>
       </Container>
@@ -43,7 +46,6 @@ function HeroSection() {
     </section>
   );
 }
-
 function ExamplesSection() {
   return (
     <section className='flex flex-col gap-4 overflow-hidden rounded-lg bg-black py-8'>

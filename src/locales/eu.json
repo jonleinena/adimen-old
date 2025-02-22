@@ -32,5 +32,44 @@
                 "answer": "Bai, Adimen-en AI agenteak guztiz pertsonalizagarriak dira. Dauden lan-fluxuak aldatu edo berriak sortu ditzakezu gure editore bisuala erabiliz. Gure taldeak soluzio pertsonalizatuak garatzen lagun dezake negozio-behar berezietarako."
             }
         ]
+    },
+    "use-case": {
+        "title": "Arrakasta Kasuak",
+        "description": "Ikusi zure antzeko enpresak nola eraldatzen ari diren Adimen-ekin",
+        "cases": [
+            {
+                "company": "DentalCare Plus",
+                "industry": "Osasungintza",
+                "title": "Pazienteen Hitzorduen Automatizazioa",
+                "description": "Hitzorduen gatazkak %95ean murriztu eta pazienteen gogobetetze-maila handitu da AA bidezko hitzorduen kudeaketarekin.",
+                "metrics": {
+                    "timeReduction": "75%",
+                    "costSaving": "€45.000",
+                    "satisfaction": "98%"
+                }
+            },
+            {
+                "company": "LogiTech Solutions",
+                "industry": "Logistika",
+                "title": "Ibilbideen Optimizazio Adimenduna",
+                "description": "AA agenteen bidez optimizatutako banaketa-ibilbideak, %30eko erregai aurrezpena eta banaketa-denboren hobekuntza 200 ibilbide baino gehiagotan egunero.",
+                "metrics": {
+                    "efficiency": "30%",
+                    "costSaving": "€120.000",
+                    "deliverySpeed": "45%"
+                }
+            },
+            {
+                "company": "RetailPro",
+                "industry": "Retail",
+                "title": "Inbentarioaren Kudeaketa",
+                "description": "AA bidezko inbentario-iragarpenek stockaren agortzea %60an murriztu dute, 15 dendatan inbentario-maila optimoak mantenduz.",
+                "metrics": {
+                    "stockouts": "-60%",
+                    "wastage": "-40%",
+                    "revenue": "+25%"
+                }
+            }
+        ]
     }
 }

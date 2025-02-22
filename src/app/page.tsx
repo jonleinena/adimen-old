@@ -5,13 +5,16 @@ import { useTranslations } from 'next-intl'; // Import useTranslations
 import { Container } from '@/components/container';
 import { FAQSection } from '@/components/faq-section';
 import { Button } from '@/components/ui/button';
+import { UseCaseCarousel } from '@/components/use-case-carousel';
 import { PricingSection } from '@/features/pricing/components/pricing-section';
+
+
 
 export default async function HomePage() {
   return (
     <div className='flex flex-col gap-8 lg:gap-32'>
       <HeroSection />
-      <ExamplesSection />
+      <UseCaseSection />
       <PricingSection />
       <FAQs />
     </div>
@@ -48,87 +51,17 @@ function HeroSection() {
     </section>
   );
 }
-function ExamplesSection() {
+
+function UseCaseSection() {
+  const t = useTranslations();
+
   return (
-    <section className='flex flex-col gap-4 overflow-hidden rounded-lg bg-black py-8'>
-      <div className='flex justify-center gap-4'>
-        <Image
-          className='flex-shrink-0'
-          src='/example1.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example2.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example3.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
+    <section className="container py-24 space-y-8">
+      <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{t('use-case.title')}</h2>
+        <p className="text-muted-foreground sm:text-lg">{t('use-case.description')}</p>
       </div>
-      <div className='flex gap-4'>
-        <Image
-          className='flex-shrink-0'
-          src='/example4.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example5.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example6.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-      </div>
-      <div className='flex justify-center gap-4'>
-        <Image
-          className='flex-shrink-0'
-          src='/example7.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example8.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example9.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-      </div>
+      <UseCaseCarousel />
     </section>
   );
 }

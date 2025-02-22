@@ -32,5 +32,44 @@
                 "answer": "Sí, los agentes de IA de Adimen son completamente personalizables. Puedes modificar flujos de trabajo existentes o crear nuevos usando nuestro editor visual. Nuestro equipo también puede ayudar a desarrollar soluciones personalizadas para requisitos empresariales únicos."
             }
         ]
+    },
+    "use-case": {
+        "title": "Casos de Éxito",
+        "description": "Descubre cómo empresas como la tuya se están transformando con Adimen",
+        "cases": [
+            {
+                "company": "DentalCare Plus",
+                "industry": "Salud",
+                "title": "Automatización de Citas",
+                "description": "Reducción del 95% en conflictos de programación y aumento en la satisfacción del paciente mediante la gestión de citas con IA.",
+                "metrics": {
+                    "timeReduction": "75%",
+                    "costSaving": "€45.000",
+                    "satisfaction": "98%"
+                }
+            },
+            {
+                "company": "LogiTech Solutions",
+                "industry": "Logística",
+                "title": "Optimización Inteligente de Rutas",
+                "description": "Optimización de rutas de entrega usando agentes de IA, resultando en 30% de ahorro en combustible y mejora en tiempos de entrega en más de 200 rutas diarias.",
+                "metrics": {
+                    "efficiency": "30%",
+                    "costSaving": "€120.000",
+                    "deliverySpeed": "45%"
+                }
+            },
+            {
+                "company": "RetailPro",
+                "industry": "Retail",
+                "title": "Gestión de Inventario",
+                "description": "Las predicciones de inventario basadas en IA redujeron la falta de stock en un 60% mientras se mantienen niveles óptimos de inventario en 15 tiendas.",
+                "metrics": {
+                    "stockouts": "-60%",
+                    "wastage": "-40%",
+                    "revenue": "+25%"
+                }
+            }
+        ]
     }
 }

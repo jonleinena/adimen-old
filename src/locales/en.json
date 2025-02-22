@@ -34,8 +34,8 @@
         ]
     },
     "use-case": {
-        "title": "Success Stories",
-        "description": "See how businesses like yours are transforming with Adimen",
+        "title": "Featured Use Cases",
+        "description": "Discover how Adimen can help you improve your business",
         "cases": [
             {
                 "company": "DentalCare Plus",
@@ -51,8 +51,8 @@
             {
                 "company": "LogiTech Solutions",
                 "industry": "Logistics",
-                "title": "Smart Route Optimization",
-                "description": "Optimized delivery routes using AI agents, resulting in 30% fuel savings and improved delivery times across 200+ daily routes.",
+                "title": "Optimizing Route Planning",
+                "description": "Reduced delivery times by 30% and increased customer satisfaction by implementing AI-powered route optimization.",
                 "metrics": {
                     "efficiency": "30%",
                     "costSaving": "€120,000",
@@ -63,7 +63,7 @@
                 "company": "RetailPro",
                 "industry": "Retail",
                 "title": "Inventory Management",
-                "description": "AI-powered inventory predictions reduced stockouts by 60% while maintaining optimal inventory levels across 15 stores.",
+                "description": "Reduced stockouts by 60% while maintaining optimal inventory levels across 15 stores.",
                 "metrics": {
                     "stockouts": "-60%",
                     "wastage": "-40%",

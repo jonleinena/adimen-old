@@ -34,8 +34,8 @@
         ]
     },
     "use-case": {
-        "title": "Casos de Éxito",
-        "description": "Descubre cómo empresas como la tuya se están transformando con Adimen",
+        "title": "Casos de uso destacados",
+        "description": "Descubre cómo Adimen puede ayudarte a mejorar tu negocio",
         "cases": [
             {
                 "company": "DentalCare Plus",
@@ -43,9 +43,9 @@
                 "title": "Automatización de Citas",
                 "description": "Reducción del 95% en conflictos de programación y aumento en la satisfacción del paciente mediante la gestión de citas con IA.",
                 "metrics": {
-                    "timeReduction": "75%",
-                    "costSaving": "€45.000",
-                    "satisfaction": "98%"
+                    "reduccionTiempos": "-75%",
+                    "ahorroCostes": "€45.000",
+                    "satisfaccionPacientes": "+98%"
                 }
             },
             {
@@ -54,20 +54,20 @@
                 "title": "Optimización Inteligente de Rutas",
                 "description": "Optimización de rutas de entrega usando agentes de IA, resultando en 30% de ahorro en combustible y mejora en tiempos de entrega en más de 200 rutas diarias.",
                 "metrics": {
-                    "efficiency": "30%",
-                    "costSaving": "€120.000",
-                    "deliverySpeed": "45%"
+                    "eficiencia": "+30%",
+                    "ahorroCostes": "€120.000",
+                    "velocidadEntrega": "+45%"
                 }
             },
             {
-                "company": "RetailPro",
-                "industry": "Retail",
-                "title": "Gestión de Inventario",
-                "description": "Las predicciones de inventario basadas en IA redujeron la falta de stock en un 60% mientras se mantienen niveles óptimos de inventario en 15 tiendas.",
+                "company": "TechPro Solutions",
+                "industry": "Tecnología",
+                "title": "Automatización de Procesos",
+                "description": "Automatización de procesos de ventas y soporte al cliente, reduciendo tiempos de respuesta en un 50% y aumentando la satisfacción del cliente en un 40%.",
                 "metrics": {
-                    "stockouts": "-60%",
-                    "wastage": "-40%",
-                    "revenue": "+25%"
+                    "reduccionTiempos": "-50%",
+                    "ahorroCostes": "€100.000",
+                    "satisfaccionClientes": "+40%"
                 }
             }
         ]

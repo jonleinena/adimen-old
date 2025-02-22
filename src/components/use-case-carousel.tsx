@@ -7,35 +7,35 @@ import { ChevronLeft, ChevronRight, Play } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
-interface UseCase {
-    company: string
-    industry: string
-    title: string
-    description: string
-    metrics: Record<string, string>
-}
 
 export function UseCaseCarousel() {
-    const t = useTranslations('use-case');
-    const cases = JSON.parse(t('cases')) as UseCase[];
+    const t = useTranslations('use-case')
     const [currentIndex, setCurrentIndex] = useState(0)
+
+    const useCases = t.raw('cases') as Array<{
+        company: string;
+        industry: string;
+        title: string;
+        description: string;
+        metrics: Record<string, string>;
+    }>
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setCurrentIndex((current) => (current + 1) % cases.length)
+            setCurrentIndex((current) => (current + 1) % useCases.length)
         }, 5000)
         return () => clearInterval(timer)
-    }, [cases.length])
+    })
 
     const nextSlide = () => {
-        setCurrentIndex((current) => (current + 1) % cases.length)
+        setCurrentIndex((current) => (current + 1) % useCases.length)
     }
 
     const prevSlide = () => {
-        setCurrentIndex((current) => (current - 1 + cases.length) % cases.length)
+        setCurrentIndex((current) => (current - 1 + useCases.length) % useCases.length)
     }
 
-    const currentCase = cases[currentIndex]
+    const currentCase = useCases[currentIndex]
 
     return (
         <div className="relative mx-auto max-w-6xl">
@@ -57,7 +57,7 @@ export function UseCaseCarousel() {
                             <div className="flex items-center justify-between">
                                 <p className="text-sm font-medium text-muted-foreground">{currentCase.industry}</p>
                                 <div className="flex gap-1">
-                                    {cases.map((_: UseCase, idx: number) => (
+                                    {useCases.map((_, idx) => (
                                         <div
                                             key={idx}
                                             className={`h-1.5 w-6 rounded-full ${idx === currentIndex ? "bg-primary" : "bg-muted"}`}

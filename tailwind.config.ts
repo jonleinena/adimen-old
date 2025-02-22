@@ -68,14 +68,14 @@ const config: Config = {
           to: { height: '0' },
         },
         'spin-slow': {
-          '0%': { rotate: '0deg' },
-          '100%': { rotate: '360deg' },
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'spin-slow': 'spin 10s linear infinite',
+        'spin-slow': 'spin-slow 10s linear infinite',
       },
     },
   },

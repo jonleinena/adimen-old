@@ -5,8 +5,10 @@ import { headers } from 'next/headers';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
+import { ArrowRight } from 'lucide-react';
 import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter } from 'react-icons/io5';
 
+import { CountdownTimer } from '@/components/countdown-timer';
 import { Logo } from '@/components/logo';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/utils/cn';
@@ -15,7 +17,6 @@ import { Analytics } from '@vercel/analytics/react';
 import { Navigation } from './navigation';
 
 import '@/styles/globals.css';
-
 export const dynamic = 'force-dynamic';
 
 const montserrat = Montserrat({
@@ -36,13 +37,13 @@ export const metadata: Metadata = {
 
 const locales = ['en', 'es', 'eu']; // Should match your middleware locales
 
-async function getMessages(locale: string) {
-  try {
-    return (await import(`../locales/${locale}.json`)).default;
-  } catch (error) {
-    notFound(); // In case of error, return 404
-  }
-}
+// async function getMessages(locale: string) {
+//   try {
+//     return (await import(`../locales/${locale}.json`)).default;
+//   } catch (error) {
+//     notFound(); // In case of error, return 404
+//   }
+// }
 
 export default async function RootLayout({
   children,
@@ -66,7 +67,15 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider locale={localeFromHeader}>
           <div>
-            <div className="m-auto flex h-full max-w-[1440px] flex-col px-4">
+            <div className="flex min-h-screen flex-col">
+              {/* Promotion Banner */}
+              <div className="bg-black px-4 py-2 text-center text-sm text-primary-foreground">
+                <div className="container flex items-center justify-center gap-x-4">
+                  <span>Start now and save 50% for 3 months</span>
+                  <CountdownTimer />
+                  <ArrowRight className="h-4 w-4" />
+                </div>
+              </div>
               <AppBar />
               <main className="relative flex-1">
                 <div className="relative h-full">{children}</div>
@@ -85,7 +94,6 @@ export default async function RootLayout({
 async function AppBar() {
   return (
     <header className="flex items-center justify-between py-8">
-      <Logo />
       <Navigation />
     </header>
   );
@@ -93,57 +101,93 @@ async function AppBar() {
 
 function Footer() {
   return (
-    <footer className='mt-8 flex flex-col gap-8 text-neutral-400 lg:mt-32'>
-      <div className='flex flex-col justify-between gap-8 lg:flex-row'>
-        <div>
-          <Logo />
+    <footer className="border-t">
+      <div className="container py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold">Product</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  Features
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  Security
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  Enterprise
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold">Company</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  Careers
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold">Resources</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  Documentation
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  Help Center
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold">Legal</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  Privacy
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  Terms
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="text-muted-foreground hover:text-foreground">
+                  GDPR
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className='grid grid-cols-2 gap-8 sm:grid-cols-4 lg:grid-cols-4 lg:gap-16'>
-          <div className='flex flex-col gap-2 lg:gap-6'>
-            <div className='font-semibold text-neutral-100'>Product</div>
-            <nav className='flex flex-col gap-2 lg:gap-6'>
-              <Link href='/pricing'>Pricing</Link>
-            </nav>
-          </div>
-          <div className='flex flex-col gap-2 lg:gap-6'>
-            <div className='font-semibold text-neutral-100'>Company</div>
-            <nav className='flex flex-col gap-2 lg:gap-6'>
-              <Link href='/about-us'>About Us</Link>
-              <Link href='/privacy'>Privacy</Link>
-            </nav>
-          </div>
-          <div className='flex flex-col gap-2 lg:gap-6'>
-            <div className='font-semibold text-neutral-100'>Support</div>
-            <nav className='flex flex-col gap-2 lg:gap-6'>
-              <Link href='/support'>Get Support</Link>
-            </nav>
-          </div>
-          <div className='flex flex-col gap-2 lg:gap-6'>
-            <div className='font-semibold text-neutral-100'>Follow us</div>
-            <nav className='flex flex-col gap-2 lg:gap-6'>
-              <Link href='#'>
-                <span className='flex items-center gap-2'>
-                  <IoLogoTwitter size={22} /> <span>Twitter</span>
-                </span>
-              </Link>
-              <Link href='#'>
-                <span className='flex items-center gap-2'>
-                  <IoLogoFacebook size={22} /> <span>Facebook</span>
-                </span>
-              </Link>
-              <Link href='#'>
-                <span className='flex items-center gap-2'>
-                  <IoLogoInstagram size={22} /> <span>Instagram</span>
-                </span>
-              </Link>
-            </nav>
-          </div>
+        <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} Adimen. All rights reserved.</p>
         </div>
-      </div>
-      <div className='border-t border-zinc-800 py-6 text-center'>
-        <span className='text-neutral4 text-xs'>
-          Copyright {new Date().getFullYear()} © Adimen
-        </span>
       </div>
     </footer>
   );

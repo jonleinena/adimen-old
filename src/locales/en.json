@@ -2,5 +2,35 @@
     "hero": {
         "title": "Instantly craft stunning Twitter banners.",
         "button": "Get started for free"
+    },
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "description": "Everything you need to know about Adimen",
+        "items": [
+            {
+                "question": "How does Adimen integrate with my existing software?",
+                "answer": "Adimen uses secure API connections and pre-built integrations to connect with your existing tools. Our platform supports most major business software, and our team can help set up custom integrations if needed."
+            },
+            {
+                "question": "Is my data secure with Adimen?",
+                "answer": "Yes, we take security seriously. Adimen is GDPR compliant and uses enterprise-grade encryption. We maintain ISO 27001 certification and regular security audits to ensure your data is protected."
+            },
+            {
+                "question": "How long does it take to implement Adimen?",
+                "answer": "Most businesses can start using Adimen within days. Basic integrations can be set up in minutes, while more complex workflows might take a few weeks to optimize fully."
+            },
+            {
+                "question": "What kind of support do you offer?",
+                "answer": "We provide 24/7 technical support, dedicated account managers for enterprise clients, and comprehensive documentation. Our team of AI specialists is always available to help optimize your workflows."
+            },
+            {
+                "question": "How do you price your services?",
+                "answer": "We offer flexible pricing based on your business needs. Our plans start with basic automation features and scale up to enterprise solutions. All plans include our core AI capabilities and essential integrations."
+            },
+            {
+                "question": "Can I customize the AI agents for my specific needs?",
+                "answer": "Yes, Adimen's AI agents are fully customizable. You can modify existing workflows or create new ones using our visual editor. Our team can also help develop custom solutions for unique business requirements."
+            }
+        ]
     }
 }

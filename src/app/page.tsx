@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl'; // Import useTranslations
 
 import { Container } from '@/components/container';
+import { FAQSection } from '@/components/faq-section';
 import { Button } from '@/components/ui/button';
 import { PricingSection } from '@/features/pricing/components/pricing-section';
 
@@ -12,6 +13,7 @@ export default async function HomePage() {
       <HeroSection />
       <ExamplesSection />
       <PricingSection />
+      <FAQs />
     </div>
   );
 }
@@ -129,4 +131,21 @@ function ExamplesSection() {
       </div>
     </section>
   );
+}
+
+
+function FAQs() {
+  const t = useTranslations();
+
+  return (
+
+    <section className="container py-24 space-y-8 border-t">
+      <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{t('faq.title')}</h2>
+        <p className="text-muted-foreground sm:text-lg">{t('faq.description')}</p>
+      </div>
+      <FAQSection />
+    </section>
+  );
+
 }

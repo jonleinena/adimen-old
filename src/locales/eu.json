@@ -1,6 +1,36 @@
 {
     "hero": {
-        "title": "Sortu Twitter banner harrigarriak berehala.",
+        "title": "Sortu Twitter banner ikusgarriak berehala.",
         "button": "Hasi doan"
+    },
+    "faq": {
+        "title": "Ohiko Galderak",
+        "description": "Adimen-en inguruan jakin beharreko guztia",
+        "items": [
+            {
+                "question": "Nola integratzen da Adimen nire oraingo softwarearekin?",
+                "answer": "Adimen-ek API konexio seguruak eta aurrez eraikitako integrazioak erabiltzen ditu zure tresnekin konektatzeko. Gure plataformak negozio software nagusi gehienak onartzen ditu, eta gure taldeak integrazio pertsonalizatuak konfiguratzen lagun dezake beharrezkoa bada."
+            },
+            {
+                "question": "Nire datuak seguruak al dira Adimen-ekin?",
+                "answer": "Bai, segurtasuna oso serio hartzen dugu. Adimen GDPR-rekin bat dator eta enpresa mailako enkriptazioa erabiltzen du. ISO 27001 ziurtagiria mantentzen dugu eta segurtasun auditoriak egiten ditugu erregularki zure datuak babestuta daudela ziurtatzeko."
+            },
+            {
+                "question": "Zenbat denbora behar da Adimen ezartzeko?",
+                "answer": "Enpresa gehienek Adimen egun gutxitan erabil dezakete. Oinarrizko integrazioak minututan konfigura daitezke, lan-fluxu konplexuagoek aste batzuk behar ditzaketen bitartean guztiz optimizatzeko."
+            },
+            {
+                "question": "Zer nolako laguntza eskaintzen duzue?",
+                "answer": "24/7 laguntza teknikoa, kontu-kudeatzaile dedikatu bat enpresa bezeroentzat, eta dokumentazio osoa eskaintzen ditugu. Gure AI adituen taldea beti dago prest zure lan-fluxuak optimizatzen laguntzeko."
+            },
+            {
+                "question": "Nola ezartzen dituzue prezioak?",
+                "answer": "Prezio malguak eskaintzen ditugu zure negozioaren beharren arabera. Gure planak automatizazio oinarrizko funtzioekin hasten dira eta enpresa-soluzioetara eskalatzen dira. Plan guztiek gure AI gaitasun nagusiak eta oinarrizko integrazioak barne hartzen dituzte."
+            },
+            {
+                "question": "AI agenteak nire behar zehatzetara egokitu al ditzaket?",
+                "answer": "Bai, Adimen-en AI agenteak guztiz pertsonalizagarriak dira. Dauden lan-fluxuak aldatu edo berriak sortu ditzakezu gure editore bisuala erabiliz. Gure taldeak soluzio pertsonalizatuak garatzen lagun dezake negozio-behar berezietarako."
+            }
+        ]
     }
 }

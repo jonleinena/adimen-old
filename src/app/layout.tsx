@@ -37,24 +37,25 @@ export const metadata: Metadata = {
 
 const locales = ['en', 'es', 'eu']; // Should match your middleware locales
 
-// async function getMessages(locale: string) {
-//   try {
-//     return (await import(`../locales/${locale}.json`)).default;
-//   } catch (error) {
-//     notFound(); // In case of error, return 404
-//   }
-// }
+async function getMessages(locale: string) {
+  try {
+    return (await import(`../locales/${locale}.json`)).default;
+  } catch (error) {
+    notFound(); // In case of error, return 404
+  }
+}
 
 export default async function RootLayout({
   children,
 }: PropsWithChildren<{}>) {
-  // Await headers() and log its content
   const headersList = await headers();
   const localeFromHeader = headersList.get('x-next-intl-locale') || 'en';
 
   if (!locales.includes(localeFromHeader)) {
     notFound();
   }
+
+  const messages = await getMessages(localeFromHeader);
 
   return (
     <html lang={localeFromHeader}>
@@ -65,7 +66,7 @@ export default async function RootLayout({
           montserratAlternates.variable
         )}
       >
-        <NextIntlClientProvider locale={localeFromHeader}>
+        <NextIntlClientProvider locale={localeFromHeader} messages={messages}>
           <div>
             <div className="flex min-h-screen flex-col">
               {/* Promotion Banner */}

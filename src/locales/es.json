@@ -1,6 +1,36 @@
 {
     "hero": {
-        "title": "Crea banners de Twitter impresionantes al instante.",
-        "button": "Comienza gratis"
+        "title": "Crea banners impresionantes para Twitter al instante.",
+        "button": "Empieza gratis"
+    },
+    "faq": {
+        "title": "Preguntas frecuentes",
+        "description": "Todo lo que necesitas saber sobre Adimen",
+        "items": [
+            {
+                "question": "¿Cómo se integra Adimen con mi software existente?",
+                "answer": "Adimen utiliza conexiones API seguras e integraciones prediseñadas para conectarse con tus herramientas existentes. Nuestra plataforma es compatible con la mayoría del software empresarial, y nuestro equipo puede ayudar a configurar integraciones personalizadas si es necesario."
+            },
+            {
+                "question": "¿Están mis datos seguros con Adimen?",
+                "answer": "Sí, nos tomamos la seguridad muy en serio. Adimen cumple con GDPR y utiliza encriptación de nivel empresarial. Mantenemos la certificación ISO 27001 y realizamos auditorías de seguridad regulares para garantizar que tus datos estén protegidos."
+            },
+            {
+                "question": "¿Cuánto tiempo lleva implementar Adimen?",
+                "answer": "La mayoría de las empresas pueden comenzar a usar Adimen en cuestión de días. Las integraciones básicas se pueden configurar en minutos, mientras que los flujos de trabajo más complejos pueden tardar algunas semanas en optimizarse completamente."
+            },
+            {
+                "question": "¿Qué tipo de soporte ofrecen?",
+                "answer": "Proporcionamos soporte técnico 24/7, gestores de cuenta dedicados para clientes empresariales y documentación completa. Nuestro equipo de especialistas en IA está siempre disponible para ayudar a optimizar tus flujos de trabajo."
+            },
+            {
+                "question": "¿Cómo establecen sus precios?",
+                "answer": "Ofrecemos precios flexibles basados en las necesidades de tu negocio. Nuestros planes comienzan con funciones básicas de automatización y escalan hasta soluciones empresariales. Todos los planes incluyen nuestras capacidades principales de IA e integraciones esenciales."
+            },
+            {
+                "question": "¿Puedo personalizar los agentes de IA para mis necesidades específicas?",
+                "answer": "Sí, los agentes de IA de Adimen son completamente personalizables. Puedes modificar flujos de trabajo existentes o crear nuevos usando nuestro editor visual. Nuestro equipo también puede ayudar a desarrollar soluciones personalizadas para requisitos empresariales únicos."
+            }
+        ]
     }
 }

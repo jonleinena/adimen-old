@@ -5,6 +5,13 @@ const withNextIntl = createNextIntlPlugin(
   );
  
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    domains: [
+      'www.google.com',
+      'hebbkx1anhila5yf.public.blob.vercel-storage.com'
+    ],
+  },
+};
  
 module.exports = withNextIntl(nextConfig);

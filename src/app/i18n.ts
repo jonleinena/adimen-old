@@ -11,12 +11,12 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
     if (!locales.includes(locale as any)) {
         return {
-            messages: (await import(`../locales/en.json`)).default
+            messages: (await import(`../locales/en.json`)).default as any
         };
     }
 
     return {
         locale: locale,
-        messages: (await import(`../locales/${locale}.json`)).default
+        messages: (await import(`../locales/${locale}.json`)).default as any
     };
 });

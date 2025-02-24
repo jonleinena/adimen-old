@@ -7,18 +7,18 @@ import { Slot } from '@radix-ui/react-slot';
 import { SexyBoarder } from '../sexy-boarder';
 
 const buttonVariants = cva(
-  'w-fit inline-flex items-center justify-center whitespace-nowrap text-sm rounded-md font-alt font-medium transition-colors disabled:pointer-events-none disabled:opacity-50',
+  'w-fit inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 rounded-md',
   {
     variants: {
       variant: {
-        default: 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800',
+        default: 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 text-white',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        orange: 'bg-orange-500 hover:bg-orange-400',
-        sexy: 'transition-all bg-black hover:bg-opacity-0',
+        blue: 'bg-blue-500 hover:bg-white hover:border hover:border-blue-500 text-white hover:text-blue-500',
+        blueOutline: 'border border-blue-500 hover:bg-blue-500 text-blue-500 hover:text-white',
       },
       size: {
         default: 'h-10 px-4',
@@ -36,7 +36,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 

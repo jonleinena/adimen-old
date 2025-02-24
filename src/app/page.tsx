@@ -1,132 +1,192 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { useTranslations } from 'next-intl'; // Import useTranslations
+import { useTranslations } from 'next-intl';
+import { ArrowRight } from "lucide-react";
+import { Star } from "lucide-react";
 
 import { Container } from '@/components/container';
+import { CTASection } from '@/components/cta-section';
+import { FAQSection } from '@/components/faq-section';
+import { FeatureSelector } from '@/components/feature-selector';
+import { FeaturesSection } from '@/components/features-section';
+import { HowItWorks } from '@/components/how-it-works';
+import { IntegrationPreview } from '@/components/integration-preview';
+import { AICompanyLogos } from '@/components/logos-slider';
+import { SolutionPreview } from '@/components/solution-preview';
+import { Badge } from "@/components/ui/badge";
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { UseCaseCarousel } from '@/components/use-case-carousel';
 import { PricingSection } from '@/features/pricing/components/pricing-section';
 
-export default async function HomePage() {
+
+export default function HomePage() {
+  const t = useTranslations('home');
+
   return (
     <div className='flex flex-col gap-8 lg:gap-32'>
-      <HeroSection />
-      <ExamplesSection />
-      <PricingSection />
+      {/* Hero Section */}
+      <Container>
+        <HeroSection />
+      </Container>
+
+      {/* Dashboard Preview */}
+      <Container>
+        <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            {t('ai_technologies.title')}
+          </h2>
+          <p className="text-muted-foreground sm:text-lg">
+            {t('ai_technologies.description')}
+          </p>
+        </div>
+        <AICompanyLogos />
+      </Container>
+
+      {/* Feature Selection */}
+      <Container>
+        <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            {t('customize.title')}
+          </h2>
+          <p className="text-muted-foreground sm:text-lg">
+            {t('customize.description')}
+          </p>
+        </div>
+        <div className="mx-auto max-w-2xl">
+          <FeatureSelector />
+        </div>
+      </Container>
+
+      {/* Integration Preview */}
+      <Container>
+        <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            {t('integration.title')}
+          </h2>
+          <p className="text-muted-foreground sm:text-lg">
+            {t('integration.description')}
+          </p>
+        </div>
+        <IntegrationPreview />
+      </Container>
+
+      {/* Features Section */}
+      <Container>
+        <div className="mx-auto max-w-[58rem] space-y-4 text-center py-12">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            {t('features.title')}
+          </h2>
+          <p className="text-muted-foreground sm:text-lg">
+            {t('features.description')}
+          </p>
+        </div>
+        <FeaturesSection />
+      </Container>
+
+      {/* Solution Preview */}
+      <Container>
+        <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            {t('solutions.title')}
+          </h2>
+          <p className="text-muted-foreground sm:text-lg">
+            {t('solutions.description')}
+          </p>
+        </div>
+        <SolutionPreview />
+      </Container>
+
+      <UseCaseSection />
+
+      {/* How It Works */}
+      <Container>
+        <div className="mx-auto max-w-[58rem] space-y-4 text-center py-12">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            {t('how_it_works.title')}
+          </h2>
+          <p className="text-muted-foreground sm:text-lg">
+            {t('how_it_works.description')}
+          </p>
+        </div>
+        <HowItWorks />
+      </Container>
+
+      {/* CTA Section */}
+      <section className="border-t">
+        <Container className="py-24">
+          <CTASection />
+        </Container>
+      </section>
+
+      {/* FAQ Section */}
+      <FAQs />
     </div>
   );
 }
 
+
 function HeroSection() {
-  const t = useTranslations(); // Get the translation function
+  const t = useTranslations('hero_section');
 
   return (
-    <section className='relative overflow-hidden lg:overflow-visible'>
-      <Container className='relative rounded-lg bg-black py-20 lg:py-[140px]'>
-        <div className='relative z-10 flex flex-col gap-5 lg:max-w-xl lg:pl-8'>
-          <div className='w-fit rounded-full bg-gradient-to-r from-[#616571] via-[#7782A9] to-[#826674] px-4 py-1 '>
-            <span className='font-alt text-sm font-semibold text-black mix-blend-soft-light'>
-              Generate banners with DALL·E
-            </span>
-          </div>
-          <h1>{t('hero.title')}</h1>
-          <Button asChild variant='sexy'>
-            <Link href='/signup'>{t('hero.button')}</Link>
+    <div className="relative container py-24 space-y-8 md:space-y-16">
+      <div className="mx-auto max-w-[64rem] space-y-8 text-center">
+        <Badge variant="outline" className="w-fit mx-auto px-4 py-1 border-radius-full rounded-full">
+          {t('badge')}
+        </Badge>
+        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl text-primary">
+          {t('title')}
+        </h1>
+        <p className="mx-auto max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+          {t('description')}
+        </p>
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <Button size="lg" className="h-12">
+            {t('start_trial')}
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+          <Button size="lg" variant="outline" className="h-12">
+            {t('schedule_demo')}
           </Button>
         </div>
-      </Container>
-      <Image
-        src='/hero-shape.png'
-        width={867}
-        height={790}
-        alt=''
-        className='absolute right-0 top-0 rounded-tr-lg'
-        priority
-        quality={100}
-      />
+        <div className="flex items-center justify-center space-x-2 text-sm">
+          <div className="flex">
+            {Array(5)
+              .fill(0)
+              .map((_, i) => (
+                <Star key={i} className="h-5 w-5 fill-primary text-primary" />
+              ))}
+          </div>
+          <span className="text-muted-foreground">{t('reviews')}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function UseCaseSection() {
+  const t = useTranslations('use-case');
+
+  return (
+    <section className="container py-24 space-y-8">
+      <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{t('title')}</h2>
+        <p className="text-muted-foreground sm:text-lg">{t('description')}</p>
+      </div>
+      <UseCaseCarousel />
     </section>
   );
 }
-function ExamplesSection() {
+
+function FAQs() {
+  const t = useTranslations('faq');
+
   return (
-    <section className='flex flex-col gap-4 overflow-hidden rounded-lg bg-black py-8'>
-      <div className='flex justify-center gap-4'>
-        <Image
-          className='flex-shrink-0'
-          src='/example1.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example2.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example3.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
+    <section className="container py-24 space-y-8 border-t">
+      <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{t('title')}</h2>
+        <p className="text-muted-foreground sm:text-lg">{t('description')}</p>
       </div>
-      <div className='flex gap-4'>
-        <Image
-          className='flex-shrink-0'
-          src='/example4.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example5.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example6.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-      </div>
-      <div className='flex justify-center gap-4'>
-        <Image
-          className='flex-shrink-0'
-          src='/example7.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example8.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example9.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-      </div>
+      <FAQSection />
     </section>
   );
 }

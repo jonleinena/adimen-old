@@ -19,7 +19,7 @@ export async function Navigation() {
             <span className="text-xl font-bold">Adimen</span>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center space-x-8">
             <Link href="#features" className="text-sm font-medium hover:text-primary">
               Features
             </Link>
@@ -34,7 +34,7 @@ export async function Navigation() {
             </Link>
           </nav>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-end min-w-[250px]">
             {session ? (
               <AccountMenu signOut={signOut} />
             ) : (
@@ -69,7 +69,7 @@ export async function Navigation() {
                         </div>
                         <div className="flex flex-col space-y-4">
                           <Button variant="outline">Contact Sales</Button>
-                          <Button variant="sexy" asChild>
+                          <Button variant="blueOutline" asChild>
                             <Link href="/signup">Get Started</Link>
                           </Button>
                         </div>

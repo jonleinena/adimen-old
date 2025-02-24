@@ -14,10 +14,10 @@ export function CTASection() {
                 Join hundreds of SMEs already using Adimen to stay competitive.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <Button size="lg" className="h-12" asChild>
+                <Button size="lg" variant="blue" className="h-12" asChild>
                     <Link href="/signup">Start Free Trial</Link>
                 </Button>
-                <Button size="lg" variant="outline" className="h-12" asChild>
+                <Button size="lg" variant="blueOutline" className="h-12" asChild>
                     <Link href="/contact">Talk to Sales</Link>
                 </Button>
             </div>

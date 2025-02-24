@@ -9,7 +9,7 @@ import { FeatureSelector } from '@/components/feature-selector';
 import { FeaturesSection } from '@/components/features-section';
 import { HowItWorks } from '@/components/how-it-works';
 import { IntegrationPreview } from '@/components/integration-preview';
-import { MetricsDashboard } from '@/components/metrics-dashboard';
+import { AICompanyLogos } from '@/components/logos-slider';
 import { SolutionPreview } from '@/components/solution-preview';
 import { Badge } from "@/components/ui/badge";
 import { Button } from '@/components/ui/button';
@@ -28,11 +28,15 @@ export default function HomePage() {
 
       {/* Dashboard Preview */}
       <Container>
-        <div className="relative mx-auto max-w-6xl">
-          <div className="rounded-lg border bg-background/50 shadow-2xl backdrop-blur">
-            <MetricsDashboard />
-          </div>
+        <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            Powered by Leading AI Technologies
+          </h2>
+          <p className="text-muted-foreground sm:text-lg">
+            We integrate with state-of-the-art AI models and platforms to deliver exceptional results
+          </p>
         </div>
+        <AICompanyLogos />
       </Container>
 
       {/* Feature Selection */}
@@ -65,7 +69,7 @@ export default function HomePage() {
 
       {/* Features Section */}
       <Container>
-        <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+        <div className="mx-auto max-w-[58rem] space-y-4 text-center py-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             Enterprise Features, SME Simplicity
           </h2>
@@ -93,7 +97,7 @@ export default function HomePage() {
 
       {/* How It Works */}
       <Container>
-        <div className="mx-auto max-w-[58rem] space-y-4 text-center">
+        <div className="mx-auto max-w-[58rem] space-y-4 text-center py-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             Simple Steps to AI Success
           </h2>
@@ -124,10 +128,10 @@ function HeroSection() {
   return (
     <div className="relative container py-24 space-y-8 md:space-y-16">
       <div className="mx-auto max-w-[64rem] space-y-8 text-center">
-        <Badge variant="outline" className="w-fit mx-auto px-4 py-1">
+        <Badge variant="outline" className="w-fit mx-auto px-4 py-1 border-radius-full rounded-full">
           Trusted by 500+ SMEs
         </Badge>
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-primary to-primary-foreground bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl text-primary">
           AI Automation for Every Business
         </h1>
         <p className="mx-auto max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">

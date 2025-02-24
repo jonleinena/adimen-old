@@ -1,8 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
 
 export function CountdownTimer() {
+    const pathname = usePathname()
+
     const [timeLeft, setTimeLeft] = useState({
         days: 6,
         hours: 23,
@@ -48,6 +51,8 @@ export function CountdownTimer() {
         return () => clearInterval(timer)
     }, [])
 
+    if (pathname !== "/") return null
+
     return (
         <div className="flex gap-4 text-center">
             <div className="flex flex-col">
@@ -55,7 +60,7 @@ export function CountdownTimer() {
                 <span className="text-xs text-muted-primary-foreground">DAYS</span>
             </div>
             <div className="flex flex-col">
-                <span className="text-2xl font-bold text-primary--foreground">{timeLeft.hours}</span>
+                <span className="text-2xl font-bold text-primary-foreground">{timeLeft.hours}</span>
                 <span className="text-xs text-muted-primary-foreground">HRS</span>
             </div>
             <div className="flex flex-col">

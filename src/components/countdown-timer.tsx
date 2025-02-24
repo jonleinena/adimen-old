@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
+import { useTranslations } from 'next-intl'
 
 export function CountdownTimer() {
     const pathname = usePathname()
+    const t = useTranslations('countdown')
 
     const [timeLeft, setTimeLeft] = useState({
         days: 6,
@@ -57,19 +59,19 @@ export function CountdownTimer() {
         <div className="flex gap-4 text-center">
             <div className="flex flex-col">
                 <span className="text-2xl font-bold text-primary-foreground">{timeLeft.days}</span>
-                <span className="text-xs text-muted-primary-foreground">DAYS</span>
+                <span className="text-xs text-muted-primary-foreground">{t('days')}</span>
             </div>
             <div className="flex flex-col">
                 <span className="text-2xl font-bold text-primary-foreground">{timeLeft.hours}</span>
-                <span className="text-xs text-muted-primary-foreground">HRS</span>
+                <span className="text-xs text-muted-primary-foreground">{t('hours')}</span>
             </div>
             <div className="flex flex-col">
                 <span className="text-2xl font-bold text-primary-foreground">{timeLeft.minutes}</span>
-                <span className="text-xs text-muted-primary-foreground">MIN</span>
+                <span className="text-xs text-muted-primary-foreground">{t('minutes')}</span>
             </div>
             <div className="flex flex-col">
                 <span className="text-2xl font-bold text-primary-foreground">{timeLeft.seconds}</span>
-                <span className="text-xs text-muted-primary-foreground">SEC</span>
+                <span className="text-xs text-muted-primary-foreground">{t('seconds')}</span>
             </div>
         </div>
     )

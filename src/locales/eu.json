@@ -1,75 +1,226 @@
 {
     "hero": {
-        "title": "Sortu Twitter banner ikusgarriak berehala.",
+        "title": "Twitter banner ikusgarriak berehala sortu.",
         "button": "Hasi doan"
     },
-    "faq": {
-        "title": "Ohiko Galderak",
-        "description": "Adimen-en inguruan jakin beharreko guztia",
-        "items": [
-            {
-                "question": "Nola integratzen da Adimen nire oraingo softwarearekin?",
-                "answer": "Adimen-ek API konexio seguruak eta aurrez eraikitako integrazioak erabiltzen ditu zure tresnekin konektatzeko. Gure plataformak negozio software nagusi gehienak onartzen ditu, eta gure taldeak integrazio pertsonalizatuak konfiguratzen lagun dezake beharrezkoa bada."
-            },
-            {
-                "question": "Nire datuak seguruak al dira Adimen-ekin?",
-                "answer": "Bai, segurtasuna oso serio hartzen dugu. Adimen GDPR-rekin bat dator eta enpresa mailako enkriptazioa erabiltzen du. ISO 27001 ziurtagiria mantentzen dugu eta segurtasun auditoriak egiten ditugu erregularki zure datuak babestuta daudela ziurtatzeko."
-            },
-            {
-                "question": "Zenbat denbora behar da Adimen ezartzeko?",
-                "answer": "Enpresa gehienek Adimen egun gutxitan erabil dezakete. Oinarrizko integrazioak minututan konfigura daitezke, lan-fluxu konplexuagoek aste batzuk behar ditzaketen bitartean guztiz optimizatzeko."
-            },
-            {
-                "question": "Zer nolako laguntza eskaintzen duzue?",
-                "answer": "24/7 laguntza teknikoa, kontu-kudeatzaile dedikatu bat enpresa bezeroentzat, eta dokumentazio osoa eskaintzen ditugu. Gure AI adituen taldea beti dago prest zure lan-fluxuak optimizatzen laguntzeko."
-            },
-            {
-                "question": "Nola ezartzen dituzue prezioak?",
-                "answer": "Prezio malguak eskaintzen ditugu zure negozioaren beharren arabera. Gure planak automatizazio oinarrizko funtzioekin hasten dira eta enpresa-soluzioetara eskalatzen dira. Plan guztiek gure AI gaitasun nagusiak eta oinarrizko integrazioak barne hartzen dituzte."
-            },
-            {
-                "question": "AI agenteak nire behar zehatzetara egokitu al ditzaket?",
-                "answer": "Bai, Adimen-en AI agenteak guztiz pertsonalizagarriak dira. Dauden lan-fluxuak aldatu edo berriak sortu ditzakezu gure editore bisuala erabiliz. Gure taldeak soluzio pertsonalizatuak garatzen lagun dezake negozio-behar berezietarako."
-            }
+    "home": {
+        "ai_technologies": {
+            "title": "AA teknologia nagusiek bultzatuta",
+            "description": "Puntako AA modelo eta plataformekin integratzen gara emaitza bikainak eskaintzeko"
+        },
+        "customize": {
+            "title": "Zure AA soluzioa pertsonalizatu",
+            "description": "Aukeratu zure negozioa eraldatzeko behar dituzun ezaugarriak"
+        },
+        "integration": {
+            "title": "Integrazio perfektua",
+            "description": "Konektatu zure tresna gogokoenekin minutu gutxitan"
+        },
+        "features": {
+            "title": "Enpresa-ezaugarriak, ETEentzako erraztasuna",
+            "description": "Zure negozio-prozesuetan AA integratzeko behar duzun guztia"
+        },
+        "solutions": {
+            "title": "Zure negozioa, AA-k indartuta",
+            "description": "Ikusi zure lan-fluxuak automatizazio adimendunarekin nola eraldatzen diren"
+        },
+        "how_it_works": {
+            "title": "AA arrakastara pausu errazak",
+            "description": "Hasi minututan, emaitzak egunetan ikusi"
+        }
+    },
+    "hero_section": {
+        "badge": "500+ ETEk fidatzen dira",
+        "title": "AA automatizazioa negozio guztientzat",
+        "description": "Eraldatu zure negozio-eragiketak zure tresnekin perfektuki integratzen diren AA agenteekin. Ez da ezagutza teknikorik behar.",
+        "start_trial": "Hasi doako proba",
+        "schedule_demo": "Hitzordu bat eskatu",
+        "reviews": "4.8/5 200+ iritzitatik"
+    },
+    "cta": {
+        "title": "Prest al zaude zure negozioa eraldatzeko?",
+        "description": "Batu zaitez Adimen dagoeneko erabiltzen duten ehunka ETEtara lehiakor mantentzeko.",
+        "free_trial": "Hasi doako proba",
+        "talk_to_sales": "Salmenta-taldearekin hitz egin"
+    },
+    "features_section": {
+        "security": {
+            "title": "Enpresa-segurtasuna",
+            "description": "GDPR betebeharrak, segurtasun-ezaugarri aurreratuak eta datuen kontrol osoa."
+        },
+        "integration": {
+            "title": "Integrazio erraza",
+            "description": "Konektatu zure tresna eta software existenteekin minutuetan, ez hilabeteetan."
+        },
+        "roi": {
+            "title": "ROI gardena",
+            "description": "Prezio gardenak eta emaitza neurgarriak zure negoziorako."
+        }
+    },
+    "how_it_works": {
+        "step1": {
+            "title": "1. Konektatu",
+            "description": "Lotu zure tresna eta software existenteak gure konektore seguruekin."
+        },
+        "step2": {
+            "title": "2. Konfiguratu",
+            "description": "Aukeratu aurrez eraikitako lan-fluxuen artean edo pertsonalizatu zureak gure editore bisualarekin."
+        },
+        "step3": {
+            "title": "3. Eskalatu",
+            "description": "Zabaldu zure erakunde osoan eta ikusi produktibitatea nola igotzen den."
+        }
+    },
+    "integration_preview": {
+        "tool_logo": "{name} logoa",
+        "cta_heading": "Ez duzu zure lan-tresna ikusten? Guk integratuko dugu zuretzat!",
+        "request_integration": "Eskatu integrazioa"
+    },
+    "solution_preview": {
+        "dashboard_alt": "Adimen kontrol-panelaren aurrebista"
+    },
+    "feature_selector": {
+        "heading": "Zer hobetu nahiko zenuke?",
+        "continue_button": "Jarraitu",
+        "features": [
+            "Lan-fluxuen automatizazioa AA agenteekin",
+            "Legacy software integrazioa",
+            "AA agente pertsonalizatuen garapena",
+            "Prozesuen optimizazioa eta analitika",
+            "Datuen kudeaketa segurua"
         ]
     },
+    "ai_logos": {
+        "openai_alt": "OpenAI logoa",
+        "anthropic_alt": "Anthropic logoa",
+        "deepmind_alt": "Google DeepMind logoa",
+        "vercel_alt": "Vercel logoa",
+        "cohere_alt": "Cohere logoa"
+    },
     "use-case": {
-        "title": "Erabilera-kasurik garrantzitsuena",
-        "description": "Adimen-en AI agenteak zure negozioaren beharren arabera egokitu daitezke. Ezagutu beste enpresa batzuek nola eraldatu dituzten beraien negozioak Adimen-i esker.",
+        "title": "Erabilera-kasu nabarmenak",
+        "description": "Ezagutu nola Adimen-ek zure negozioa hobetzen lagun dezakeen",
+        "video_duration": "02:45",
+        "prev_slide": "Aurreko diapositiba",
+        "next_slide": "Hurrengo diapositiba",
+        "metrics": {
+            "denboraMurrizketa": "Denbora murrizketa",
+            "kostuAurrezkia": "Kostu aurrezkia",
+            "pazienteenGogobetetzea": "Pazienteen gogobetetzea",
+            "eraginkortasuna": "Eraginkortasuna",
+            "entregaAbiadura": "Entrega abiadura",
+            "bezeroGogobetetzea": "Bezeroen gogobetetzea"
+        },
         "cases": [
             {
                 "company": "DentalCare Plus",
-                "industry": "Osasun zerbitzuak",
-                "title": "Bezeroen txandakatze automatikoa",
-                "description": "95%ko txandakatze konfliktuak eta bezeroen bir eta ziurgabetasunak ekiditeko, bezeroen txandakatzea Adimen-i esker automatikoki egiten da.",
+                "industry": "Osasuna",
+                "title": "Hitzorduen Automatizazioa",
+                "description": "Programazio-gatazken %95eko murrizketa eta pazienteen gogobetetze-maila handiagoa AA bidezko hitzorduen kudeaketarekin.",
                 "metrics": {
-                    "denboraAurreztea": "75%",
-                    "kostuenAurreztea": "€45,000",
-                    "bezeroenSatisfakzioa": "98%"
+                    "denboraMurrizketa": "-%75",
+                    "kostuAurrezkia": "45.000€",
+                    "pazienteenGogobetetzea": "+%98"
                 }
             },
             {
                 "company": "LogiTech Solutions",
                 "industry": "Logistika",
-                "title": "Ruten planifikazio optimizatua",
-                "description": "30%ko eragiketak eta bezeroen ziurgabetasunak ekiditeko, Adimeni esker ruten planifikazioa automatikoki egiten da.",
+                "title": "Ibilbideen Optimizazio Adimenduna",
+                "description": "Entrega-ibilbideen optimizazioa AA agenteen bidez, erregaian %30eko aurrezpena ekarriz eta entrega-denborak hobetuz 200+ eguneroko ibilbidetan.",
                 "metrics": {
-                    "efizientzia": "+30%",
-                    "ahorroKostu": "€120,000",
-                    "eragiketaKostuak": "45%"
+                    "eraginkortasuna": "+%30",
+                    "kostuAurrezkia": "120.000€",
+                    "entregaAbiadura": "+%45"
                 }
             },
             {
-                "company": "RetailPro",
-                "industry": "Retail",
-                "title": "Inbentarioaren kudeaketa",
-                "description": "60%ko inbentario hutsak eta 40%ko inbentario galera ekiditeko, inbentarioaren kudeaketa Adimen-i esker automatikoki egiten da.",
+                "company": "TechPro Solutions",
+                "industry": "Teknologia",
+                "title": "Prozesuen Automatizazioa",
+                "description": "Salmenta- eta bezero-laguntza prozesuen automatizazioa, erantzun-denborak %50 murriztuz eta bezeroen gogobetetzea %40 handituz.",
                 "metrics": {
-                    "hutsak": "-60%",
-                    "galera": "-40%",
-                    "errenta": "+25%"
+                    "denboraMurrizketa": "-%50",
+                    "kostuAurrezkia": "100.000€",
+                    "bezeroGogobetetzea": "+%40"
                 }
             }
         ]
+    },
+    "pricing": {
+        "title": "Prezio aurresangarriak erabilera-kasu bakoitzerako.",
+        "subtitle": "Aurkitu zure neurriko plan bat. Eguneratu edozein momentutan ezaugarri gehigarriak aktibatzeko.",
+        "background_image_alt": "Atzeko irudi dekoratiboa"
+    },
+    "faq": {
+        "title": "Ohiko galderak",
+        "description": "Adimen-eri buruz jakin behar duzun guztia",
+        "items": [
+            {
+                "question": "Nola integratzen da Adimen nire oraingo softwarearekin?",
+                "answer": "Adimen-ek API konexio seguruak eta aurrez diseinatutako integrazioak erabiltzen ditu zure tresnekin konektatzeko. Gure plataforma negozio-software gehienekin bateragarria da, eta gure taldeak integrazio pertsonalizatuak konfiguratzen lagun dezake beharrezkoa bada."
+            },
+            {
+                "question": "Nire datuak seguruak al dira Adimen-ekin?",
+                "answer": "Bai, segurtasuna oso serio hartzen dugu. Adimen GDPR-rekin bat dator eta enpresa-mailako enkriptazioa erabiltzen du. ISO 27001 ziurtagiria mantentzen dugu eta segurtasun-auditoriak egiten ditugu erregularki zure datuak babestuta daudela ziurtatzeko."
+            },
+            {
+                "question": "Zenbat denbora behar da Adimen ezartzeko?",
+                "answer": "Enpresa gehienek egun gutxitan has daitezke Adimen erabiltzen. Oinarrizko integrazioak minututan konfigura daitezke, lan-fluxu konplexuagoak astebete batzuk behar ditzaketen bitartean guztiz optimizatzeko."
+            },
+            {
+                "question": "Zer laguntza mota eskaintzen duzue?",
+                "answer": "24/7 laguntza teknikoa, enpresa-bezeroetarako kontu-kudeatzaile esklusiboak eta dokumentazio zabala eskaintzen ditugu. Gure AA adituen taldea beti dago eskuragarri zure lan-fluxuak optimizatzen laguntzeko."
+            },
+            {
+                "question": "Nola ezartzen dituzue zuen prezioak?",
+                "answer": "Prezio malguak eskaintzen ditugu zure negozio-beharretan oinarrituta. Gure planak automatizazio oinarrizko funtzioekin hasten dira eta enpresa-soluzioetara eskalatzen dira. Plan guztiek gure AA gaitasun nagusiak eta oinarrizko integrazioak barne hartzen dituzte."
+            },
+            {
+                "question": "AA agenteak nire behar zehatzetara pertsonaliza ditzaket?",
+                "answer": "Bai, Adimen-en AA agenteak guztiz pertsonalizagarriak dira. Lan-fluxu existenteak aldatu edo berriak sortu ditzakezu gure editore bisuala erabiliz. Gure taldeak soluzio pertsonalizatuak garatzen lagun dezake negozio-baldintza berezietarako."
+            }
+        ]
+    },
+    "navigation": {
+        "features": "Ezaugarriak",
+        "solution": "Soluzioa",
+        "integrations": "Integrazioak",
+        "pricing": "Prezioak",
+        "contact_sales": "Salmentarekin harremanetan jarri",
+        "get_started": "Hasi"
+    },
+    "footer": {
+        "product": {
+            "title": "Produktua",
+            "features": "Ezaugarriak",
+            "security": "Segurtasuna",
+            "enterprise": "Enpresa"
+        },
+        "company": {
+            "title": "Enpresa",
+            "about": "Guri buruz",
+            "blog": "Bloga",
+            "careers": "Karrerak"
+        },
+        "resources": {
+            "title": "Baliabideak",
+            "documentation": "Dokumentazioa",
+            "help": "Laguntza Zentroa",
+            "contact": "Kontaktua"
+        },
+        "legal": {
+            "title": "Legala",
+            "privacy": "Pribatutasuna",
+            "terms": "Baldintzak",
+            "gdpr": "RGPD"
+        },
+        "copyright": "© {year} Adimen. Eskubide guztiak erreserbatuta."
+    },
+    "countdown": {
+        "days": "EGUNAK",
+        "hours": "ORDUAK",
+        "minutes": "MIN",
+        "seconds": "SEG"
     }
 }

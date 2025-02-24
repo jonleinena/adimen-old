@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 import { IoMenu } from 'react-icons/io5';
 
 import { AccountMenu } from '@/components/account-menu';
@@ -10,6 +11,7 @@ import { signOut } from './(auth)/auth-actions';
 
 export async function Navigation() {
   const session = await getSession();
+  const t = await getTranslations('navigation');
 
   return (
     <>
@@ -21,16 +23,16 @@ export async function Navigation() {
 
           <nav className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center space-x-8">
             <Link href="#features" className="text-sm font-medium hover:text-primary">
-              Features
+              {t('features')}
             </Link>
             <Link href="#solution" className="text-sm font-medium hover:text-primary">
-              Solution
+              {t('solution')}
             </Link>
             <Link href="#integrations" className="text-sm font-medium hover:text-primary">
-              Integrations
+              {t('integrations')}
             </Link>
             <Link href="#pricing" className="text-sm font-medium hover:text-primary">
-              Pricing
+              {t('pricing')}
             </Link>
           </nav>
 
@@ -40,9 +42,9 @@ export async function Navigation() {
             ) : (
               <>
                 <div className="hidden md:flex items-center space-x-4">
-                  <Button variant="outline">Contact Sales</Button>
+                  <Button variant="outline">{t('contact_sales')}</Button>
                   <Button asChild>
-                    <Link href="/signup">Get Started</Link>
+                    <Link href="/signup">{t('get_started')}</Link>
                   </Button>
                 </div>
                 <Sheet>
@@ -55,22 +57,22 @@ export async function Navigation() {
                       <SheetDescription className="space-y-4 py-8">
                         <div className="flex flex-col space-y-4">
                           <Link href="#features" className="text-sm font-medium hover:text-primary">
-                            Features
+                            {t('features')}
                           </Link>
                           <Link href="#solution" className="text-sm font-medium hover:text-primary">
-                            Solution
+                            {t('solution')}
                           </Link>
                           <Link href="#integrations" className="text-sm font-medium hover:text-primary">
-                            Integrations
+                            {t('integrations')}
                           </Link>
                           <Link href="#pricing" className="text-sm font-medium hover:text-primary">
-                            Pricing
+                            {t('pricing')}
                           </Link>
                         </div>
                         <div className="flex flex-col space-y-4">
-                          <Button variant="outline">Contact Sales</Button>
+                          <Button variant="outline">{t('contact_sales')}</Button>
                           <Button variant="blueOutline" asChild>
-                            <Link href="/signup">Get Started</Link>
+                            <Link href="/signup">{t('get_started')}</Link>
                           </Button>
                         </div>
                       </SheetDescription>

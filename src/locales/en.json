@@ -3,39 +3,116 @@
         "title": "Instantly craft stunning Twitter banners.",
         "button": "Get started for free"
     },
-    "faq": {
-        "title": "Frequently Asked Questions",
-        "description": "Everything you need to know about Adimen",
-        "items": [
-            {
-                "question": "How does Adimen integrate with my existing software?",
-                "answer": "Adimen uses secure API connections and pre-built integrations to connect with your existing tools. Our platform supports most major business software, and our team can help set up custom integrations if needed."
-            },
-            {
-                "question": "Is my data secure with Adimen?",
-                "answer": "Yes, we take security seriously. Adimen is GDPR compliant and uses enterprise-grade encryption. We maintain ISO 27001 certification and regular security audits to ensure your data is protected."
-            },
-            {
-                "question": "How long does it take to implement Adimen?",
-                "answer": "Most businesses can start using Adimen within days. Basic integrations can be set up in minutes, while more complex workflows might take a few weeks to optimize fully."
-            },
-            {
-                "question": "What kind of support do you offer?",
-                "answer": "We provide 24/7 technical support, dedicated account managers for enterprise clients, and comprehensive documentation. Our team of AI specialists is always available to help optimize your workflows."
-            },
-            {
-                "question": "How do you price your services?",
-                "answer": "We offer flexible pricing based on your business needs. Our plans start with basic automation features and scale up to enterprise solutions. All plans include our core AI capabilities and essential integrations."
-            },
-            {
-                "question": "Can I customize the AI agents for my specific needs?",
-                "answer": "Yes, Adimen's AI agents are fully customizable. You can modify existing workflows or create new ones using our visual editor. Our team can also help develop custom solutions for unique business requirements."
-            }
+    "home": {
+        "ai_technologies": {
+            "title": "Powered by Leading AI Technologies",
+            "description": "We integrate with state-of-the-art AI models and platforms to deliver exceptional results"
+        },
+        "customize": {
+            "title": "Customize Your AI Solution",
+            "description": "Select the features you need to transform your business"
+        },
+        "integration": {
+            "title": "Seamless Integration",
+            "description": "Connect with your favorite tools in minutes"
+        },
+        "features": {
+            "title": "Enterprise Features, SME Simplicity",
+            "description": "Everything you need to integrate AI into your business workflows"
+        },
+        "solutions": {
+            "title": "Your Business, AI-Powered",
+            "description": "Watch your workflows transform with intelligent automation"
+        },
+        "how_it_works": {
+            "title": "Simple Steps to AI Success",
+            "description": "Get started in minutes, see results in days"
+        }
+    },
+    "hero_section": {
+        "badge": "Trusted by 500+ SMEs",
+        "title": "AI Automation for Every Business",
+        "description": "Transform your business operations with AI agents that integrate seamlessly with your existing tools. No technical expertise required.",
+        "start_trial": "Start Free Trial",
+        "schedule_demo": "Schedule Demo",
+        "reviews": "4.8/5 from 200+ reviews"
+    },
+    "cta": {
+        "title": "Ready to Transform Your Business?",
+        "description": "Join hundreds of SMEs already using Adimen to stay competitive.",
+        "free_trial": "Start Free Trial",
+        "talk_to_sales": "Talk to Sales"
+    },
+    "features_section": {
+        "security": {
+            "title": "Enterprise Security",
+            "description": "GDPR compliant, with advanced security features and complete data control."
+        },
+        "integration": {
+            "title": "Easy Integration",
+            "description": "Connect with your existing tools and software in minutes, not months."
+        },
+        "roi": {
+            "title": "Clear ROI",
+            "description": "Transparent pricing and measurable results for your business."
+        }
+    },
+    "how_it_works": {
+        "step1": {
+            "title": "1. Connect",
+            "description": "Link your existing tools and software with our secure connectors."
+        },
+        "step2": {
+            "title": "2. Configure",
+            "description": "Choose from pre-built workflows or customize your own with our visual editor."
+        },
+        "step3": {
+            "title": "3. Scale",
+            "description": "Deploy across your organization and watch productivity soar."
+        }
+    },
+    "integration_preview": {
+        "tool_logo": "{name} logo",
+        "cta_heading": "Don't see your work tool? We'll integrate it for you!",
+        "request_integration": "Request Integration"
+    },
+    "solution_preview": {
+        "dashboard_alt": "Adimen Dashboard Preview"
+    },
+    "feature_selector": {
+        "heading": "What would you like to improve?",
+        "continue_button": "Continue",
+        "features": [
+            "Workflow Automation with AI Agents",
+            "Legacy Software Integration",
+            "Custom AI Agent Development",
+            "Process Optimization & Analytics",
+            "Secure Data Management"
         ]
+    },
+    "ai_logos": {
+        "openai_alt": "OpenAI Logo",
+        "anthropic_alt": "Anthropic Logo",
+        "deepmind_alt": "Google DeepMind Logo",
+        "vercel_alt": "Vercel Logo",
+        "cohere_alt": "Cohere Logo"
     },
     "use-case": {
         "title": "Featured Use Cases",
         "description": "Discover how Adimen can help you improve your business",
+        "video_duration": "02:45",
+        "prev_slide": "Previous slide",
+        "next_slide": "Next slide",
+        "metrics": {
+            "timeReduction": "Time Reduction",
+            "costSaving": "Cost Saving",
+            "satisfaction": "Satisfaction",
+            "efficiency": "Efficiency",
+            "deliverySpeed": "Delivery Speed",
+            "stockouts": "Stockouts",
+            "wastage": "Wastage",
+            "revenue": "Revenue"
+        },
         "cases": [
             {
                 "company": "DentalCare Plus",
@@ -71,5 +148,81 @@
                 }
             }
         ]
+    },
+    "pricing": {
+        "title": "Predictable pricing for every use case.",
+        "subtitle": "Find a plan that fits you. Upgrade at any time to enable additional features.",
+        "background_image_alt": "Background decorative image"
+    },
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "description": "Everything you need to know about Adimen",
+        "items": [
+            {
+                "question": "How does Adimen integrate with my existing software?",
+                "answer": "Adimen uses secure API connections and pre-built integrations to connect with your existing tools. Our platform supports most major business software, and our team can help set up custom integrations if needed."
+            },
+            {
+                "question": "Is my data secure with Adimen?",
+                "answer": "Yes, we take security seriously. Adimen is GDPR compliant and uses enterprise-grade encryption. We maintain ISO 27001 certification and regular security audits to ensure your data is protected."
+            },
+            {
+                "question": "How long does it take to implement Adimen?",
+                "answer": "Most businesses can start using Adimen within days. Basic integrations can be set up in minutes, while more complex workflows might take a few weeks to optimize fully."
+            },
+            {
+                "question": "What kind of support do you offer?",
+                "answer": "We provide 24/7 technical support, dedicated account managers for enterprise clients, and comprehensive documentation. Our team of AI specialists is always available to help optimize your workflows."
+            },
+            {
+                "question": "How do you price your services?",
+                "answer": "We offer flexible pricing based on your business needs. Our plans start with basic automation features and scale up to enterprise solutions. All plans include our core AI capabilities and essential integrations."
+            },
+            {
+                "question": "Can I customize the AI agents for my specific needs?",
+                "answer": "Yes, Adimen's AI agents are fully customizable. You can modify existing workflows or create new ones using our visual editor. Our team can also help develop custom solutions for unique business requirements."
+            }
+        ]
+    },
+    "navigation": {
+        "features": "Features",
+        "solution": "Solution",
+        "integrations": "Integrations",
+        "pricing": "Pricing",
+        "contact_sales": "Contact Sales",
+        "get_started": "Get Started"
+    },
+    "footer": {
+        "product": {
+            "title": "Product",
+            "features": "Features",
+            "security": "Security",
+            "enterprise": "Enterprise"
+        },
+        "company": {
+            "title": "Company",
+            "about": "About",
+            "blog": "Blog",
+            "careers": "Careers"
+        },
+        "resources": {
+            "title": "Resources",
+            "documentation": "Documentation",
+            "help": "Help Center",
+            "contact": "Contact"
+        },
+        "legal": {
+            "title": "Legal",
+            "privacy": "Privacy",
+            "terms": "Terms",
+            "gdpr": "GDPR"
+        },
+        "copyright": "© {year} Adimen. All rights reserved."
+    },
+    "countdown": {
+        "days": "DAYS",
+        "hours": "HRS",
+        "minutes": "MIN",
+        "seconds": "SEC"
     }
 }

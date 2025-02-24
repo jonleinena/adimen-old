@@ -5,6 +5,7 @@ import { headers } from 'next/headers';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { ArrowRight } from 'lucide-react';
 import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter } from 'react-icons/io5';
 
@@ -79,94 +80,96 @@ export default async function RootLayout({
   );
 }
 
-function Footer() {
+async function Footer() {
+  const t = await getTranslations('footer');
+
   return (
     <footer className="border-t">
       <div className="container py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold">Product</h4>
+            <h4 className="text-sm font-semibold">{t('product.title')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Features
+                  {t('product.features')}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Security
+                  {t('product.security')}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Enterprise
+                  {t('product.enterprise')}
                 </Link>
               </li>
             </ul>
           </div>
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold">Company</h4>
+            <h4 className="text-sm font-semibold">{t('company.title')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  About
+                  {t('company.about')}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Blog
+                  {t('company.blog')}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Careers
+                  {t('company.careers')}
                 </Link>
               </li>
             </ul>
           </div>
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold">Resources</h4>
+            <h4 className="text-sm font-semibold">{t('resources.title')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Documentation
+                  {t('resources.documentation')}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Help Center
+                  {t('resources.help')}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Contact
+                  {t('resources.contact')}
                 </Link>
               </li>
             </ul>
           </div>
           <div className="space-y-4">
-            <h4 className="text-sm font-semibold">Legal</h4>
+            <h4 className="text-sm font-semibold">{t('legal.title')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Privacy
+                  {t('legal.privacy')}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  Terms
+                  {t('legal.terms')}
                 </Link>
               </li>
               <li>
                 <Link href="#" className="text-muted-foreground hover:text-foreground">
-                  GDPR
+                  {t('legal.gdpr')}
                 </Link>
               </li>
             </ul>
           </div>
         </div>
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Adimen. All rights reserved.</p>
+          <p>{t('copyright', { year: new Date().getFullYear() })}</p>
         </div>
       </div>
     </footer>

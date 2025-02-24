@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useRouter } from "next/navigation"
+import { useTranslations } from 'next-intl'
 import { motion } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
@@ -20,6 +21,8 @@ const officeTools = [
 
 export function IntegrationPreview() {
     const router = useRouter()
+    const t = useTranslations('integration_preview')
+
     return (
         <div className="relative h-[650px] w-full">
             {/* Floating app logos */}
@@ -49,7 +52,7 @@ export function IntegrationPreview() {
                             <div className="h-8 w-8 relative">
                                 <Image
                                     src={tool.logo}
-                                    alt={`${tool.name} logo`}
+                                    alt={`${t('tool_logo', { name: tool.name })}`}
                                     fill
                                     className="object-contain"
                                 />
@@ -63,13 +66,13 @@ export function IntegrationPreview() {
             {/* Subtle CTA at the bottom */}
             <div className="absolute bottom-0 left-0 right-0 flex justify-center">
                 <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-[0_0_15px_rgba(0,0,0,0.1)] px-8 py-6 max-w-md grid place-items-center gap-2 text-sm">
-                    <h2 className="text-2xl font-bold text-center">Don&apos;t see your work tool? We&apos;ll integrate it for you!</h2>
+                    <h2 className="text-2xl font-bold text-center">{t('cta_heading')}</h2>
                     <div className="flex justify-center">
                         <Button
                             onClick={() => router.push('/contact')}
                             className="bg-blue-500 text-white hover:bg-blue-600"
                         >
-                            Request Integration
+                            {t('request_integration')}
                         </Button>
                     </div>
                 </div>

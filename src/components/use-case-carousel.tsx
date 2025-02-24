@@ -47,7 +47,7 @@ export function UseCaseCarousel() {
                             <Play className="h-8 w-8" />
                         </Button>
                     </div>
-                    <div className="absolute bottom-4 right-4 rounded-full bg-background/90 px-4 py-2 text-sm">02:45</div>
+                    <div className="absolute bottom-4 right-4 rounded-full bg-background/90 px-4 py-2 text-sm">{t('video_duration')}</div>
                 </div>
 
                 {/* Content Side */}
@@ -75,7 +75,7 @@ export function UseCaseCarousel() {
                             {Object.entries(currentCase.metrics).map(([key, value]) => (
                                 <div key={key} className="space-y-1">
                                     <p className="text-2xl font-bold text-primary">{value}</p>
-                                    <p className="text-sm text-muted-foreground capitalize">{key.replace(/([A-Z])/g, " $1").trim()}</p>
+                                    <p className="text-sm text-muted-foreground capitalize">{t(`metrics.${key}`)}</p>
                                 </div>
                             ))}
                         </div>
@@ -85,12 +85,24 @@ export function UseCaseCarousel() {
 
             {/* Navigation Buttons */}
             <div className="absolute -left-4 top-1/2 -translate-y-1/2 md:-left-12">
-                <Button variant="outline" size="icon" className="h-8 w-8 rounded-full" onClick={prevSlide}>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8 rounded-full"
+                    onClick={prevSlide}
+                    aria-label={t('prev_slide')}
+                >
                     <ChevronLeft className="h-4 w-4" />
                 </Button>
             </div>
             <div className="absolute -right-4 top-1/2 -translate-y-1/2 md:-right-12">
-                <Button variant="outline" size="icon" className="h-8 w-8 rounded-full" onClick={nextSlide}>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8 rounded-full"
+                    onClick={nextSlide}
+                    aria-label={t('next_slide')}
+                >
                     <ChevronRight className="h-4 w-4" />
                 </Button>
             </div>

@@ -19,6 +19,8 @@ import { PricingSection } from '@/features/pricing/components/pricing-section';
 
 
 export default function HomePage() {
+  const t = useTranslations('home');
+
   return (
     <div className='flex flex-col gap-8 lg:gap-32'>
       {/* Hero Section */}
@@ -30,10 +32,10 @@ export default function HomePage() {
       <Container>
         <div className="mx-auto max-w-[58rem] space-y-4 text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Powered by Leading AI Technologies
+            {t('ai_technologies.title')}
           </h2>
           <p className="text-muted-foreground sm:text-lg">
-            We integrate with state-of-the-art AI models and platforms to deliver exceptional results
+            {t('ai_technologies.description')}
           </p>
         </div>
         <AICompanyLogos />
@@ -43,10 +45,10 @@ export default function HomePage() {
       <Container>
         <div className="mx-auto max-w-[58rem] space-y-4 text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Customize Your AI Solution
+            {t('customize.title')}
           </h2>
           <p className="text-muted-foreground sm:text-lg">
-            Select the features you need to transform your business
+            {t('customize.description')}
           </p>
         </div>
         <div className="mx-auto max-w-2xl">
@@ -58,10 +60,10 @@ export default function HomePage() {
       <Container>
         <div className="mx-auto max-w-[58rem] space-y-4 text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Seamless Integration
+            {t('integration.title')}
           </h2>
           <p className="text-muted-foreground sm:text-lg">
-            Connect with your favorite tools in minutes
+            {t('integration.description')}
           </p>
         </div>
         <IntegrationPreview />
@@ -71,10 +73,10 @@ export default function HomePage() {
       <Container>
         <div className="mx-auto max-w-[58rem] space-y-4 text-center py-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Enterprise Features, SME Simplicity
+            {t('features.title')}
           </h2>
           <p className="text-muted-foreground sm:text-lg">
-            Everything you need to integrate AI into your business workflows
+            {t('features.description')}
           </p>
         </div>
         <FeaturesSection />
@@ -84,10 +86,10 @@ export default function HomePage() {
       <Container>
         <div className="mx-auto max-w-[58rem] space-y-4 text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Your Business, AI-Powered
+            {t('solutions.title')}
           </h2>
           <p className="text-muted-foreground sm:text-lg">
-            Watch your workflows transform with intelligent automation
+            {t('solutions.description')}
           </p>
         </div>
         <SolutionPreview />
@@ -99,10 +101,10 @@ export default function HomePage() {
       <Container>
         <div className="mx-auto max-w-[58rem] space-y-4 text-center py-12">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Simple Steps to AI Success
+            {t('how_it_works.title')}
           </h2>
           <p className="text-muted-foreground sm:text-lg">
-            Get started in minutes, see results in days
+            {t('how_it_works.description')}
           </p>
         </div>
         <HowItWorks />
@@ -123,28 +125,27 @@ export default function HomePage() {
 
 
 function HeroSection() {
-  const t = useTranslations();
+  const t = useTranslations('hero_section');
 
   return (
     <div className="relative container py-24 space-y-8 md:space-y-16">
       <div className="mx-auto max-w-[64rem] space-y-8 text-center">
         <Badge variant="outline" className="w-fit mx-auto px-4 py-1 border-radius-full rounded-full">
-          Trusted by 500+ SMEs
+          {t('badge')}
         </Badge>
         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl text-primary">
-          AI Automation for Every Business
+          {t('title')}
         </h1>
         <p className="mx-auto max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-          Transform your business operations with AI agents that integrate seamlessly with your existing tools. No
-          technical expertise required.
+          {t('description')}
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Button size="lg" className="h-12">
-            Start Free Trial
+            {t('start_trial')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
           <Button size="lg" variant="outline" className="h-12">
-            Schedule Demo
+            {t('schedule_demo')}
           </Button>
         </div>
         <div className="flex items-center justify-center space-x-2 text-sm">
@@ -155,7 +156,7 @@ function HeroSection() {
                 <Star key={i} className="h-5 w-5 fill-primary text-primary" />
               ))}
           </div>
-          <span className="text-muted-foreground">4.8/5 from 200+ reviews</span>
+          <span className="text-muted-foreground">{t('reviews')}</span>
         </div>
       </div>
     </div>
@@ -163,13 +164,13 @@ function HeroSection() {
 }
 
 function UseCaseSection() {
-  const t = useTranslations();
+  const t = useTranslations('use-case');
 
   return (
     <section className="container py-24 space-y-8">
       <div className="mx-auto max-w-[58rem] space-y-4 text-center">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{t('use-case.title')}</h2>
-        <p className="text-muted-foreground sm:text-lg">{t('use-case.description')}</p>
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{t('title')}</h2>
+        <p className="text-muted-foreground sm:text-lg">{t('description')}</p>
       </div>
       <UseCaseCarousel />
     </section>
@@ -177,13 +178,13 @@ function UseCaseSection() {
 }
 
 function FAQs() {
-  const t = useTranslations();
+  const t = useTranslations('faq');
 
   return (
     <section className="container py-24 space-y-8 border-t">
       <div className="mx-auto max-w-[58rem] space-y-4 text-center">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{t('faq.title')}</h2>
-        <p className="text-muted-foreground sm:text-lg">{t('faq.description')}</p>
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{t('title')}</h2>
+        <p className="text-muted-foreground sm:text-lg">{t('description')}</p>
       </div>
       <FAQSection />
     </section>

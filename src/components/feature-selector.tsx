@@ -2,21 +2,17 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useTranslations } from 'next-intl'
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/utils/cn"
 
-const features = [
-    "Workflow Automation with AI Agents",
-    "Legacy Software Integration",
-    "Custom AI Agent Development",
-    "Process Optimization & Analytics",
-    "Secure Data Management",
-]
-
 export function FeatureSelector() {
     const [selected, setSelected] = useState<string[]>([])
     const router = useRouter()
+    const t = useTranslations('feature_selector')
+
+    const features = t.raw('features') as string[]
 
     const toggleFeature = (feature: string) => {
         setSelected((current) =>
@@ -28,7 +24,7 @@ export function FeatureSelector() {
 
     return (
         <div className="space-y-4 rounded-lg bg-background/50 p-6 backdrop-blur">
-            <h3 className="text-lg font-semibold">What would you like to improve?</h3>
+            <h3 className="text-lg font-semibold">{t('heading')}</h3>
             <div className="space-y-2">
                 {features.map((feature) => (
                     <label
@@ -54,7 +50,7 @@ export function FeatureSelector() {
                 onClick={() => router.push('/contact')}
                 className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-medium"
             >
-                Continue
+                {t('continue_button')}
             </Button>
         </div>
     )

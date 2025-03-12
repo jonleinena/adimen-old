@@ -148,9 +148,28 @@
         ]
     },
     "pricing": {
-        "title": "Prezio aurresangarriak erabilera-kasu bakoitzerako.",
-        "subtitle": "Aurkitu zure neurriko plan bat. Eguneratu edozein momentutan ezaugarri gehigarriak aktibatzeko.",
-        "background_image_alt": "Atzeko irudi dekoratiboa"
+        "title": "Kasu bakoitzerako prezio aurreikusgarriak.",
+        "subtitle": "Aurkitu zuretzat egokia den plana. Eguneratu edozein momentutan funtzio gehigarriak aktibatzeko.",
+        "background_image_alt": "Atzeko irudi apaingarria",
+        "get_started": "Hasi",
+        "current_plan": "Oraingo Plana",
+        "current_plan_prefix": "Momentu honetan",
+        "current_plan_suffix": "planean zaude",
+        "upgrade": "Hobetu",
+        "downgrade": "Murriztu",
+        "most_popular": "Ezagunena",
+        "custom_price": "Pertsonalizatua",
+        "per_month": "/hilabete",
+        "save": "Aurreztu",
+        "annual": "urteko",
+        "next_billing_date": "Hurrengo fakturazio data",
+        "contact_sales": "Jarri Harremanetan Salmenta Taldearekin",
+        "custom_plan_title": "Plan pertsonalizatu bat behar duzu?",
+        "custom_plan_description": "Jarri harremanetan gure salmenta taldearekin zure behar zehatzak betetzen dituen soluzio pertsonalizatu bat lortzeko.",
+        "unlimited_images": "Banner irudi mugagabeak",
+        "generate_images": "{count} banner irudi sortu",
+        "image_editing": "{level} irudi edizio funtzioak",
+        "support_level": "{level} laguntza"
     },
     "faq": {
         "title": "Ohiko galderak",

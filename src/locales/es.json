@@ -150,7 +150,26 @@
     "pricing": {
         "title": "Precios predecibles para cada caso de uso.",
         "subtitle": "Encuentra un plan que se adapte a ti. Actualiza en cualquier momento para habilitar características adicionales.",
-        "background_image_alt": "Imagen decorativa de fondo"
+        "background_image_alt": "Imagen decorativa de fondo",
+        "get_started": "Comenzar",
+        "current_plan": "Plan Actual",
+        "current_plan_prefix": "Actualmente estás en el",
+        "current_plan_suffix": "plan",
+        "upgrade": "Mejorar",
+        "downgrade": "Reducir",
+        "most_popular": "Más Popular",
+        "custom_price": "Personalizado",
+        "per_month": "/mes",
+        "save": "Ahorra",
+        "annual": "anual",
+        "next_billing_date": "Próxima fecha de facturación",
+        "contact_sales": "Contactar con Ventas",
+        "custom_plan_title": "¿Necesitas un plan personalizado?",
+        "custom_plan_description": "Contacta con nuestro equipo de ventas para una solución a medida que satisfaga tus requisitos específicos.",
+        "unlimited_images": "Imágenes de banner ilimitadas",
+        "generate_images": "Genera {count} imágenes de banner",
+        "image_editing": "Funciones de edición de imágenes {level}",
+        "support_level": "Soporte {level}"
     },
     "faq": {
         "title": "Preguntas frecuentes",

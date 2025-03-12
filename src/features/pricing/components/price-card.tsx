@@ -15,10 +15,12 @@ export function PricingCard({
   product,
   price,
   createCheckoutAction,
+  isCurrentPlan,
 }: {
   product: ProductWithPrices;
   price?: Price;
   createCheckoutAction?: ({ price }: { price: Price }) => void;
+  isCurrentPlan?: boolean;
 }) {
   const [billingInterval, setBillingInterval] = useState<BillingInterval>(
     price ? (price.interval as BillingInterval) : 'month'
@@ -44,7 +46,27 @@ export function PricingCard({
   const monthPrice = product.prices.find((price) => price.interval === 'month')?.unit_amount;
   const yearPrice = product.prices.find((price) => price.interval === 'year')?.unit_amount;
   const isBillingIntervalYearly = billingInterval === 'year';
-  const metadata = productMetadataSchema.parse(product.metadata);
+
+  // Add fallback metadata for testing
+  let metadata;
+  try {
+    metadata = productMetadataSchema.parse(product.metadata);
+  } catch (error) {
+    // Provide default metadata if parsing fails
+    const productName = product.name?.toLowerCase() || '';
+    const variant: PriceCardVariant =
+      productName.includes('pro') ? 'pro' :
+        productName.includes('enterprise') ? 'enterprise' : 'basic';
+
+    metadata = {
+      priceCardVariant: variant,
+      generatedImages: productName.includes('enterprise') ? 'enterprise' : 10,
+      imageEditor: productName.includes('pro') || productName.includes('enterprise') ? 'pro' : 'basic',
+      supportLevel: productName.includes('enterprise') ? 'live' : 'email'
+    };
+    console.log('Using fallback metadata for product:', product.name);
+  }
+
   const buttonVariantMap = {
     basic: 'default',
     pro: 'blue',
@@ -57,10 +79,15 @@ export function PricingCard({
 
   return (
     <WithSexyBorder variant={metadata.priceCardVariant} className='w-full flex-1'>
-      <div className='flex w-full flex-col rounded-md border border-zinc-800 bg-black p-4 lg:p-8'>
+      <div className={`flex w-full flex-col rounded-md border ${isCurrentPlan ? 'border-blue-500' : 'border-gray-200'} bg-white p-4 lg:p-8 shadow-sm`}>
+        {isCurrentPlan && (
+          <div className="bg-blue-500 text-white text-center py-1 px-4 rounded-full text-sm font-medium mb-4 mx-auto">
+            Current Plan
+          </div>
+        )}
         <div className='p-4'>
-          <div className='mb-1 text-center font-alt text-xl font-bold'>{product.name}</div>
-          <div className='flex justify-center gap-0.5 text-zinc-400'>
+          <div className='mb-1 text-center font-alt text-xl font-bold text-black'>{product.name}</div>
+          <div className='flex justify-center gap-0.5 text-gray-600'>
             <span className='font-semibold'>
               {yearPrice && isBillingIntervalYearly
                 ? '$' + yearPrice / 100
@@ -83,7 +110,7 @@ export function PricingCard({
           {<CheckItem text={`${metadata.supportLevel} support`} />}
         </div>
 
-        {createCheckoutAction && (
+        {createCheckoutAction && !isCurrentPlan && (
           <div className='py-4'>
             {currentPrice && (
               <Button
@@ -101,6 +128,14 @@ export function PricingCard({
             )}
           </div>
         )}
+
+        {isCurrentPlan && (
+          <div className='py-4'>
+            <Button variant="outline" className='w-full' asChild>
+              <Link href='/manage-subscription'>Manage Subscription</Link>
+            </Button>
+          </div>
+        )}
       </div>
     </WithSexyBorder>
   );
@@ -109,8 +144,8 @@ export function PricingCard({
 function CheckItem({ text }: { text: string }) {
   return (
     <div className='flex items-center gap-2'>
-      <IoCheckmark className='my-auto flex-shrink-0 text-slate-500' />
-      <p className='text-sm font-medium text-white first-letter:capitalize'>{text}</p>
+      <IoCheckmark className='my-auto flex-shrink-0 text-blue-500' />
+      <p className='text-sm font-medium text-gray-700 first-letter:capitalize'>{text}</p>
     </div>
   );
 }

@@ -6,8 +6,11 @@ import { getProducts } from '@/features/pricing/controllers/get-products';
 export default async function PricingPage({
   searchParams
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
+  // Await the searchParams
+  const resolvedSearchParams = await searchParams;
+
   // Get the user's session and subscription
   const [session, subscription, products] = await Promise.all([
     getSession(),
@@ -18,7 +21,7 @@ export default async function PricingPage({
   // Test mode: Only enabled in development environment and if ?test=true is in the URL
   const isTestMode =
     process.env.NODE_ENV === 'development' &&
-    searchParams?.test === 'true';
+    resolvedSearchParams?.test === 'true';
 
   let testSession = session;
   let testSubscription = subscription;

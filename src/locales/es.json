@@ -1,31 +1,31 @@
 {
     "hero": {
-        "title": "Crea banners impresionantes para Twitter al instante.",
+        "title": "Soluciones impulsadas por IA para el crecimiento de tu negocio",
         "button": "Empieza gratis"
     },
     "home": {
         "ai_technologies": {
-            "title": "Impulsado por tecnologías líderes de IA",
-            "description": "Nos integramos con modelos y plataformas de IA de vanguardia para ofrecer resultados excepcionales"
+            "title": "Impulsado por Tecnologías de IA Líderes",
+            "description": "Integramos modelos y plataformas de IA de vanguardia para ofrecer resultados excepcionales"
         },
         "customize": {
-            "title": "Personaliza tu solución de IA",
+            "title": "Personaliza tu Solución de IA",
             "description": "Selecciona las características que necesitas para transformar tu negocio"
         },
         "integration": {
-            "title": "Integración perfecta",
+            "title": "Integración Perfecta",
             "description": "Conéctate con tus herramientas favoritas en minutos"
         },
         "features": {
-            "title": "Características empresariales, simplicidad para PYMES",
-            "description": "Todo lo que necesitas para integrar IA en tus flujos de trabajo empresariales"
+            "title": "Características Empresariales, Simplicidad PYME",
+            "description": "Todo lo que necesitas para integrar la IA en tus flujos de trabajo empresariales"
         },
         "solutions": {
-            "title": "Tu negocio, potenciado por IA",
+            "title": "Tu Negocio, Potenciado por IA",
             "description": "Observa cómo tus flujos de trabajo se transforman con automatización inteligente"
         },
         "how_it_works": {
-            "title": "Pasos simples para el éxito con IA",
+            "title": "Pasos Simples para el Éxito con IA",
             "description": "Comienza en minutos, ve resultados en días"
         }
     },
@@ -222,5 +222,23 @@
         "hours": "HORAS",
         "minutes": "MIN",
         "seconds": "SEG"
+    },
+    "auth": {
+        "login_title": "Iniciar sesión en Adimen",
+        "login_description": "¡Bienvenido de nuevo! Inicia sesión para acceder a tu cuenta",
+        "signup_title": "Únete a Adimen",
+        "signup_description": "Acelera tu negocio con IA hoy mismo",
+        "continue_with_google": "Continuar con Google",
+        "continue_with_email": "Continuar con Email",
+        "email_placeholder": "Introduce tu email",
+        "cancel": "Cancelar",
+        "submit": "Enviar",
+        "email_error": "Ocurrió un error durante la autenticación. Por favor, inténtalo de nuevo.",
+        "email_success": "Para continuar, haz clic en el enlace enviado a: {email}",
+        "oauth_error": "Ocurrió un error durante la autenticación. Por favor, inténtalo de nuevo.",
+        "terms_agreement": "Al hacer clic en continuar, aceptas nuestros",
+        "terms_of_service": "Términos de Servicio",
+        "and": "y",
+        "privacy_policy": "Política de Privacidad"
     }
 }

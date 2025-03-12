@@ -1,6 +1,6 @@
 {
     "hero": {
-        "title": "Instantly craft stunning Twitter banners.",
+        "title": "AI-powered solutions for your business growth",
         "button": "Get started for free"
     },
     "home": {
@@ -28,6 +28,24 @@
             "title": "Simple Steps to AI Success",
             "description": "Get started in minutes, see results in days"
         }
+    },
+    "auth": {
+        "login_title": "Login to Adimen",
+        "login_description": "Welcome back! Sign in to access your account",
+        "signup_title": "Join Adimen",
+        "signup_description": "Accelerate your business with AI today",
+        "continue_with_google": "Continue with Google",
+        "continue_with_email": "Continue with Email",
+        "email_placeholder": "Enter your email",
+        "cancel": "Cancel",
+        "submit": "Submit",
+        "email_error": "An error occurred while authenticating. Please try again.",
+        "email_success": "To continue, click the link in the email sent to: {email}",
+        "oauth_error": "An error occurred while authenticating. Please try again.",
+        "terms_agreement": "By clicking continue, you agree to our",
+        "terms_of_service": "Terms of Service",
+        "and": "and",
+        "privacy_policy": "Privacy Policy"
     },
     "hero_section": {
         "badge": "Trusted by 500+ SMEs",

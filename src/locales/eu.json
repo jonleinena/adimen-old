@@ -1,32 +1,32 @@
 {
     "hero": {
-        "title": "Twitter banner ikusgarriak berehala sortu.",
+        "title": "AA-k bultzatutako soluzioak zure negozioaren hazkundearentzat",
         "button": "Hasi doan"
     },
     "home": {
         "ai_technologies": {
-            "title": "AA teknologia nagusiek bultzatuta",
-            "description": "Puntako AA modelo eta plataformekin integratzen gara emaitza bikainak eskaintzeko"
+            "title": "Adimen Artifizialeko Teknologia Aurreratuek Bultzatuta",
+            "description": "Puntako AA eredu eta plataformekin integratzen gara emaitza bikainak eskaintzeko"
         },
         "customize": {
-            "title": "Zure AA soluzioa pertsonalizatu",
+            "title": "Pertsonalizatu zure AA Soluzioa",
             "description": "Aukeratu zure negozioa eraldatzeko behar dituzun ezaugarriak"
         },
         "integration": {
-            "title": "Integrazio perfektua",
-            "description": "Konektatu zure tresna gogokoenekin minutu gutxitan"
+            "title": "Integrazio Perfektua",
+            "description": "Konektatu zure tresna gogokoekin minututan"
         },
         "features": {
-            "title": "Enpresa-ezaugarriak, ETEentzako erraztasuna",
-            "description": "Zure negozio-prozesuetan AA integratzeko behar duzun guztia"
+            "title": "Enpresa Ezaugarriak, ETEen Sinpletasuna",
+            "description": "Adimen artifiziala zure lan-fluxuetan integratzeko behar duzun guztia"
         },
         "solutions": {
-            "title": "Zure negozioa, AA-k indartuta",
-            "description": "Ikusi zure lan-fluxuak automatizazio adimendunarekin nola eraldatzen diren"
+            "title": "Zure Negozioa, AA-k Bultzatuta",
+            "description": "Ikusi zure lan-fluxuak nola eraldatzen diren automatizazio adimentsuarekin"
         },
         "how_it_works": {
-            "title": "AA arrakastara pausu errazak",
-            "description": "Hasi minututan, emaitzak egunetan ikusi"
+            "title": "Urrats Sinpleak AA Arrakasta Lortzeko",
+            "description": "Hasi minututan, emaitzak ikusi egunetan"
         }
     },
     "hero_section": {
@@ -99,7 +99,7 @@
     },
     "use-case": {
         "title": "Erabilera-kasu nabarmenak",
-        "description": "Ezagutu nola Adimen-ek zure negozioa hobetzen lagun dezakeen",
+        "description": "Ezagutu nola Adimen-ek zure negozioa hobetzen lagun dezkeen",
         "video_duration": "02:45",
         "prev_slide": "Aurreko diapositiba",
         "next_slide": "Hurrengo diapositiba",
@@ -222,5 +222,23 @@
         "hours": "ORDUAK",
         "minutes": "MIN",
         "seconds": "SEG"
+    },
+    "auth": {
+        "login_title": "Saioa hasi Adimen-en",
+        "login_description": "Ongi etorri berriro! Hasi saioa zure kontuan sartzeko",
+        "signup_title": "Batu zaitez Adimen-era",
+        "signup_description": "Hasi zure negozioa eraldatzen Adimen Artifiziala erabiliz",
+        "continue_with_google": "Jarraitu Google-rekin",
+        "continue_with_email": "Jarraitu Email-arekin",
+        "email_placeholder": "Sartu zure emaila",
+        "cancel": "Utzi",
+        "submit": "Bidali",
+        "email_error": "Errore bat gertatu da autentifikatzean. Mesedez, saiatu berriro.",
+        "email_success": "Jarraitzeko, egin klik hona bidalitako estekan: {email}",
+        "oauth_error": "Errore bat gertatu da autentifikatzean. Mesedez, saiatu berriro.",
+        "terms_agreement": "Jarraitzean klik eginez, gure",
+        "terms_of_service": "Zerbitzu Baldintzak",
+        "and": "eta",
+        "privacy_policy": "Pribatutasun Politika"
     }
 }

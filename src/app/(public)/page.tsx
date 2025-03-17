@@ -1,4 +1,5 @@
 import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { ArrowRight, Star } from "lucide-react";
 
 import { Container } from '@/components/container';
@@ -14,10 +15,20 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { UseCaseCarousel } from '@/components/use-case-carousel';
-import { PricingSection } from '@/features/pricing/components/pricing-section';
+import { getSession } from '@/features/account/controllers/get-session';
+import { getSubscription } from '@/features/account/controllers/get-subscription';
+import { ModernPricingSection } from '@/features/pricing/components/modern-pricing-section';
+import { getProducts } from '@/features/pricing/controllers/get-products';
 
-export default function HomePage() {
-    const t = useTranslations('home');
+export default async function HomePage() {
+    const t = await getTranslations('home');
+
+    // Get the user's session, subscription, and products
+    const [session, subscription, products] = await Promise.all([
+        getSession(),
+        getSubscription(),
+        getProducts()
+    ]);
 
     return (
         <div className='flex flex-col gap-8 lg:gap-32'>
@@ -55,7 +66,7 @@ export default function HomePage() {
             </Container>
 
             {/* Integration Preview */}
-            <Container>
+            <Container id="integrations">
                 <div className="mx-auto max-w-[58rem] space-y-4 text-center">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                         {t('integration.title')}
@@ -68,7 +79,7 @@ export default function HomePage() {
             </Container>
 
             {/* Features Section */}
-            <Container>
+            <Container id="features">
                 <div className="mx-auto max-w-[58rem] space-y-4 text-center py-12">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                         {t('features.title')}
@@ -81,7 +92,7 @@ export default function HomePage() {
             </Container>
 
             {/* Solution Preview */}
-            <Container>
+            <Container id="solution">
                 <div className="mx-auto max-w-[58rem] space-y-4 text-center">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                         {t('solutions.title')}
@@ -117,6 +128,17 @@ export default function HomePage() {
 
             {/* FAQ Section */}
             <FAQs />
+
+            {/* Pricing Section */}
+            <section id="pricing" className="border-t">
+                <Container className="py-24">
+                    <ModernPricingSection
+                        session={session}
+                        subscription={subscription}
+                        products={products}
+                    />
+                </Container>
+            </section>
         </div>
     );
 }

@@ -83,13 +83,7 @@ async function Footer() {
                         <h3 className="font-medium">{t('company.title')}</h3>
                         <Link href="/about" className="text-sm text-muted-foreground transition-colors hover:text-primary">
                             {t('company.about')}
-                        </Link>
-                        <Link href="/blog" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                            {t('company.blog')}
-                        </Link>
-                        <Link href="/careers" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                            {t('company.careers')}
-                        </Link>
+                        </Link> d
                         <Link href="/contact" className="text-sm text-muted-foreground transition-colors hover:text-primary">
                             {t('company.contact')}
                         </Link>
@@ -104,9 +98,6 @@ async function Footer() {
                         </Link>
                         <Link href="/cookies" className="text-sm text-muted-foreground transition-colors hover:text-primary">
                             {t('legal.cookies')}
-                        </Link>
-                        <Link href="/licenses" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                            {t('legal.licenses')}
                         </Link>
                     </nav>
                     <div className="flex flex-col gap-2">

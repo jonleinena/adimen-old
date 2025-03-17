@@ -70,7 +70,7 @@ export async function ModernPricingSection({
     return (
         <div className="container max-w-6xl mx-auto py-12 px-4 md:px-6">
             <div className="text-center space-y-4 mb-12">
-                <h1 className="text-3xl md:text-4xl font-bold">{t('title')}</h1>
+                <h1 className="text-3xl md:text-4xl text-black font-bold">{t('title')}</h1>
                 <p className="text-muted-foreground max-w-2xl mx-auto">
                     {t('subtitle')}
                     {session && userProduct && (

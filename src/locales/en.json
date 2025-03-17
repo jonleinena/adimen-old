@@ -234,13 +234,17 @@
             "title": "Product",
             "features": "Features",
             "security": "Security",
-            "enterprise": "Enterprise"
+            "enterprise": "Enterprise",
+            "how_it_works": "How It Works",
+            "pricing": "Pricing",
+            "faqs": "FAQs"
         },
         "company": {
             "title": "Company",
             "about": "About",
             "blog": "Blog",
-            "careers": "Careers"
+            "careers": "Careers",
+            "contact": "Contact"
         },
         "resources": {
             "title": "Resources",
@@ -252,9 +256,15 @@
             "title": "Legal",
             "privacy": "Privacy",
             "terms": "Terms",
-            "gdpr": "GDPR"
+            "gdpr": "GDPR",
+            "cookies": "Cookies",
+            "licenses": "Licenses"
         },
-        "copyright": "© {year} Adimen. All rights reserved."
+        "copyright": "© {year} Adimen. All rights reserved.",
+        "slogan": "AI Automation for your business",
+        "follow_us": "Follow Us",
+        "rights_reserved": "All rights reserved",
+        "change_language": "Change Language"
     },
     "countdown": {
         "days": "DAYS",
@@ -269,6 +279,7 @@
         "amount_off": "{amount} {currency}",
         "for_months": "for {months} months",
         "code": "code: {code}",
-        "generic": "Start now and save with our current promotion"
+        "generic": "Start now and save with our current promotion",
+        "special_offer": "special offer"
     }
 }

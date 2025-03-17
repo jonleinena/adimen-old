@@ -83,7 +83,7 @@ async function Footer() {
                         <h3 className="font-medium">{t('company.title')}</h3>
                         <Link href="/about" className="text-sm text-muted-foreground transition-colors hover:text-primary">
                             {t('company.about')}
-                        </Link> d
+                        </Link>
                         <Link href="/contact" className="text-sm text-muted-foreground transition-colors hover:text-primary">
                             {t('company.contact')}
                         </Link>

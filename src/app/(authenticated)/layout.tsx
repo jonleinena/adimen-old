@@ -7,7 +7,7 @@ import { LayoutDashboard, Settings } from 'lucide-react';
 import { AccountMenu } from '@/components/account-menu';
 import { getSession } from '@/features/account/controllers/get-session';
 
-import { signOut } from './auth-actions';
+import { signOut } from '../(public)/auth-actions';
 
 export default async function AuthLayout({ children }: PropsWithChildren<{}>) {
     const session = await getSession();

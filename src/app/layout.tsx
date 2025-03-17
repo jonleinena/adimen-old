@@ -13,6 +13,7 @@ import { CountdownTimer } from '@/components/countdown-timer';
 import { Logo } from '@/components/logo';
 import { Toaster } from '@/components/ui/toaster';
 import { getSession } from '@/features/account/controllers/get-session';
+import { getActivePromotions, PromotionDetails } from '@/features/pricing/controllers/get-active-promotions';
 import { cn } from '@/utils/cn';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -48,6 +49,16 @@ export default async function RootLayout({
 
   const messages = await getMessages(localeFromHeader);
   const session = await getSession();
+  const t = await getTranslations('promotion');
+
+  // Fetch active promotions with error handling
+  let promotionDetails: PromotionDetails = { exists: false };
+  try {
+    promotionDetails = await getActivePromotions();
+  } catch (error) {
+    console.error('Error checking for active promotions:', error);
+    // If there's an error, we default to not showing the promotion banner
+  }
 
   return (
     <html lang={localeFromHeader}>
@@ -59,14 +70,32 @@ export default async function RootLayout({
             <div className="flex min-h-screen flex-col">
               {!session && (
                 <>
-                  {/* Promotion Banner */}
-                  <div className="bg-black px-4 py-2 text-center text-sm text-primary-foreground">
-                    <div className="container flex items-center justify-center gap-x-4">
-                      <span>Start now and save 50% for 3 months</span>
-                      <CountdownTimer />
-                      <ArrowRight className="h-4 w-4" />
+                  {/* Promotion Banner - only show if there are active promotions */}
+                  {promotionDetails.exists && (
+                    <div className="bg-black px-4 py-2 text-center text-sm text-primary-foreground">
+                      <div className="container flex items-center justify-center gap-x-4">
+                        <span>
+                          {t.rich('start_now')}&nbsp;
+                          {promotionDetails.percentOff
+                            ? t.rich('percent_off', { percent: promotionDetails.percentOff })
+                            : promotionDetails.amountOff && promotionDetails.currency
+                              ? t.rich('amount_off', {
+                                amount: (promotionDetails.amountOff / 100).toFixed(2),
+                                currency: promotionDetails.currency.toUpperCase()
+                              })
+                              : t.rich('generic')}
+                          {promotionDetails.durationInMonths
+                            ? ` ${t.rich('for_months', { months: promotionDetails.durationInMonths })}`
+                            : ''}
+                          {promotionDetails.code
+                            ? ` (${t.rich('code', { code: promotionDetails.code })})`
+                            : ''}
+                        </span>
+                        {promotionDetails.expiresAt && <CountdownTimer expiresAt={promotionDetails.expiresAt} />}
+                        <ArrowRight className="h-4 w-4" />
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <Navigation />
                 </>
               )}

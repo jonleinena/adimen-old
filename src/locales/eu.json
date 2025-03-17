@@ -259,5 +259,13 @@
         "terms_of_service": "Zerbitzu Baldintzak",
         "and": "eta",
         "privacy_policy": "Pribatutasun Politika"
+    },
+    "promotion": {
+        "start_now": "Hasi orain eta aurreztu",
+        "percent_off": "{percent}%",
+        "amount_off": "{amount} {currency}",
+        "for_months": "{months} hilabetez",
+        "code": "kodea: {code}",
+        "generic": "Hasi orain eta aurreztu gure uneko promozioaren bitartez"
     }
 }

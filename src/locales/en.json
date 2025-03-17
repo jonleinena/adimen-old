@@ -261,5 +261,13 @@
         "hours": "HRS",
         "minutes": "MIN",
         "seconds": "SEC"
+    },
+    "promotion": {
+        "start_now": "Start now and save",
+        "percent_off": "{percent}%",
+        "amount_off": "{amount} {currency}",
+        "for_months": "for {months} months",
+        "code": "code: {code}",
+        "generic": "Start now and save with our current promotion"
     }
 }

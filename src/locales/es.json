@@ -259,5 +259,13 @@
         "terms_of_service": "Términos de Servicio",
         "and": "y",
         "privacy_policy": "Política de Privacidad"
+    },
+    "promotion": {
+        "start_now": "Empieza ahora y ahorra",
+        "percent_off": "{percent}%",
+        "amount_off": "{amount} {currency}",
+        "for_months": "durante {months} meses",
+        "code": "código: {code}",
+        "generic": "Empieza ahora y ahorra con nuestra promoción actual"
     }
 }

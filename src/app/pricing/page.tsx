@@ -18,36 +18,10 @@ export default async function PricingPage({
     getProducts()
   ]);
 
-  // Test mode: Only enabled in development environment and if ?test=true is in the URL
-  const isTestMode =
-    process.env.NODE_ENV === 'development' &&
-    resolvedSearchParams?.test === 'true';
-
-  let testSession = session;
-  let testSubscription = subscription;
-
-  if (isTestMode && !session) {
-    // Create a mock session for testing (only in development)
-    testSession = {
-      user: { id: 'test-user-id', email: 'test@example.com' }
-    } as any;
-
-    // Create a mock subscription using the first product's first price
-    if (products.length > 0 && products[0].prices.length > 0) {
-      testSubscription = {
-        id: 'test-subscription-id',
-        price_id: products[0].prices[0].id,
-        status: 'active'
-      } as any;
-    }
-
-    console.log('⚠️ USING TEST MODE - This should only appear in development');
-  }
-
   return <ModernPricingSection
     isPricingPage
-    session={testSession}
-    subscription={testSubscription}
+    session={session}
+    subscription={subscription}
     products={products}
   />;
 }

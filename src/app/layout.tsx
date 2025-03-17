@@ -12,6 +12,7 @@ import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitter } from 'react-icons/io5'
 import { CountdownTimer } from '@/components/countdown-timer';
 import { Logo } from '@/components/logo';
 import { Toaster } from '@/components/ui/toaster';
+import { getSession } from '@/features/account/controllers/get-session';
 import { cn } from '@/utils/cn';
 import { Analytics } from '@vercel/analytics/react';
 
@@ -19,8 +20,6 @@ import { Navigation } from './navigation';
 
 import '@/styles/globals.css';
 export const dynamic = 'force-dynamic';
-
-
 
 export const metadata: Metadata = {
   title: 'Adimen',
@@ -48,6 +47,7 @@ export default async function RootLayout({
   }
 
   const messages = await getMessages(localeFromHeader);
+  const session = await getSession();
 
   return (
     <html lang={localeFromHeader}>
@@ -57,15 +57,19 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={localeFromHeader} messages={messages}>
           <div>
             <div className="flex min-h-screen flex-col">
-              {/* Promotion Banner */}
-              <div className="bg-black px-4 py-2 text-center text-sm text-primary-foreground">
-                <div className="container flex items-center justify-center gap-x-4">
-                  <span>Start now and save 50% for 3 months</span>
-                  <CountdownTimer />
-                  <ArrowRight className="h-4 w-4" />
-                </div>
-              </div>
-              <Navigation />
+              {!session && (
+                <>
+                  {/* Promotion Banner */}
+                  <div className="bg-black px-4 py-2 text-center text-sm text-primary-foreground">
+                    <div className="container flex items-center justify-center gap-x-4">
+                      <span>Start now and save 50% for 3 months</span>
+                      <CountdownTimer />
+                      <ArrowRight className="h-4 w-4" />
+                    </div>
+                  </div>
+                  <Navigation />
+                </>
+              )}
               <main className="relative flex-1">
                 <div className="relative h-full">{children}</div>
               </main>

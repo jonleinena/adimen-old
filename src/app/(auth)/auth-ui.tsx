@@ -92,7 +92,7 @@ export function AuthUI({
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent>
-            <div className='mt-[-2px] w-full rounded-b-md bg-zinc-900 p-8'>
+            <div className='mt-[-2px] w-full rounded-b-md p-8 border-gray-200'>
               <form onSubmit={handleEmailSubmit}>
                 <Input
                   type='email'
@@ -100,6 +100,7 @@ export function AuthUI({
                   placeholder={t('email_placeholder')}
                   aria-label={t('email_placeholder')}
                   autoFocus
+                  className='border-gray-200'
                 />
                 <div className='mt-4 flex justify-end gap-2'>
                   <Button type='button' variant='outline' onClick={() => setEmailFormOpen(false)}>

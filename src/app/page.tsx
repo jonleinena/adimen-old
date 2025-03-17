@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { ArrowRight } from "lucide-react";
-import { Star } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 
 import { Container } from '@/components/container';
 import { CTASection } from '@/components/cta-section';
@@ -15,10 +14,29 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { UseCaseCarousel } from '@/components/use-case-carousel';
+import { getSession } from '@/features/account/controllers/get-session';
 import { PricingSection } from '@/features/pricing/components/pricing-section';
 
+export default async function HomePage() {
+  const session = await getSession();
 
-export default function HomePage() {
+  if (session) {
+    return <AuthenticatedHomePage />;
+  }
+
+  return <UnauthenticatedHomePage />;
+}
+
+function AuthenticatedHomePage() {
+  return (
+    <div className="container py-24">
+      <h1 className="text-3xl font-bold mb-4">Welcome to Adimen</h1>
+      <p className="text-muted-foreground">Your dashboard is coming soon.</p>
+    </div>
+  );
+}
+
+function UnauthenticatedHomePage() {
   const t = useTranslations('home');
 
   return (

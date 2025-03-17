@@ -3,7 +3,9 @@
 import { FormEvent, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { IoLogoGithub, IoLogoGoogle } from 'react-icons/io5';
+import { useTranslations } from 'next-intl';
+import { ArrowRight } from 'lucide-react';
+import { IoLogoGoogle } from 'react-icons/io5';
 
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -11,20 +13,16 @@ import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { ActionResponse } from '@/types/action-response';
 
-const titleMap = {
-  login: 'Login to Adimen',
-  signup: 'Join Adimen and start generating banners for free',
-} as const;
-
 export function AuthUI({
   mode,
   signInWithOAuth,
   signInWithEmail,
 }: {
   mode: 'login' | 'signup';
-  signInWithOAuth: (provider: 'github' | 'google') => Promise<ActionResponse>;
+  signInWithOAuth: (provider: 'google') => Promise<ActionResponse>;
   signInWithEmail: (email: string) => Promise<ActionResponse>;
 }) {
+  const t = useTranslations('auth');
   const [pending, setPending] = useState(false);
   const [emailFormOpen, setEmailFormOpen] = useState(false);
 
@@ -38,11 +36,11 @@ export function AuthUI({
     if (response?.error) {
       toast({
         variant: 'destructive',
-        description: 'An error occurred while authenticating. Please try again.',
+        description: t('email_error'),
       });
     } else {
       toast({
-        description: `To continue, click the link in the email sent to: ${email}`,
+        description: t('email_success', { email }),
       });
     }
 
@@ -50,68 +48,67 @@ export function AuthUI({
     setPending(false);
   }
 
-  async function handleOAuthClick(provider: 'google' | 'github') {
+  async function handleOAuthClick(provider: 'google') {
     setPending(true);
     const response = await signInWithOAuth(provider);
 
     if (response?.error) {
       toast({
         variant: 'destructive',
-        description: 'An error occurred while authenticating. Please try again.',
+        description: t('oauth_error'),
       });
       setPending(false);
     }
   }
 
   return (
-    <section className='mt-16 flex w-full flex-col gap-16 rounded-lg bg-black p-10 px-4 text-center'>
+    <section className='mt-16 flex w-full flex-col gap-8 rounded-lg p-10 px-4 text-center'>
       <div className='flex flex-col gap-4'>
         <Image src='/logo.png' width={80} height={80} alt='' className='m-auto' />
-        <h1 className='text-lg'>{titleMap[mode]}</h1>
+        <h1 className='text-3xl font-bold tracking-tighter'>{t(mode === 'login' ? 'login_title' : 'signup_title')}</h1>
+        <p className='text-muted-foreground sm:text-lg max-w-md mx-auto'>
+          {t(mode === 'login' ? 'login_description' : 'signup_description')}
+        </p>
       </div>
       <div className='flex flex-col gap-4'>
         <button
-          className='flex items-center justify-center gap-2 rounded-md bg-cyan-500 py-4 font-medium text-black transition-all hover:bg-cyan-400 disabled:bg-neutral-700'
+          className='flex items-center justify-center gap-2 rounded-md bg-primary py-4 font-medium text-primary-foreground transition-all hover:bg-primary/90 disabled:bg-neutral-700'
           onClick={() => handleOAuthClick('google')}
           disabled={pending}
         >
           <IoLogoGoogle size={20} />
-          Continue with Google
-        </button>
-        <button
-          className='flex items-center justify-center gap-2 rounded-md bg-fuchsia-500 py-4 font-medium text-black transition-all hover:bg-fuchsia-400 disabled:bg-neutral-700'
-          onClick={() => handleOAuthClick('github')}
-          disabled={pending}
-        >
-          <IoLogoGithub size={20} />
-          Continue with GitHub
+          {t('continue_with_google')}
+          <ArrowRight className="ml-2 h-4 w-4" />
         </button>
 
         <Collapsible open={emailFormOpen} onOpenChange={setEmailFormOpen}>
           <CollapsibleTrigger asChild>
-            <button
-              className='text-neutral6 flex w-full items-center justify-center gap-2 rounded-md bg-zinc-900 py-4 font-medium transition-all hover:bg-zinc-800 disabled:bg-neutral-700 disabled:text-black'
+            <Button
+              variant="outline"
+              className="w-full py-6 font-medium"
               disabled={pending}
             >
-              Continue with Email
-            </button>
+              {t('continue_with_email')}
+            </Button>
           </CollapsibleTrigger>
           <CollapsibleContent>
-            <div className='mt-[-2px] w-full rounded-b-md bg-zinc-900 p-8'>
+            <div className='mt-[-2px] w-full rounded-b-md p-8 border-gray-200'>
               <form onSubmit={handleEmailSubmit}>
                 <Input
                   type='email'
                   name='email'
-                  placeholder='Enter your email'
-                  aria-label='Enter your email'
+                  placeholder={t('email_placeholder')}
+                  aria-label={t('email_placeholder')}
                   autoFocus
+                  className='border-gray-200'
                 />
                 <div className='mt-4 flex justify-end gap-2'>
-                  <Button type='button' onClick={() => setEmailFormOpen(false)}>
-                    Cancel
+                  <Button type='button' variant='outline' onClick={() => setEmailFormOpen(false)}>
+                    {t('cancel')}
                   </Button>
-                  <Button variant='secondary' type='submit'>
-                    Submit
+                  <Button variant='default' type='submit'>
+                    {t('submit')}
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </form>
@@ -120,14 +117,14 @@ export function AuthUI({
         </Collapsible>
       </div>
       {mode === 'signup' && (
-        <span className='text-neutral5 m-auto max-w-sm text-sm'>
-          By clicking continue, you agree to our{' '}
-          <Link href='/terms' className='underline'>
-            Terms of Service
+        <span className='text-muted-foreground m-auto max-w-sm text-sm'>
+          {t('terms_agreement')}{' '}
+          <Link href='/terms' className='underline hover:text-primary'>
+            {t('terms_of_service')}
           </Link>{' '}
-          and{' '}
-          <Link href='/privacy' className='underline'>
-            Privacy Policy
+          {t('and')}{' '}
+          <Link href='/privacy' className='underline hover:text-primary'>
+            {t('privacy_policy')}
           </Link>
           .
         </span>

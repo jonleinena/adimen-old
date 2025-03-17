@@ -1,6 +1,6 @@
 {
     "hero": {
-        "title": "Instantly craft stunning Twitter banners.",
+        "title": "AI-powered solutions for your business growth",
         "button": "Get started for free"
     },
     "home": {
@@ -28,6 +28,24 @@
             "title": "Simple Steps to AI Success",
             "description": "Get started in minutes, see results in days"
         }
+    },
+    "auth": {
+        "login_title": "Login to Adimen",
+        "login_description": "Welcome back! Sign in to access your account",
+        "signup_title": "Join Adimen",
+        "signup_description": "Accelerate your business with AI today",
+        "continue_with_google": "Continue with Google",
+        "continue_with_email": "Continue with Email",
+        "email_placeholder": "Enter your email",
+        "cancel": "Cancel",
+        "submit": "Submit",
+        "email_error": "An error occurred while authenticating. Please try again.",
+        "email_success": "To continue, click the link in the email sent to: {email}",
+        "oauth_error": "An error occurred while authenticating. Please try again.",
+        "terms_agreement": "By clicking continue, you agree to our",
+        "terms_of_service": "Terms of Service",
+        "and": "and",
+        "privacy_policy": "Privacy Policy"
     },
     "hero_section": {
         "badge": "Trusted by 500+ SMEs",
@@ -152,7 +170,26 @@
     "pricing": {
         "title": "Predictable pricing for every use case.",
         "subtitle": "Find a plan that fits you. Upgrade at any time to enable additional features.",
-        "background_image_alt": "Background decorative image"
+        "background_image_alt": "Background decorative image",
+        "get_started": "Get Started",
+        "current_plan": "Current Plan",
+        "current_plan_prefix": "You're currently on the",
+        "current_plan_suffix": "plan",
+        "upgrade": "Upgrade",
+        "downgrade": "Downgrade",
+        "most_popular": "Most Popular",
+        "custom_price": "Custom",
+        "per_month": "/month",
+        "save": "Save",
+        "annual": "annual",
+        "next_billing_date": "Next billing date",
+        "contact_sales": "Contact Sales",
+        "custom_plan_title": "Need a custom plan?",
+        "custom_plan_description": "Contact our sales team for a tailored solution that meets your specific requirements.",
+        "unlimited_images": "Unlimited banner images",
+        "generate_images": "Generate {count} banner images",
+        "image_editing": "{level} image editing features",
+        "support_level": "{level} support"
     },
     "faq": {
         "title": "Frequently Asked Questions",

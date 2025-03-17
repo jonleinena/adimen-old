@@ -263,6 +263,7 @@
         "seconds": "SEC"
     },
     "promotion": {
+        "subscribe": "Subscribe",
         "start_now": "Start now and save",
         "percent_off": "{percent}%",
         "amount_off": "{amount} {currency}",

@@ -214,13 +214,17 @@
             "title": "Producto",
             "features": "Características",
             "security": "Seguridad",
-            "enterprise": "Empresa"
+            "enterprise": "Empresa",
+            "how_it_works": "Cómo funciona",
+            "pricing": "Precios",
+            "faqs": "Preguntas frecuentes"
         },
         "company": {
             "title": "Compañía",
             "about": "Acerca de",
             "blog": "Blog",
-            "careers": "Carreras"
+            "careers": "Carreras",
+            "contact": "Contacto"
         },
         "resources": {
             "title": "Recursos",
@@ -232,9 +236,15 @@
             "title": "Legal",
             "privacy": "Privacidad",
             "terms": "Términos",
-            "gdpr": "RGPD"
+            "gdpr": "RGPD",
+            "cookies": "Cookies",
+            "licenses": "Licencias"
         },
-        "copyright": "© {year} Adimen. Todos los derechos reservados."
+        "copyright": "© {year} Adimen. Todos los derechos reservados.",
+        "slogan": "Automatización con IA para tu negocio",
+        "follow_us": "Síguenos",
+        "rights_reserved": "Todos los derechos reservados",
+        "change_language": "Cambiar idioma"
     },
     "countdown": {
         "days": "DÍAS",
@@ -261,11 +271,13 @@
         "privacy_policy": "Política de Privacidad"
     },
     "promotion": {
+        "subscribe": "Suscribirse",
         "start_now": "Empieza ahora y ahorra",
         "percent_off": "{percent}%",
         "amount_off": "{amount} {currency}",
         "for_months": "durante {months} meses",
         "code": "código: {code}",
-        "generic": "Empieza ahora y ahorra con nuestra promoción actual"
+        "generic": "Empieza ahora y ahorra con nuestra promoción actual",
+        "special_offer": "oferta especial"
     }
 }

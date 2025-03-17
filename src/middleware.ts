@@ -1,4 +1,4 @@
-import { type NextRequest } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
 
 import { updateSession } from '@/libs/supabase/supabase-middleware-client';
@@ -53,12 +53,34 @@ export async function middleware(request: NextRequest) {
     supabaseResponse.cookies.set('NEXT_LOCALE', locale, { path: '/' });
   }
 
-  // 4. Apply next-intl middleware to handle routing and locale context
+  // 4. Check authentication for protected routes
+  const pathname = request.nextUrl.pathname;
+
+  // Check if this is an authenticated route (starts with /dashboard, /settings, etc.)
+  // We're checking for routes that would be in the (auth) group
+  const isAuthRoute = pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/settings');
+
+  // If it's an auth route and the user is not authenticated, redirect to home
+  if (isAuthRoute && !session) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.redirect(url);
+  }
+
+  // If user is authenticated and trying to access the root path, redirect to dashboard
+  if (pathname === '/' && session) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/dashboard';
+    return NextResponse.redirect(url);
+  }
+
+  // 5. Apply next-intl middleware to handle routing and locale context
   request.headers.set('x-pathname', request.nextUrl.pathname);
   const intlResponse = nextIntlMiddleware(request);
   intlResponse.headers.set('x-default-locale', defaultLocale);
 
-  // 5. Merge cookies from next‑intl response into supabase response
+  // 6. Merge cookies from next‑intl response into supabase response
   intlResponse.cookies.getAll().forEach(cookie => {
     supabaseResponse.cookies.set(cookie.name, cookie.value, {
       path: cookie.path || '/',
@@ -69,7 +91,7 @@ export async function middleware(request: NextRequest) {
     });
   });
 
-  // 6. Merge next‑intl headers (including the locale) into supabaseResponse
+  // 7. Merge next‑intl headers (including the locale) into supabaseResponse
   supabaseResponse.headers.set(
     'x-next-intl-locale',
     intlResponse.headers.get('x-next-intl-locale') ?? locale

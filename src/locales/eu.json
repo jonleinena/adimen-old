@@ -214,13 +214,17 @@
             "title": "Produktua",
             "features": "Ezaugarriak",
             "security": "Segurtasuna",
-            "enterprise": "Enpresa"
+            "enterprise": "Enpresa",
+            "how_it_works": "Nola funtzionatzen du",
+            "pricing": "Prezioak",
+            "faqs": "Ohiko galderak"
         },
         "company": {
             "title": "Enpresa",
             "about": "Guri buruz",
             "blog": "Bloga",
-            "careers": "Karrerak"
+            "careers": "Karrerak",
+            "contact": "Harremana"
         },
         "resources": {
             "title": "Baliabideak",
@@ -232,9 +236,15 @@
             "title": "Legala",
             "privacy": "Pribatutasuna",
             "terms": "Baldintzak",
-            "gdpr": "RGPD"
+            "gdpr": "RGPD",
+            "cookies": "Cookieak",
+            "licenses": "Lizentziak"
         },
-        "copyright": "© {year} Adimen. Eskubide guztiak erreserbatuta."
+        "copyright": "© {year} Adimen. Eskubide guztiak erreserbatuta.",
+        "slogan": "Zure negoziorako AA automatizazioa",
+        "follow_us": "Jarrai gaitzazu",
+        "rights_reserved": "Eskubide guztiak erreserbatuta",
+        "change_language": "Hizkuntza aldatu"
     },
     "countdown": {
         "days": "EGUNAK",
@@ -261,11 +271,13 @@
         "privacy_policy": "Pribatutasun Politika"
     },
     "promotion": {
+        "subscribe": "Eman izena",
         "start_now": "Hasi orain eta aurreztu",
         "percent_off": "{percent}%",
         "amount_off": "{amount} {currency}",
         "for_months": "{months} hilabetez",
         "code": "kodea: {code}",
-        "generic": "Hasi orain eta aurreztu gure uneko promozioaren bitartez"
+        "generic": "Hasi orain eta aurreztu gure oraingo promozioarekin",
+        "special_offer": "eskaintza berezia"
     }
 }

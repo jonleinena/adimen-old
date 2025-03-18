@@ -820,7 +820,7 @@ import Footer from '@/components/footer'
 import Header from '@/components/header'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import type { Metadata, Viewport } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
@@ -1950,7 +1950,7 @@ File: components/chat-panel.tsx
 'use client'
 
 import { Model } from '@/lib/types/models'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import { Message } from 'ai'
 import { ArrowUp, MessageCirclePlus, Square } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -2136,7 +2136,7 @@ File: components/chat-share.tsx
 
 import { shareChat } from '@/lib/actions/chat'
 import { useCopyToClipboard } from '@/lib/hooks/use-copy-to-clipboard'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import { Share } from 'lucide-react'
 import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
@@ -2405,7 +2405,7 @@ export function ClearHistory({ empty }: ClearHistoryProps) {
 ================================================
 File: components/collapsible-message.tsx
 ================================================
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import { ChevronDown, UserCircle2 } from 'lucide-react'
 import {
   Collapsible,
@@ -2487,7 +2487,7 @@ export function CollapsibleMessage({
 ================================================
 File: components/custom-link.tsx
 ================================================
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import { AnchorHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react'
 
 type CustomLinkProps = Omit<
@@ -2668,7 +2668,7 @@ export default Footer
 ================================================
 File: components/header.tsx
 ================================================
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import React from 'react'
 import HistoryContainer from './history-container'
 import { ModeToggle } from './mode-toggle'
@@ -2730,7 +2730,7 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Chat } from '@/lib/types'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 type HistoryItemProps = {
   chat: Chat
@@ -2925,7 +2925,7 @@ File: components/message-actions.tsx
 'use client'
 
 import { CHAT_ID } from '@/lib/constants'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import { useChat } from 'ai/react'
 import { Copy } from 'lucide-react'
 import { toast } from 'sonner'
@@ -2979,7 +2979,7 @@ File: components/message.tsx
 ================================================
 'use client'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import 'katex/dist/katex.min.css'
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypeKatex from 'rehype-katex'
@@ -3688,7 +3688,7 @@ File: components/search-mode-toggle.tsx
 ================================================
 'use client'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import { getCookie, setCookie } from '@/lib/utils/cookies'
 import { Globe } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -4054,7 +4054,7 @@ File: components/section.tsx
 ================================================
 'use client'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import {
   BookCheck,
   Check,
@@ -4676,7 +4676,7 @@ File: components/ui/avatar.tsx
 import * as React from 'react'
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -4730,7 +4730,7 @@ File: components/ui/badge.tsx
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const badgeVariants = cva(
   'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
@@ -4773,7 +4773,7 @@ import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
@@ -4833,7 +4833,7 @@ File: components/ui/card.tsx
 ================================================
 import * as React from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -4924,7 +4924,7 @@ import useEmblaCarousel, {
 } from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import { Button } from '@/components/ui/button'
 
 type CarouselApi = UseEmblaCarouselType[1]
@@ -5190,7 +5190,7 @@ import * as React from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { Check } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
@@ -5677,7 +5677,7 @@ import * as React from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
@@ -5879,7 +5879,7 @@ File: components/ui/icons.tsx
 ================================================
 'use client'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 function IconLogo({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
@@ -5907,7 +5907,7 @@ File: components/ui/input.tsx
 ================================================
 import * as React from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -5942,7 +5942,7 @@ import * as React from 'react'
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const labelVariants = cva(
   'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
@@ -6026,7 +6026,7 @@ import * as React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const Select = SelectPrimitive.Root
 
@@ -6191,7 +6191,7 @@ File: components/ui/separator.tsx
 import * as React from 'react'
 import * as SeparatorPrimitive from '@radix-ui/react-separator'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const Separator = React.forwardRef<
   React.ElementRef<typeof SeparatorPrimitive.Root>,
@@ -6230,7 +6230,7 @@ import * as SheetPrimitive from '@radix-ui/react-dialog'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { X } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const Sheet = SheetPrimitive.Root
 
@@ -6369,7 +6369,7 @@ export {
 ================================================
 File: components/ui/skeleton.tsx
 ================================================
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 function Skeleton({
   className,
@@ -6395,7 +6395,7 @@ File: components/ui/slider.tsx
 import * as React from 'react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
@@ -6524,7 +6524,7 @@ File: components/ui/switch.tsx
 import * as React from 'react'
 import * as SwitchPrimitives from '@radix-ui/react-switch'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
@@ -6556,7 +6556,7 @@ File: components/ui/textarea.tsx
 ================================================
 import * as React from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 export interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
@@ -6590,7 +6590,7 @@ import * as TogglePrimitive from '@radix-ui/react-toggle'
 import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 
 const toggleVariants = cva(
   'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 gap-2',

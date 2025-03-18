@@ -11,7 +11,7 @@ export default async function LoginPage() {
     const subscription = await getSubscription();
 
     if (session && subscription) {
-        redirect('/dashboard');
+        redirect('/chat');
     }
 
     if (session && !subscription) {

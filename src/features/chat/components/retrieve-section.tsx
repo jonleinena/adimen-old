@@ -1,0 +1,49 @@
+'use client'
+
+import { ToolInvocation } from 'ai'
+
+import { SearchResults } from '@/features/chat/components/search-results'
+import { Section, ToolArgsSection } from '@/features/chat/components/section'
+import { SearchResults as SearchResultsType } from '@/features/chat/types'
+
+import { CollapsibleMessage } from './collapsible-message'
+import { DefaultSkeleton } from './default-skeleton'
+
+interface RetrieveSectionProps {
+  tool: ToolInvocation
+  isOpen: boolean
+  onOpenChange: (open: boolean) => void
+}
+
+export function RetrieveSection({
+  tool,
+  isOpen,
+  onOpenChange
+}: RetrieveSectionProps) {
+  const isLoading = tool.state === 'call'
+  const data: SearchResultsType =
+    tool.state === 'result' ? tool.result : undefined
+  const url = tool.args.url as string | undefined
+
+  const header = <ToolArgsSection tool="retrieve">{url}</ToolArgsSection>
+
+  return (
+    <CollapsibleMessage
+      role="assistant"
+      isCollapsible={true}
+      header={header}
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+    >
+      {!isLoading && data ? (
+        <Section title="Sources">
+          <SearchResults results={data.results} />
+        </Section>
+      ) : (
+        <DefaultSkeleton />
+      )}
+    </CollapsibleMessage>
+  )
+}
+
+export default RetrieveSection

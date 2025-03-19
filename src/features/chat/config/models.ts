@@ -1,6 +1,7 @@
 import { headers } from 'next/headers'
 
 import { Model } from '@/features/chat/types/models'
+import { EnvelopeClosedIcon } from '@radix-ui/react-icons'
 
 import defaultModels from './default-models.json'
 
@@ -18,6 +19,21 @@ export function validateModel(model: any): model is Model {
 }
 
 export async function getModels(): Promise<Model[]> {
+  // In development, return a simplified model configuration
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Development environment detected, using simplified model configuration');
+    return [
+      {
+        id: 'gpt-4o-mini',
+        name: 'GPT-4o mini (Dev)',
+        provider: 'OpenAI',
+        providerId: 'openai',
+        enabled: true,
+        toolCallType: 'native'
+      }
+    ];
+  }
+
   try {
     // Check for BASE_URL environment variable first
     const baseUrlEnv = process.env.BASE_URL
@@ -113,10 +129,10 @@ async function getBaseUrlFromHeaders(): Promise<URL> {
         }${host}`
       return new URL(constructedUrl)
     } else {
-      return new URL('http://localhost:3000')
+      return new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000')
     }
   } catch (urlError) {
     // Fallback to default URL if any error occurs during URL construction
-    return new URL('http://localhost:3000')
+    return new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000')
   }
 }

@@ -58,7 +58,7 @@ export async function middleware(request: NextRequest) {
 
   // Check if this is an authenticated route (starts with /dashboard, /settings, etc.)
   // We're checking for routes that would be in the (auth) group
-  const isAuthRoute = pathname.startsWith('/dashboard') ||
+  const isAuthRoute = pathname.startsWith('/chat') ||
     pathname.startsWith('/settings');
 
   // If it's an auth route and the user is not authenticated, redirect to home
@@ -71,7 +71,7 @@ export async function middleware(request: NextRequest) {
   // If user is authenticated and trying to access the root path, redirect to dashboard
   if (pathname === '/' && session) {
     const url = request.nextUrl.clone();
-    url.pathname = '/dashboard';
+    url.pathname = '/chat';
     return NextResponse.redirect(url);
   }
 
@@ -101,5 +101,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)']
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|config/models.json).*)']
 };

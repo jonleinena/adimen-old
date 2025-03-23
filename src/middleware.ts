@@ -58,22 +58,23 @@ export async function middleware(request: NextRequest) {
 
   // Check if this is an authenticated route (starts with /dashboard, /settings, etc.)
   // We're checking for routes that would be in the (auth) group
-  const isAuthRoute = pathname.startsWith('/chat') ||
-    pathname.startsWith('/settings');
-
-  // If it's an auth route and the user is not authenticated, redirect to home
+  const isAuthRoute = pathname.startsWith('/chat') || 
+                      pathname.startsWith('/settings'); // Volvemos a proteger /chat
+  
+  // If it's an auth route and the user is not authenticated, redirect to home or public-chat
   if (isAuthRoute && !session) {
     const url = request.nextUrl.clone();
-    url.pathname = '/';
+    url.pathname = '/public-chat';    
     return NextResponse.redirect(url);
   }
-
+  
   // If user is authenticated and trying to access the root path, redirect to dashboard
   if (pathname === '/' && session) {
     const url = request.nextUrl.clone();
     url.pathname = '/chat';
     return NextResponse.redirect(url);
   }
+  
 
   // 5. Apply next-intl middleware to handle routing and locale context
   request.headers.set('x-pathname', request.nextUrl.pathname);

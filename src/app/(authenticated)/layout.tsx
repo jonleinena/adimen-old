@@ -12,10 +12,10 @@ import { signOut } from '../(public)/auth-actions';
 export default async function AuthLayout({ children }: PropsWithChildren<{}>) {
     const session = await getSession();
 
-    // If user is not authenticated, redirect to home page
-    // if (!session) {
-    //     redirect('/');
-    // }
+    // If user is not authenticated, redirect to login page
+    if (!session) {
+        redirect('/login');
+    }
 
     // const t = await getTranslations('dashboard');
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getSession } from '@/features/account/controllers/get-session'
+import { getUser } from '@/features/account/controllers/get-user'
 
 import { History } from './history'
 import { HistoryList } from './history-list'
@@ -9,8 +9,9 @@ const HistoryContainer: React.FC = async () => {
   if (!enableSaveChatHistory) {
     return null
   }
-  const session = await getSession()
-  const userId = session?.user.id || 'anonymous'
+
+  const user = await getUser()
+  const userId = user?.id || 'anonymous'
 
   return (
     <div>

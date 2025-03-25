@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers'
 
+import { getUser } from '@/features/account/controllers/get-user'
 import { createManualToolStreamResponse } from '@/features/chat/streaming/create-manual-tool-stream'
 import { createToolCallingStreamResponse } from '@/features/chat/streaming/create-tool-calling-stream'
 import { Model } from '@/features/chat/types/models'
@@ -29,6 +30,10 @@ export const POST = withAuth(async (req) => {
         statusText: 'Forbidden'
       })
     }
+
+    // Get user ID from session
+    const user = await getUser()
+    const userId = user?.id
 
     const cookieStore = await cookies()
     const modelJson = cookieStore.get('selectedModel')?.value
@@ -64,13 +69,15 @@ export const POST = withAuth(async (req) => {
         messages,
         model: selectedModel,
         chatId,
-        searchMode
+        searchMode,
+        userId
       })
       : createManualToolStreamResponse({
         messages,
         model: selectedModel,
         chatId,
-        searchMode
+        searchMode,
+        userId
       })
   } catch (error) {
     console.error('API route error:', error)

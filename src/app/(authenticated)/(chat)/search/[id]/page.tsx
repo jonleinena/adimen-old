@@ -1,6 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 
-import { getSession } from '@/features/account/controllers/get-session'
+import { getUser } from '@/features/account/controllers/get-user'
 import { getChat } from '@/features/chat/actions/chat'
 import { Chat } from '@/features/chat/components/chat'
 import { getModels } from '@/features/chat/config/models'
@@ -11,8 +11,9 @@ export async function generateMetadata(props: {
   params: Promise<{ id: string }>
 }) {
   const { id } = await props.params
-  const session = await getSession()
-  const chat = await getChat(id, session?.user.id || 'anonymous')
+
+  const user = await getUser()
+  const chat = await getChat(id, user?.id)
   return {
     title: chat?.title.toString().slice(0, 50) || 'Search'
   }
@@ -21,8 +22,9 @@ export async function generateMetadata(props: {
 export default async function SearchPage(props: {
   params: Promise<{ id: string }>
 }) {
-  const session = await getSession()
-  const userId = session?.user.id || 'anonymous'
+
+  const user = await getUser()
+  const userId = user?.id
   const { id } = await props.params
 
   const chat = await getChat(id, userId)
@@ -33,7 +35,7 @@ export default async function SearchPage(props: {
     redirect('/')
   }
 
-  if (chat?.userId !== userId) {
+  if (chat?.userId !== userId && chat?.userId !== 'anonymous') {
     notFound()
   }
 

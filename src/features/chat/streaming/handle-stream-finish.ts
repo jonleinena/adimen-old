@@ -1,10 +1,12 @@
 import { CoreMessage, DataStreamWriter, JSONValue, Message } from 'ai'
 
 import { getSession } from '@/features/account/controllers/get-session'
+import { getUser } from '@/features/account/controllers/get-user'
 import { getChat, saveChat } from '@/features/chat/actions/chat'
 import { generateRelatedQuestions } from '@/features/chat/agents/generate-related-questions'
 import { ExtendedCoreMessage } from '@/features/chat/types'
 import { convertToExtendedCoreMessages } from '@/features/chat/utils'
+
 interface HandleStreamFinishParams {
   responseMessages: CoreMessage[]
   originalMessages: Message[]
@@ -13,6 +15,7 @@ interface HandleStreamFinishParams {
   dataStream: DataStreamWriter
   skipRelatedQuestions?: boolean
   annotations?: ExtendedCoreMessage[]
+  userId?: string
 }
 
 export async function handleStreamFinish({
@@ -22,14 +25,27 @@ export async function handleStreamFinish({
   chatId,
   dataStream,
   skipRelatedQuestions = false,
-  annotations = []
+  annotations = [],
+  userId: paramUserId
 }: HandleStreamFinishParams) {
   try {
+    // Determine the user ID with better fallback handling
+    let userId = paramUserId
+
+    if (!userId) {
+      // Try getting user ID from session first as it's faster
+      const session = await getSession()
+      userId = session?.user?.id
+
+      // If still no userId, try getUser() as last resort
+      if (!userId) {
+        const user = await getUser()
+        userId = user?.id || 'anonymous'
+      }
+    }
+
     const extendedCoreMessages = convertToExtendedCoreMessages(originalMessages)
     let allAnnotations = [...annotations]
-
-    const session = await getSession()
-    const userId = session?.user.id || 'anonymous'
 
     if (!skipRelatedQuestions) {
       // Notify related questions loading
@@ -76,7 +92,7 @@ export async function handleStreamFinish({
     const savedChat = (await getChat(chatId, userId)) ?? {
       messages: [],
       createdAt: new Date(),
-      userId: userId,
+      userId,
       path: `/search/${chatId}`,
       title: originalMessages[0].content,
       id: chatId

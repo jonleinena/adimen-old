@@ -56,23 +56,11 @@ export async function middleware(request: NextRequest) {
   // 4. Check authentication for protected routes
   const pathname = request.nextUrl.pathname;
 
-  // Identify different types of routes that require authentication
-  const isApiRoute = pathname.startsWith('/api/')
 
-  const isUiAuthRoute = pathname.startsWith('/chat') ||
-    pathname.startsWith('/settings') ||
-    pathname.startsWith('/search');
-
-  // Check authentication for routes requiring it
-  if ((isApiRoute || isUiAuthRoute) && !session) {
-    // For API routes, return 401 Unauthorized
-    if (isApiRoute) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
-    }
-
+  // Check if this is an authenticated route (starts with /dashboard, /settings, etc.)
+  // We're checking for routes that would be in the (auth) group
+  const isAuthRoute = pathname.startsWith('/settings') || pathname.startsWith('/chat') || pathname.startsWith('/search');
+  if (isAuthRoute && !session){
     // For UI routes, redirect to login
     const url = request.nextUrl.clone();
     url.pathname = '/login';

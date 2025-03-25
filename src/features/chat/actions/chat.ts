@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-import { getSession } from '@/features/account/controllers/get-session'
+import { getUser } from '@/features/account/controllers/get-user'
 import { getRedisClient, RedisWrapper } from '@/features/chat/redis/config'
 import { type Chat } from '@/features/chat/types'
 
@@ -64,7 +64,14 @@ export async function getChats(userId?: string | null) {
   }
 }
 
-export async function getChat(id: string, userId: string) {
+
+export async function getChat(id: string, userId?: string) {
+  // Get current user ID if not provided
+  if (!userId) {
+    const user = await getUser()
+    userId = user?.id || 'anonymous'
+  }
+
   const redis = await getRedis()
   const chat = await redis.hgetall<Chat>(`chat:${id}`)
 
@@ -89,15 +96,11 @@ export async function getChat(id: string, userId: string) {
   return chat
 }
 
-export async function clearChats(
-  userId?: string
-): Promise<{ error?: string }> {
-  // If userId is not provided, get it from the session
-  if (!userId) {
-    const session = await getSession()
-    userId = session?.user.id || 'anonymous'
-  }
 
+export async function clearChats(): Promise<{ error?: string }> {
+  // Get current user ID
+  const user = await getUser()
+  const userId = user?.id || 'anonymous'
   const redis = await getRedis()
   const userChatKey = getUserChatKey(userId)
   const chats = await redis.zrange(userChatKey, 0, -1)
@@ -117,7 +120,13 @@ export async function clearChats(
   redirect('/')
 }
 
-export async function saveChat(chat: Chat, userId: string) {
+
+export async function saveChat(chat: Chat, userId?: string) {
+  // Get current user ID if not provided
+  if (!userId) {
+    const user = await getUser()
+    userId = user?.id || 'anonymous'
+  }
   try {
     const redis = await getRedis()
     const pipeline = redis.pipeline()
@@ -149,14 +158,13 @@ export async function getSharedChat(id: string) {
   return chat
 }
 
-export async function shareChat(id: string, userId?: string) {
+
+export async function shareChat(id: string) {
+  // Get current user ID
+  const user = await getUser()
+  const userId = user?.id || 'anonymous'
   const redis = await getRedis()
 
-  // If userId is not provided, we'll need to get it from the session
-  if (!userId) {
-    const session = await getSession()
-    userId = session?.user.id || 'anonymous'
-  }
 
   const chat = await redis.hgetall<Chat>(`chat:${id}`)
 

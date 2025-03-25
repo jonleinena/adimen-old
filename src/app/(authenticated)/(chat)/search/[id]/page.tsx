@@ -5,13 +5,13 @@ import { getChat } from '@/features/chat/actions/chat'
 import { Chat } from '@/features/chat/components/chat'
 import { getModels } from '@/features/chat/config/models'
 import { convertToUIMessages } from '@/features/chat/utils'
-
 export const maxDuration = 60
 
 export async function generateMetadata(props: {
   params: Promise<{ id: string }>
 }) {
   const { id } = await props.params
+
   const user = await getUser()
   const chat = await getChat(id, user?.id)
   return {
@@ -22,6 +22,7 @@ export async function generateMetadata(props: {
 export default async function SearchPage(props: {
   params: Promise<{ id: string }>
 }) {
+
   const user = await getUser()
   const userId = user?.id
   const { id } = await props.params

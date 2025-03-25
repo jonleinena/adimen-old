@@ -12,6 +12,7 @@ import {
   SearXNGResult,
   SearXNGSearchResults
 } from '@/features/chat/types'
+import { withAuth } from '@/utils/auth-check'
 import { Redis } from '@upstash/redis'
 
 /**
@@ -126,6 +127,7 @@ async function cleanupExpiredCache() {
 // Set up periodic cache cleanup
 setInterval(cleanupExpiredCache, CACHE_EXPIRATION_CHECK_INTERVAL)
 
+
 export async function POST(request: Request) {
   // Check authentication first
   const session = await getSession()
@@ -178,7 +180,7 @@ export async function POST(request: Request) {
       { status: 500 }
     )
   }
-}
+})
 
 async function advancedSearchXNGSearch(
   query: string,

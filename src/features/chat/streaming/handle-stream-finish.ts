@@ -1,11 +1,11 @@
 import { CoreMessage, DataStreamWriter, JSONValue, Message } from 'ai'
 
+
 import { getUser } from '@/features/account/controllers/get-user'
 import { getChat, saveChat } from '@/features/chat/actions/chat'
 import { generateRelatedQuestions } from '@/features/chat/agents/generate-related-questions'
 import { ExtendedCoreMessage } from '@/features/chat/types'
 import { convertToExtendedCoreMessages } from '@/features/chat/utils'
-
 interface HandleStreamFinishParams {
   responseMessages: CoreMessage[]
   originalMessages: Message[]
@@ -36,6 +36,9 @@ export async function handleStreamFinish({
 
     const extendedCoreMessages = convertToExtendedCoreMessages(originalMessages)
     let allAnnotations = [...annotations]
+
+    const session = await getSession()
+    const userId = session?.user.id || 'anonymous'
 
     if (!skipRelatedQuestions) {
       // Notify related questions loading

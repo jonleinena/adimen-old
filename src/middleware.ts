@@ -56,15 +56,26 @@ export async function middleware(request: NextRequest) {
   // 4. Check authentication for protected routes
   const pathname = request.nextUrl.pathname;
 
-  // Check if this is an authenticated route (starts with /dashboard, /settings, etc.)
-  // We're checking for routes that would be in the (auth) group
-  const isAuthRoute = pathname.startsWith('/chat') ||
-    pathname.startsWith('/settings');
+  // Identify different types of routes that require authentication
+  const isApiRoute = pathname.startsWith('/api/')
 
-  // If it's an auth route and the user is not authenticated, redirect to home
-  if (isAuthRoute && !session) {
+  const isUiAuthRoute = pathname.startsWith('/chat') ||
+    pathname.startsWith('/settings') ||
+    pathname.startsWith('/search');
+
+  // Check authentication for routes requiring it
+  if ((isApiRoute || isUiAuthRoute) && !session) {
+    // For API routes, return 401 Unauthorized
+    if (isApiRoute) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // For UI routes, redirect to login
     const url = request.nextUrl.clone();
-    url.pathname = '/';
+    url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
@@ -80,7 +91,17 @@ export async function middleware(request: NextRequest) {
   const intlResponse = nextIntlMiddleware(request);
   intlResponse.headers.set('x-default-locale', defaultLocale);
 
-  // 6. Merge cookies from next‑intl response into supabase response
+  // 6. Add base URL and request information to response headers
+  const protocol = request.headers.get('x-forwarded-proto') || request.nextUrl.protocol;
+  const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || '';
+  const baseUrl = `${protocol}${protocol.endsWith(':') ? '//' : '://'}${host}`;
+
+  supabaseResponse.headers.set('x-url', request.url);
+  supabaseResponse.headers.set('x-host', host);
+  supabaseResponse.headers.set('x-protocol', protocol);
+  supabaseResponse.headers.set('x-base-url', baseUrl);
+
+  // 7. Merge cookies from next‑intl response into supabase response
   intlResponse.cookies.getAll().forEach(cookie => {
     supabaseResponse.cookies.set(cookie.name, cookie.value, {
       path: cookie.path || '/',
@@ -91,7 +112,7 @@ export async function middleware(request: NextRequest) {
     });
   });
 
-  // 7. Merge next‑intl headers (including the locale) into supabaseResponse
+  // 8. Merge next‑intl headers (including the locale) into supabaseResponse
   supabaseResponse.headers.set(
     'x-next-intl-locale',
     intlResponse.headers.get('x-next-intl-locale') ?? locale

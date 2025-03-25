@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 
 import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from '@/features/chat/components/theme-provider';
 import { Analytics } from '@vercel/analytics/react';
 
 import '@/styles/globals.css';
@@ -52,15 +53,22 @@ export default async function RootLayout({
   const messages = await getMessages(localeFromHeader);
 
   return (
-    <html lang={localeFromHeader} className={`${montserrat.variable} ${montserratAlternates.variable}`}>
-      <body className='overflow-x-hidden font-sans'>
-        <NextIntlClientProvider locale={localeFromHeader} messages={messages}>
-          <div className="flex min-h-screen flex-col">
-            {children}
-          </div>
-          <Toaster />
-          <Analytics />
-        </NextIntlClientProvider>
+    <html lang={localeFromHeader} suppressHydrationWarning>
+      <body className={`overflow-x-hidden font-sans ${montserrat.variable} ${montserratAlternates.variable}`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NextIntlClientProvider locale={localeFromHeader} messages={messages}>
+            <div className="flex min-h-screen flex-col">
+              {children}
+            </div>
+            <Toaster />
+            <Analytics />
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

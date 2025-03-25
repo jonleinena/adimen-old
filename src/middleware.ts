@@ -56,20 +56,17 @@ export async function middleware(request: NextRequest) {
   // 4. Check authentication for protected routes
   const pathname = request.nextUrl.pathname;
 
-  // Check if this is an authenticated route (starts with /chat, /settings, etc.)
-  // We're checking for routes that would be in the (authenticated) group
-  const isAuthRoute = pathname.startsWith('/chat') ||
+  // Identify different types of routes that require authentication
+  const isApiRoute = pathname.startsWith('/api/')
+
+  const isUiAuthRoute = pathname.startsWith('/chat') ||
     pathname.startsWith('/settings') ||
-    pathname.startsWith('/search') ||
-    pathname.startsWith('/api/chat') ||
-    pathname.startsWith('/api/advanced-search');
+    pathname.startsWith('/search');
 
-  // If it's an auth route and the user is not authenticated, redirect to home or login
-  if (isAuthRoute && !session) {
-    const url = request.nextUrl.clone();
-
-    // For API routes, return 401 Unauthorized instead of redirecting
-    if (pathname.startsWith('/api/')) {
+  // Check authentication for routes requiring it
+  if ((isApiRoute || isUiAuthRoute) && !session) {
+    // For API routes, return 401 Unauthorized
+    if (isApiRoute) {
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
@@ -77,6 +74,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // For UI routes, redirect to login
+    const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }

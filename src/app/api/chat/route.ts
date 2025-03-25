@@ -4,6 +4,7 @@ import { createManualToolStreamResponse } from '@/features/chat/streaming/create
 import { createToolCallingStreamResponse } from '@/features/chat/streaming/create-tool-calling-stream'
 import { Model } from '@/features/chat/types/models'
 import { isProviderEnabled } from '@/features/chat/utils/registry'
+import { withAuth } from '@/utils/auth-check'
 
 export const maxDuration = 30
 
@@ -16,7 +17,7 @@ const DEFAULT_MODEL: Model = {
   toolCallType: 'native'
 }
 
-export async function POST(req: Request) {
+export const POST = withAuth(async (req) => {
   try {
     const { messages, id: chatId } = await req.json()
     const referer = req.headers.get('referer')
@@ -78,4 +79,4 @@ export async function POST(req: Request) {
       statusText: 'Internal Server Error'
     })
   }
-}
+})

@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
+import { getUser } from '@/features/account/controllers/get-user'
 import { getRedisClient, RedisWrapper } from '@/features/chat/redis/config'
 import { type Chat } from '@/features/chat/types'
 
@@ -63,7 +64,13 @@ export async function getChats(userId?: string | null) {
   }
 }
 
-export async function getChat(id: string, userId: string = 'anonymous') {
+export async function getChat(id: string, userId?: string) {
+  // Get current user ID if not provided
+  if (!userId) {
+    const user = await getUser()
+    userId = user?.id || 'anonymous'
+  }
+
   const redis = await getRedis()
   const chat = await redis.hgetall<Chat>(`chat:${id}`)
 
@@ -88,9 +95,11 @@ export async function getChat(id: string, userId: string = 'anonymous') {
   return chat
 }
 
-export async function clearChats(
-  userId: string = 'anonymous'
-): Promise<{ error?: string }> {
+export async function clearChats(): Promise<{ error?: string }> {
+  // Get current user ID
+  const user = await getUser()
+  const userId = user?.id || 'anonymous'
+
   const redis = await getRedis()
   const userChatKey = getUserChatKey(userId)
   const chats = await redis.zrange(userChatKey, 0, -1)
@@ -110,7 +119,13 @@ export async function clearChats(
   redirect('/')
 }
 
-export async function saveChat(chat: Chat, userId: string = 'anonymous') {
+export async function saveChat(chat: Chat, userId?: string) {
+  // Get current user ID if not provided
+  if (!userId) {
+    const user = await getUser()
+    userId = user?.id || 'anonymous'
+  }
+
   try {
     const redis = await getRedis()
     const pipeline = redis.pipeline()
@@ -142,7 +157,11 @@ export async function getSharedChat(id: string) {
   return chat
 }
 
-export async function shareChat(id: string, userId: string = 'anonymous') {
+export async function shareChat(id: string) {
+  // Get current user ID
+  const user = await getUser()
+  const userId = user?.id || 'anonymous'
+
   const redis = await getRedis()
   const chat = await redis.hgetall<Chat>(`chat:${id}`)
 

@@ -58,7 +58,7 @@ export async function middleware(request: NextRequest) {
 
   // Check if this is an authenticated route (starts with /dashboard, /settings, etc.)
   // We're checking for routes that would be in the (auth) group
-  const isAuthRoute = pathname.startsWith('/settings');
+  const isAuthRoute = pathname.startsWith('/settings') || pathname.startsWith('/chat') || pathname.startsWith('/search');
 
   // If it's an auth route and the user is not authenticated, redirect to home
   if (isAuthRoute && !session) {

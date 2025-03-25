@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { getUser } from '@/features/account/controllers/get-user'
+
 import { History } from './history'
 import { HistoryList } from './history-list'
 
@@ -9,10 +11,13 @@ const HistoryContainer: React.FC = async () => {
     return null
   }
 
+  const user = await getUser()
+  const userId = user?.id || 'anonymous'
+
   return (
     <div>
       <History>
-        <HistoryList userId="anonymous" />
+        <HistoryList userId={userId} />
       </History>
     </div>
   )

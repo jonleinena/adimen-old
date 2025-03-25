@@ -5,6 +5,7 @@ import https from 'https'
 import { JSDOM, VirtualConsole } from 'jsdom'
 import { createClient } from 'redis'
 
+import { getSession } from '@/features/account/controllers/get-session'
 import {
   SearchResultItem,
   SearXNGResponse,
@@ -126,6 +127,15 @@ async function cleanupExpiredCache() {
 setInterval(cleanupExpiredCache, CACHE_EXPIRATION_CHECK_INTERVAL)
 
 export async function POST(request: Request) {
+  // Check authentication first
+  const session = await getSession()
+  if (!session) {
+    return NextResponse.json(
+      { message: 'Unauthorized', error: 'Authentication required' },
+      { status: 401 }
+    )
+  }
+
   const { query, maxResults, searchDepth, includeDomains, excludeDomains } =
     await request.json()
 

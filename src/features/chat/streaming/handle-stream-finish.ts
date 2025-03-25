@@ -1,5 +1,6 @@
 import { CoreMessage, DataStreamWriter, JSONValue, Message } from 'ai'
 
+import { getUser } from '@/features/account/controllers/get-user'
 import { getChat, saveChat } from '@/features/chat/actions/chat'
 import { generateRelatedQuestions } from '@/features/chat/agents/generate-related-questions'
 import { ExtendedCoreMessage } from '@/features/chat/types'
@@ -13,6 +14,7 @@ interface HandleStreamFinishParams {
   dataStream: DataStreamWriter
   skipRelatedQuestions?: boolean
   annotations?: ExtendedCoreMessage[]
+  userId?: string
 }
 
 export async function handleStreamFinish({
@@ -22,9 +24,16 @@ export async function handleStreamFinish({
   chatId,
   dataStream,
   skipRelatedQuestions = false,
-  annotations = []
+  annotations = [],
+  userId
 }: HandleStreamFinishParams) {
   try {
+    // Get current user ID if not provided
+    if (!userId) {
+      const user = await getUser()
+      userId = user?.id || 'anonymous'
+    }
+
     const extendedCoreMessages = convertToExtendedCoreMessages(originalMessages)
     let allAnnotations = [...annotations]
 
@@ -70,10 +79,10 @@ export async function handleStreamFinish({
     }
 
     // Get the chat from the database if it exists, otherwise create a new one
-    const savedChat = (await getChat(chatId)) ?? {
+    const savedChat = (await getChat(chatId, userId)) ?? {
       messages: [],
       createdAt: new Date(),
-      userId: 'anonymous',
+      userId,
       path: `/search/${chatId}`,
       title: originalMessages[0].content,
       id: chatId
@@ -83,7 +92,7 @@ export async function handleStreamFinish({
     await saveChat({
       ...savedChat,
       messages: generatedMessages
-    }).catch(error => {
+    }, userId).catch(error => {
       console.error('Failed to save chat:', error)
       throw new Error('Failed to save chat history')
     })

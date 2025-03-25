@@ -180,7 +180,7 @@ export async function POST(request: Request) {
       { status: 500 }
     )
   }
-})
+}
 
 async function advancedSearchXNGSearch(
   query: string,

@@ -1,11 +1,12 @@
 import { CoreMessage, DataStreamWriter, JSONValue, Message } from 'ai'
 
-
+import { getSession } from '@/features/account/controllers/get-session'
 import { getUser } from '@/features/account/controllers/get-user'
 import { getChat, saveChat } from '@/features/chat/actions/chat'
 import { generateRelatedQuestions } from '@/features/chat/agents/generate-related-questions'
 import { ExtendedCoreMessage } from '@/features/chat/types'
 import { convertToExtendedCoreMessages } from '@/features/chat/utils'
+
 interface HandleStreamFinishParams {
   responseMessages: CoreMessage[]
   originalMessages: Message[]
@@ -25,20 +26,26 @@ export async function handleStreamFinish({
   dataStream,
   skipRelatedQuestions = false,
   annotations = [],
-  userId
+  userId: paramUserId
 }: HandleStreamFinishParams) {
   try {
-    // Get current user ID if not provided
+    // Determine the user ID with better fallback handling
+    let userId = paramUserId
+
     if (!userId) {
-      const user = await getUser()
-      userId = user?.id || 'anonymous'
+      // Try getting user ID from session first as it's faster
+      const session = await getSession()
+      userId = session?.user?.id
+
+      // If still no userId, try getUser() as last resort
+      if (!userId) {
+        const user = await getUser()
+        userId = user?.id || 'anonymous'
+      }
     }
 
     const extendedCoreMessages = convertToExtendedCoreMessages(originalMessages)
     let allAnnotations = [...annotations]
-
-    const session = await getSession()
-    const userId = session?.user.id || 'anonymous'
 
     if (!skipRelatedQuestions) {
       // Notify related questions loading

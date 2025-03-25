@@ -3,9 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-
 import { getUser } from '@/features/account/controllers/get-user'
-
 import { getRedisClient, RedisWrapper } from '@/features/chat/redis/config'
 import { type Chat } from '@/features/chat/types'
 
@@ -167,11 +165,6 @@ export async function shareChat(id: string) {
   const userId = user?.id || 'anonymous'
   const redis = await getRedis()
 
-  // If userId is not provided, we'll need to get it from the session
-  if (!userId) {
-    const session = await getSession()
-    userId = session?.user.id || 'anonymous'
-  }
 
   const chat = await redis.hgetall<Chat>(`chat:${id}`)
 

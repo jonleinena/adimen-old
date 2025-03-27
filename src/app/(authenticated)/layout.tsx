@@ -13,11 +13,11 @@ export default async function AuthLayout({ children }: PropsWithChildren<{}>) {
     const session = await getSession();
 
     // If user is not authenticated, redirect to home page
-    if (!session) {
-        redirect('/');
-    }
+    // if (!session) {
+    //     redirect('/');
+    // }
 
-    const t = await getTranslations('dashboard');
+    // const t = await getTranslations('dashboard');
 
     return (
         <>
@@ -30,11 +30,11 @@ export default async function AuthLayout({ children }: PropsWithChildren<{}>) {
                     <nav className="flex items-center space-x-8">
                         <Link href="/chat" className="text-sm font-medium hover:text-primary flex items-center gap-2">
                             <LayoutDashboard size={16} />
-                            {t('dashboard')}
+                            dashboard
                         </Link>
                         <Link href="/settings" className="text-sm font-medium hover:text-primary flex items-center gap-2">
                             <Settings size={16} />
-                            {t('settings')}
+                            settings
                         </Link>
                     </nav>
 

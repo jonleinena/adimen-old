@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
 import { clearChats } from '@/features/chat/actions/chat'
+import { useSession } from '@/hooks/use-session'
 
 type ClearHistoryProps = {
   empty: boolean
@@ -25,6 +26,9 @@ type ClearHistoryProps = {
 export function ClearHistory({ empty }: ClearHistoryProps) {
   const [open, setOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
+  const { session } = useSession()
+  const userId = session?.user?.id || 'anonymous'
+  
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
@@ -47,7 +51,7 @@ export function ClearHistory({ empty }: ClearHistoryProps) {
             onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
               event.preventDefault()
               startTransition(async () => {
-                const result = await clearChats()
+                const result = await clearChats(userId)
                 if (result?.error) {
                   toast.error(result.error)
                 } else {

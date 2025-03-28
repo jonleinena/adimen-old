@@ -1,9 +1,11 @@
 import { CoreMessage, DataStreamWriter, JSONValue, Message } from 'ai'
+import { cookies } from 'next/headers'
 
 import { getChat, saveChat } from '@/features/chat/actions/chat'
 import { generateRelatedQuestions } from '@/features/chat/agents/generate-related-questions'
 import { ExtendedCoreMessage } from '@/features/chat/types'
 import { convertToExtendedCoreMessages } from '@/features/chat/utils'
+import { getSession } from '@/features/account/controllers/get-session'
 
 interface HandleStreamFinishParams {
   responseMessages: CoreMessage[]
@@ -69,11 +71,15 @@ export async function handleStreamFinish({
       return
     }
 
+    // Get the session to retrieve the current user ID
+    const session = await getSession()
+    const userId = session?.user?.id || 'anonymous'
+
     // Get the chat from the database if it exists, otherwise create a new one
     const savedChat = (await getChat(chatId)) ?? {
       messages: [],
       createdAt: new Date(),
-      userId: 'anonymous',
+      userId: userId,
       path: `/search/${chatId}`,
       title: originalMessages[0].content,
       id: chatId
@@ -83,7 +89,7 @@ export async function handleStreamFinish({
     await saveChat({
       ...savedChat,
       messages: generatedMessages
-    }).catch(error => {
+    }, userId).catch(error => {
       console.error('Failed to save chat:', error)
       throw new Error('Failed to save chat history')
     })

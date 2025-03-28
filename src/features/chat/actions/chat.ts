@@ -79,7 +79,7 @@ export async function getChat(id: string, userId: string = 'anonymous') {
       chat.messages = []
     }
   }
-
+console.log(chat.message)
   // Ensure messages is always an array
   if (!Array.isArray(chat.messages)) {
     chat.messages = []

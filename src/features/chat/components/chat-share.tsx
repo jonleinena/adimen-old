@@ -17,6 +17,7 @@ import {
 import { Spinner } from '@/components/ui/spinner'
 import { shareChat } from '@/features/chat/actions/chat'
 import { useCopyToClipboard } from '@/features/chat/hooks/use-copy-to-clipboard'
+import { useSession } from '@/hooks/use-session'
 import { cn } from '@/utils/cn'
 
 interface ChatShareProps {
@@ -28,13 +29,15 @@ export function ChatShare({ chatId, className }: ChatShareProps) {
   const [open, setOpen] = useState(false)
   const [pending, startTransition] = useTransition()
   const { copyToClipboard } = useCopyToClipboard({ timeout: 1000 })
+  const { session } = useSession()
+  const userId = session?.user?.id || 'anonymous'
   const [shareUrl, setShareUrl] = useState('')
 
   const handleShare = async () => {
     startTransition(() => {
       setOpen(true)
     })
-    const result = await shareChat(chatId)
+    const result = await shareChat(chatId, userId)
     if (!result) {
       toast.error('Failed to share chat')
       return

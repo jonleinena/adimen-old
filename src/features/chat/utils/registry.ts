@@ -84,7 +84,11 @@ export function getModel(model: string) {
     })
   }
 
-  return registry.languageModel(model)
+  // Assert the model string to one of the valid provider formats
+  return registry.languageModel(model as `openai:${string}` | `anthropic:${string}` | `google:${string}` |
+    `groq:${string}` | `ollama:${string}` | `azure:${string}` |
+    `deepseek:${string}` | `fireworks:${string}` |
+    `openai-compatible:${string}` | `xai:${string}`)
 }
 
 export function isProviderEnabled(providerId: string): boolean {

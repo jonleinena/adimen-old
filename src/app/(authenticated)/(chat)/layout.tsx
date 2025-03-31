@@ -1,4 +1,6 @@
+import { unstable_noStore as noStore } from 'next/cache'
 import { Inter as FontSans } from 'next/font/google'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { Toaster } from '@/components/ui/sonner'
@@ -13,6 +15,8 @@ const fontSans = FontSans({
   variable: '--font-sans'
 })
 
+export const dynamic = 'force-dynamic'
+
 export default async function ChatLayout({
   children
 }: Readonly<{
@@ -24,6 +28,8 @@ export default async function ChatLayout({
   if (!session) {
     redirect('/login')
   }
+
+  noStore()
 
   return (
     <div className={cn('font-sans antialiased', fontSans.variable)}>

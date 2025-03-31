@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from 'next/cache'
 import { cookies } from 'next/headers'
 
 import { getUser } from '@/features/account/controllers/get-user'
@@ -8,6 +9,7 @@ import { isProviderEnabled } from '@/features/chat/utils/registry'
 import { withAuth } from '@/utils/auth-check'
 
 export const maxDuration = 30
+export const dynamic = 'force-dynamic'
 
 const DEFAULT_MODEL: Model = {
   id: 'gpt-4o-mini',
@@ -19,6 +21,7 @@ const DEFAULT_MODEL: Model = {
 }
 
 export const POST = withAuth(async (req) => {
+  noStore()
   try {
     const { messages, id: chatId } = await req.json()
     const referer = req.headers.get('referer')

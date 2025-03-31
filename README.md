@@ -1,3 +1,4 @@
+
 <p align="center">
   <h1 align="center">next-supabase-stripe-starter</h1>
   <p align="center">

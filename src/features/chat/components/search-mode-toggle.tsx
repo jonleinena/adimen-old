@@ -30,11 +30,10 @@ export function SearchModeToggle() {
       variant="outline"
       className={cn(
         'gap-1 px-3 border border-input text-muted-foreground bg-background',
-        'hover:bg-accent hover:text-accent-foreground rounded-full',
-        'data-[state=on]:bg-accent-blue/10',
-        'data-[state=on]:text-accent-blue',
-        'data-[state=on]:border-accent-blue',
-        'transition-all duration-200'
+        'data-[state=on]:bg-accent-blue',
+        'data-[state=on]:text-accent-blue-foreground',
+        'data-[state=on]:border-accent-blue-border',
+        'hover:bg-accent hover:text-accent-foreground rounded-full'
       )}
     >
       <Globe className="size-4" />

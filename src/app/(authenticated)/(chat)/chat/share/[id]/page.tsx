@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import { getSharedChat } from '@/features/chat/actions/chat'
 import { Chat } from '@/features/chat/components/chat'
 import { getModels } from '@/features/chat/config/models'
-import { convertToUIMessages } from '@/features/chat/utils'
 
 export async function generateMetadata(props: {
   params: Promise<{ id: string }>

@@ -3,11 +3,9 @@ import { Inter as FontSans } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
+import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { getSession } from '@/features/account/controllers/get-session'
-import Footer from '@/features/chat/components/footer'
-import Header from '@/features/chat/components/header'
-import { ThemeProvider } from '@/features/chat/components/theme-provider'
 import { cn } from '@/utils/cn'
 
 const fontSans = FontSans({
@@ -39,11 +37,9 @@ export default async function ChatLayout({
         enableSystem
         disableTransitionOnChange
       >
-        <Header />
         <main>
           {children}
         </main>
-        <Footer />
         <Toaster />
       </ThemeProvider>
     </div>

@@ -5,8 +5,8 @@ import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 
+import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { ThemeProvider } from '@/features/chat/components/theme-provider';
 import { Analytics } from '@vercel/analytics/react';
 
 import '@/styles/globals.css';

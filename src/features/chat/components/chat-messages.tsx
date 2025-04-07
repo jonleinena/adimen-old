@@ -1,125 +1,56 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { JSONValue, Message } from 'ai'
+"use client"
 
-import { Spinner } from '@/components/ui/spinner'
+import { useEffect, useRef } from "react"
+import type { Message } from "ai"
+import { useChat } from "ai/react"
 
-import { RenderMessage } from './render-message'
-import { ToolSection } from './tool-section'
+import { saveChat } from "@/features/chat/actions/chat"
+import { ChatMessage } from "@/features/chat/components/chat-message"
 
 interface ChatMessagesProps {
-  messages: Message[]
-  data: JSONValue[] | undefined
-  onQuerySelect: (query: string) => void
-  isLoading: boolean
-  chatId?: string
+    chatId: string
+    initialMessages: Message[]
 }
 
-export function ChatMessages({
-  messages,
-  data,
-  onQuerySelect,
-  isLoading,
-  chatId
-}: ChatMessagesProps) {
-  const [openStates, setOpenStates] = useState<Record<string, boolean>>({})
-  const manualToolCallId = 'manual-tool-call'
+export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
+    const containerRef = useRef<HTMLDivElement>(null)
+    const { messages } = useChat({
+        id: chatId,
+        initialMessages,
+        api: "/api/chat",
+        onFinish: async (message) => {
+            // Save the chat after each message
+            const userId = localStorage.getItem("userId") || "anonymous"
+            await saveChat(
+                {
+                    id: chatId,
+                    title: messages[0]?.content.substring(0, 100) || "New Chat",
+                    messages: [...messages, message],
+                    createdAt: new Date().toISOString(),
+                    userId,
+                },
+                userId,
+            )
+        },
+    })
 
-  // Add ref for the messages container
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+    // Scroll to bottom when messages change
+    useEffect(() => {
+        if (containerRef.current) {
+            containerRef.current.scrollTop = containerRef.current.scrollHeight
+        }
+    }, [messages])
 
-  // Scroll to bottom function
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'instant' })
-  }
-
-  // Scroll to bottom on mount and when messages change
-  useEffect(() => {
-    scrollToBottom()
-  }, [])
-
-  useEffect(() => {
-    const lastMessage = messages[messages.length - 1]
-    if (lastMessage?.role === 'user') {
-      setOpenStates({ [manualToolCallId]: true })
-    }
-  }, [messages])
-
-  // get last tool data for manual tool call
-  const lastToolData = useMemo(() => {
-    if (!data || !Array.isArray(data) || data.length === 0) return null
-
-    const lastItem = data[data.length - 1] as {
-      type: 'tool_call'
-      data: {
-        toolCallId: string
-        state: 'call' | 'result'
-        toolName: string
-        args: string
-      }
-    }
-
-    if (lastItem.type !== 'tool_call') return null
-
-    const toolData = lastItem.data
-    return {
-      state: 'call' as const,
-      toolCallId: toolData.toolCallId,
-      toolName: toolData.toolName,
-      args: toolData.args ? JSON.parse(toolData.args) : undefined
-    }
-  }, [data])
-
-  if (!messages.length) return null
-
-  const lastUserIndex =
-    messages.length -
-    1 -
-    [...messages].reverse().findIndex(msg => msg.role === 'user')
-
-  const showLoading = isLoading && messages[messages.length - 1].role === 'user'
-
-  const getIsOpen = (id: string) => {
-    if (id.includes('call')) {
-      return openStates[id] ?? true
-    }
-    const baseId = id.endsWith('-related') ? id.slice(0, -8) : id
-    const index = messages.findIndex(msg => msg.id === baseId)
-    return openStates[id] ?? index >= lastUserIndex
-  }
-
-  const handleOpenChange = (id: string, open: boolean) => {
-    setOpenStates(prev => ({
-      ...prev,
-      [id]: open
-    }))
-  }
-
-  return (
-    <div className="relative mx-auto px-4 w-full">
-      {messages.map(message => (
-        <div key={message.id} className="mb-4 flex flex-col gap-4">
-          <RenderMessage
-            message={message}
-            messageId={message.id}
-            getIsOpen={getIsOpen}
-            onOpenChange={handleOpenChange}
-            onQuerySelect={onQuerySelect}
-            chatId={chatId}
-          />
+    return (
+        <div ref={containerRef} className="flex-1 overflow-y-auto p-4 space-y-6">
+            {messages.length === 0 ? (
+                <div className="flex h-full items-center justify-center">
+                    <p className="text-center text-lg text-muted-foreground">Start a conversation by typing a message below.</p>
+                </div>
+            ) : (
+                messages.map((message, index) => <ChatMessage key={index} message={message} />)
+            )}
         </div>
-      ))}
-      {showLoading &&
-        (lastToolData ? (
-          <ToolSection
-            key={manualToolCallId}
-            tool={lastToolData}
-            isOpen={getIsOpen(manualToolCallId)}
-            onOpenChange={open => handleOpenChange(manualToolCallId, open)}
-          />
-        ) : (
-          <Spinner />
-        ))}
-      <div ref={messagesEndRef} /> {/* Add empty div as scroll anchor */}
-    </div>
-  )
+    )
 }
+

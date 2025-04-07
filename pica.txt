@@ -1,0 +1,1879 @@
+# Authentication
+Source: https://docs.picaos.com/api-reference/authentication
+
+Learn how to authenticate your API requests
+
+Pica authenticates your API requests using API keys. Include your API key in the `x-pica-secret` header of your requests:
+
+```bash
+x-pica-secret: YOUR_API_KEY
+```
+
+<Note>
+  Need an API key? Sign up for a [Pica account](https://app.picaos.com) to get started right away.
+</Note>
+
+### Environments
+
+From the dashboard, you can create two different types of API keys that correspond to two distinct environments:
+
+<ResponseField name="Sandbox" type="environment">
+  Build out your end-to-end UX safely using test credentials
+</ResponseField>
+
+<ResponseField name="Production" type="environment">
+  Launch your new UX confidently using isolated live credentials
+</ResponseField>
+
+## Connector Scoping
+
+Connectors are scoped to Environment and cannot be moved between environments once created. Both Sandbox and Production environments include unlimited Connections and unlimited API calls. All testing should be done in the Sandbox environment.
+
+
+# Available Actions
+Source: https://docs.picaos.com/api-reference/core/available-actions
+
+GET https://api.picaos.com/v1/available-actions/{platform}
+Get a list of available actions for a given platform
+
+## Path Parameters
+
+<ParamField path="platform" type="string" required>
+  The connector platform
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="title" type="string">
+  The action title
+</ParamField>
+
+<ParamField query="key" type="string">
+  The action key
+</ParamField>
+
+<ParamField query="method" type="string">
+  The action method
+</ParamField>
+
+<ParamField query="limit" type="number" default="20">
+  The number of actions to return
+</ParamField>
+
+<ParamField query="skip" type="number" default="0">
+  The number of actions to skip
+</ParamField>
+
+## Response
+
+<ResponseField name="actions" type="Action[]">
+  Array of Actions
+</ResponseField>
+
+<RequestExample>
+  ```bash cURL
+  curl --location --request GET 'https://api.picaos.com/v1/available-actions/exa' \
+  --header 'x-pica-secret: YOUR_API_KEY'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+      "type": "Available Actions",
+      "rows": [
+          {
+              "title": "Get Contents",
+              "key": "getContents",
+              "method": "POST",
+              "platform": "exa"
+          },
+          {
+              "title": "Search",
+              "key": "search",
+              "method": "POST",
+              "platform": "exa"
+          },
+          {
+              "title": "Find Similar Links",
+              "key": "findSimilarLinks",
+              "method": "POST",
+              "platform": "exa"
+          },
+          {
+              "title": "Get LLM Answer",
+              "key": "getLlmAnswer",
+              "method": "POST",
+              "platform": "exa"
+          }
+      ],
+      "total": 4,
+      "skip": 0,
+      "limit": 20
+  }
+  ```
+</ResponseExample>
+
+
+# Available Connectors
+Source: https://docs.picaos.com/api-reference/core/available-connectors
+
+GET https://api.picaos.com/v1/available-connectors
+Get a list of available connectors
+
+## Query Parameters
+
+<ParamField query="platform" type="string">
+  The connector platform
+</ParamField>
+
+<ParamField query="key" type="string">
+  The connector key
+</ParamField>
+
+<ParamField query="name" type="string">
+  The connector name
+</ParamField>
+
+<ParamField query="category" type="string">
+  The connector category
+</ParamField>
+
+<ParamField query="limit" type="number" default="20">
+  The number of connectors to return
+</ParamField>
+
+<ParamField query="skip" type="number" default="0">
+  The number of connectors to skip
+</ParamField>
+
+## Response
+
+<ResponseField name="connectors" type="Connector[]">
+  Array of Connectors
+</ResponseField>
+
+<RequestExample>
+  ```bash cURL
+  curl --location --request GET 'https://api.picaos.com/v1/available-connectors' \
+  --header 'x-pica-secret: YOUR_API_KEY'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+      "type": "Available Connectors",
+      "rows": [
+          {
+              "name": "ElevenLabs",
+              "key": "api::elevenlabs::v1",
+              "platform": "elevenlabs",
+              "platformVersion": "v1",
+              "description": "Create the most realistic speech with our AI audio platform",
+              "category": "AI",
+              "image": "https://assets.buildable.dev/catalog/node-templates/elevenlabs.svg",
+              "tags": [
+                  "ai"
+              ],
+              "oauth": false,
+              "createdAt": 1740383090925,
+              "updatedAt": 1740383090925,
+              "updated": false,
+              "version": "1.0.0",
+              "lastModifiedBy": "system",
+              "deleted": false,
+              "active": true,
+              "deprecated": false
+          },
+          ...
+      ],
+      "total": 66,
+      "skip": 0,
+      "limit": 20
+  }
+  ```
+</ResponseExample>
+
+
+# Create User
+Source: https://docs.picaos.com/api-reference/core/create-user
+
+POST https://api.picaos.com/internal/v3/users/create
+Create a new user, scoped to your API key
+
+## Body Parameters
+
+<ParamField body="email" type="string" required>
+  The email address of the user to create
+</ParamField>
+
+## Response
+
+<ResponseField name="user" type="User">
+  The created user object
+</ResponseField>
+
+<RequestExample>
+  ```bash cURL
+  curl --location --request POST 'https://api.picaos.com/internal/v3/users/create' \
+  --header 'x-pica-secret: YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+      "email": "test@example.com"
+  }'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json
+  {
+      "_id": "67ea97af2c6e7e0013d412e4",
+      "email": "test@example.com",
+      "secrets": {
+          "live": "<USER_LIVE_KEY>",
+          "sandbox": "<USER_SANDBOX_KEY>"
+      }
+  }
+  ```
+</ResponseExample>
+
+
+# Overview
+Source: https://docs.picaos.com/api-reference/introduction
+
+A guide to the Pica API fundamentals
+
+Pica provides powerful APIs that enable you to build, deploy, and scale AI agents with seamless access to over 100+ integrations and tools.
+Connect your AI to QuickBooks, Salesforce, HubSpot, Shopify, and more leading platforms through our Passthrough API to unlock real-time data and automation capabilities.
+
+## Vault API
+
+The Vault API provides endpoints to manage your connectors through listing, deleting, and viewing connection details.
+
+* Integration with QuickBooks, Salesforce, HubSpot, Shopify and [more](https://www.picaos.com/community/connectors)
+* Standard CRUD operations across all connectors
+* Built-in authentication and connection management
+* AI SDK support for LLM capabilities
+
+
+# Passthrough API
+Source: https://docs.picaos.com/api-reference/passthrough
+
+Documentation for the Pica Passthrough API
+
+The Passthrough API is a powerful tool that allows you to interact directly with the underlying API of any integration.
+
+<Warning>
+  Responses from the Passthrough API are shaped to match the response from the underlying API.
+</Warning>
+
+### Base URL
+
+```
+https://api.picaos.com/v1/passthrough/{path}
+```
+
+Where `{path}` corresponds to the endpoint path in the third-party API's documentation.
+
+### Required Headers
+
+* `x-pica-secret`: Your Pica API key
+* `x-pica-connection-key`: The connection key for the specific integration
+
+
+# Delete Connection
+Source: https://docs.picaos.com/api-reference/vault/connections/delete
+
+DELETE https://api.picaos.com/v1/vault/connections/{id}
+Delete a Connection
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  The connection ID
+</ParamField>
+
+<RequestExample>
+  ```bash cURL
+  curl --location --request DELETE 'https://api.picaos.com/v1/vault/connections/conn_123' \
+  --header 'x-pica-secret: YOUR_API_KEY'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "success": true,
+    "message": "Connection successfully deleted"
+  }
+  ```
+</ResponseExample>
+
+
+# List Connections
+Source: https://docs.picaos.com/api-reference/vault/connections/list
+
+GET https://api.picaos.com/v1/vault/connections
+List available Connections
+
+## Query Parameters
+
+<ParamField query="key" type="string">
+  The connection key
+</ParamField>
+
+<ParamField query="platformVersion" type="string">
+  The platform version
+</ParamField>
+
+<ParamField query="name" type="string">
+  The connection name
+</ParamField>
+
+<ParamField query="identityType" type="&#x22;user&#x22; | &#x22;team&#x22; | &#x22;organization&#x22;">
+  The identity type
+</ParamField>
+
+<ParamField query="identity" type="string">
+  The connection identifier
+</ParamField>
+
+<ParamField query="platform" type="string">
+  The connector platform (e.g. stripe, exa)
+</ParamField>
+
+<ParamField query="active" type="boolean" default="true">
+  Filter connections by active status
+</ParamField>
+
+<ParamField query="limit" type="number" default="20">
+  The number of connections to return
+</ParamField>
+
+<ParamField query="skip" type="number" default="0">
+  The number of connections to skip
+</ParamField>
+
+## Response
+
+<ResponseField name="connections" type="Connection[]">
+  Array of Connection objects
+</ResponseField>
+
+<RequestExample>
+  ```bash cURL
+  curl --location --request GET 'https://api.picaos.com/v1/vault/connections' \
+  --header 'x-pica-secret: YOUR_API_KEY'
+  ```
+</RequestExample>
+
+<ResponseExample>
+  ```json Response
+  {
+    "connections": [
+      {
+        "_id": "conn_123",
+        "platformVersion": "2.0",
+        "name": "My Connection",
+        "key": "connection_key",
+        "identity": "user_123",
+        "identityType": "user",
+        "platform": "salesforce",
+        "active": true
+      }
+    ]
+  }
+  ```
+</ResponseExample>
+
+
+# AuthKit
+Source: https://docs.picaos.com/core/authkit
+
+A secure, enterprise-grade authentication solution enabling seamless integration of third-party tools and services. Built for organizations requiring robust security, compliance, and scalability.
+
+<img src="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/authkit.png" alt="AuthKit" style={{ borderRadius: '5px' }} />
+
+<Tip>
+  Key Benefit: Empowers developers to offer seamless and secure tool integrations to their customers through a customizable UI that abstracts away all of the complexity associated with building secure authentication flows, ensuring a smooth onboarding experience while prioritizing security.
+</Tip>
+
+# Overview
+
+Implementing authentication flows that handle every possible error state and edge case across multiple integrations can be a daunting task. AuthKit makes this easy by providing a hosted, pre-built, customizable authentication UI with automatic handling of:
+
+* Secure authentication via OAuth and API Keys
+* Automatic handling of authentication and refresh tokens
+* Self-hosted OAuth apps (using your Client ID and Client Secret)
+* Customizable branding and white labeling
+
+# QuickStart
+
+## Server
+
+```typescript
+import { NextRequest, NextResponse } from "next/server";
+import { AuthKitToken } from "@picahq/authkit-node";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
+export async function OPTIONS(req: NextRequest) {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
+export async function POST(req: NextRequest) {
+  const authKitToken = new AuthKitToken(process.env.PICA_SANDBOX_API_KEY as string);
+  
+  const token = await authKitToken.create({
+    identity: "user_123", // a meaningful identifier (i.e., userId, teamId or organizationId)
+    identityType: "user" // can be either user, team or organization
+  });
+
+  return NextResponse.json(token);
+}
+```
+
+## Client
+
+```typescript
+import { useAuthKit } from "@picahq/authkit";
+import { Button } from "@/components/ui/button";
+
+export function AuthKitButton() {
+  const { open } = useAuthKit({
+    token: {
+      url: "https://api.your-company-name.com/authkit-token",
+      headers: {},
+    },
+    onSuccess: (connection) => {},
+    onError: (error) => {},
+    onClose: () => {},
+  });
+
+  return (
+    <Button onClick={open}>
+      Connect Tools
+    </Button>
+  );
+}
+```
+
+<Info>
+  At Pica, we dogfood our own products. AuthKit powers the connection experience in Pica's dashboard. Create a free account, navigate to the OneTool tab, click the "Create Connection" button, and voilà - you'll see AuthKit in action!
+</Info>
+
+
+# OneTool
+Source: https://docs.picaos.com/core/one-tool
+
+A single SDK to connect AI agents seamlessly to all APIs and tools.
+
+<Frame caption="Handles schema definitions, authentication, and execution processes automatically.">
+  <img src="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/one-tool.svg" />
+</Frame>
+
+## Products
+
+Use Pica's OneTool to connect your AI agents to all APIs and tools.
+
+<CardGroup cols={3}>
+  <Card title="Vercel AI SDK" img="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/vercel.jpg" href="/sdk/vercel-ai">
+    Seamlessly integrate Pica with Vercel AI SDK for enhanced AI capabilities
+  </Card>
+
+  <Card title="Langchain SDK" img="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/langchain.jpg" href="/sdk/langchain">
+    Connect Pica with Langchain for powerful chain-of-thought capabilities
+  </Card>
+
+  <Card title="Anthropic MCP" img="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/anthropic.png" href="/sdk/anthropic-mcp">
+    Integrate Pica with Anthropic's Model Control Protocol for enhanced AI capabilities
+  </Card>
+</CardGroup>
+
+
+# Running Locally
+Source: https://docs.picaos.com/get-started/development
+
+Pica is entirely open source. We believe in transparency and leveraging the voices of the community to empower productivity.
+
+<img src="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/banner.png" alt="Pica Banner" style={{ borderRadius: '5px' }} />
+
+## Open Source
+
+<Card title="@picahq/pica" icon="github" href="https://github.com/picahq/pica" horizontal>
+  Check out our GitHub repository to explore the code, contribute, or raise issues.
+</Card>
+
+<Note>
+  You can also view our public roadmap and upcoming milestones at our [community page](https://www.picaos.com/community/milestones) to see what we're building next.
+</Note>
+
+# Using the CLI
+
+The Pica CLI makes it easy to run Pica locally.
+
+<Info>
+  **Prerequisite**: [Docker](https://docs.docker.com/engine/) and [Docker Compose](https://docs.docker.com/compose/)
+</Info>
+
+**Step 1**: Install the CLI:
+
+<CodeGroup>
+  ```bash npm
+  npm i -g @picahq/cli
+  ```
+</CodeGroup>
+
+**Step 2**: Launch the local server:
+
+```bash
+pica start
+```
+
+<Check>
+  **Success**: The Pica server is now running at `http://localhost:3005` 🚀
+</Check>
+
+## Stopping the Server
+
+To stop the local server, run:
+
+```bash
+pica stop
+```
+
+
+# Welcome to Pica
+Source: https://docs.picaos.com/get-started/introduction
+
+The Open-Source Catalyst for Autonomous AI
+
+<img className="block dark:hidden" src="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/hero-light.png" alt="Hero Light" />
+
+<img className="hidden dark:block" src="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/hero-dark.png" alt="Hero Dark" />
+
+## Where to start
+
+Pica provides powerful APIs and tools to build, deploy, and scale AI agents with seamless access to over 100+ integrations. Here's how to get started:
+
+<CardGroup cols={2}>
+  <Card title="Quick Start Guide" icon="rocket" href="/get-started/quickstart">
+    Set up your first integration in under 5 minutes
+  </Card>
+
+  <Card title="OneTool SDK" icon="hammer" href="/core/one-tool">
+    Connect AI agents seamlessly to all APIs and tools
+  </Card>
+
+  <Card title="Passthrough API" icon="code" href="/api-reference/introduction">
+    Access 6000+ actions through one endpoint
+  </Card>
+
+  <Card title="Community Hub" icon="people" href="https://www.picaos.com/community">
+    Join our community to share ideas and get support
+  </Card>
+</CardGroup>
+
+
+# Quickstart
+Source: https://docs.picaos.com/get-started/quickstart
+
+Get connected to Pica in under 10 minutes
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/V1toklklzHw" title="Getting Started with Pica" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+
+<br />
+
+<Card title="Get Started with OneTool" icon="wand-magic-sparkles" href="/core/one-tool" horizontal>
+  Connect your applications to hundreds of tools and services with OneTool
+</Card>
+
+
+# MCP Server
+Source: https://docs.picaos.com/sdk/anthropic-mcp
+
+A protocol for seamless integration between LLM applications and external data sources
+
+[![smithery badge](https://smithery.ai/badge/@picahq/pica)](https://smithery.ai/server/@picahq/pica)
+
+<img src="https://assets.picaos.com/github/mcp.jpeg" alt="Pica MCP Banner" style={{ borderRadius: '25px' }} />
+
+<Card title="mcp-server" icon="server" href="https://smithery.ai/server/@picahq/pica" horizontal>
+  Install the MCP Server to connect your LLM applications to external data sources
+</Card>
+
+# What is MCP?
+
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io) is a system that lets AI apps, like [Claude Desktop](https://claude.ai/download), connect to external tools and data sources. It gives a clear and safe way for AI assistants to work with local services and APIs while keeping the user in control.
+
+<Info>Want to learn more about Anthropic's Model Control Protocol? [Visit the website](https://www.claudemcp.com) or [read the docs](https://modelcontextprotocol.io/introduction).</Info>
+
+This MCP server allows Claude Desktop and anything using the [Model Context Protocol](https://modelcontextprotocol.io) to securely interact with all these connections through natural language requests.
+
+With Pica MCP Server, you can:
+
+* **Access Multiple Data Sources**: Query databases, fetch files, and retrieve information across services
+* **Automate Workflows**: Trigger actions and automate tasks across your connected platforms
+* **Enhance LLM Capabilities**: Give Claude Desktop powerful real-world capabilities through API access
+
+Pica supports [70+ connections](https://app.picaos.com/tools) (with more added regularly) across categories like:
+
+# Setup
+
+Follow the guide below or watch this video for a quickstart:
+
+<iframe width="100%" height="350" src="https://www.youtube.com/embed/JJ62NUEkKAs" title="MCP Server Setup Guide" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />
+
+### Using npx
+
+You can use this package directly with npx:
+
+```bash
+npx @picahq/pica-mcp
+```
+
+Or install it globally:
+
+```bash
+npm install -g @picahq/pica-mcp
+```
+
+### Installing via Smithery
+
+To install pica for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@picahq/pica):
+
+```bash
+npx -y @smithery/cli install @picahq/pica --client claude
+```
+
+### Environment Setup
+
+This server requires a [Pica API key](https://app.picaos.com/settings/api-keys). Set the environment variable:
+
+```bash
+export PICA_SECRET=your_pica_secret_key
+```
+
+### Using Docker
+
+Build the Docker Image:
+
+```bash
+docker build -t pica-mcp-server .
+```
+
+Run the Docker Container:
+
+```bash
+docker run -e PICA_SECRET=your_pica_secret_key pica-mcp-server
+```
+
+### Manual Installation
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Build the server:
+
+```bash
+npm run build
+```
+
+For development with auto-rebuild:
+
+```bash
+npm run watch
+```
+
+### Using Claude Desktop
+
+To use with [Claude Desktop](https://claude.ai/download), add the server config:
+
+On MacOS: `~/Library/Application\ Support/Claude/claude_desktop_config.json`
+
+On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
+
+#### Docker
+
+To use the Docker container with Claude Desktop, update your `claude_desktop_config.json` with:
+
+```json
+{
+  "mcpServers": {
+    "pica-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e", "PICA_SECRET=YOUR_PICA_SECRET_KEY",
+        "pica-mcp-server"
+      ]
+    }
+  }
+}
+```
+
+#### Manual
+
+```json
+{
+  "mcpServers": {
+    "pica-mcp-server": {
+      "command": "node",
+      "args": [
+        "/path/to/pica-mcp-server/build/index.js"
+      ],
+      "env": {
+        "PICA_SECRET": "YOUR_PICA_SECRET_KEY"
+      }
+    }
+  }
+}
+```
+
+## Debugging
+
+Since MCP servers communicate over stdio, debugging can be challenging. We recommend using the [MCP Inspector](https://github.com/modelcontextprotocol/inspector), which is available as a package script:
+
+```bash
+npm run inspector
+```
+
+The Inspector will provide a URL to access debugging tools in your browser.
+
+## Usage
+
+Once you've added the server config and connected some platforms in the [Pica dashboard](https://app.picaos.com/connections), restart Claude Desktop and try out some examples:
+
+* What connections do I have access to?
+* Send an email using gmail to [hello@picaos.com](mailto:hello@picaos.com)
+* What actions can I perform with google sheets?
+* Create an event in my calendar
+* List 5 users from my postgres users table
+* Send a message in slack to the #general channel with today's weather
+
+## Demo
+
+<iframe width="100%" height="350" src="https://www.youtube.com/embed/0jeasO20PyM" title="MCP Server Demo" frameborder="0" />
+
+
+# LangChain
+Source: https://docs.picaos.com/sdk/langchain
+
+Connect your LangChain applications with Pica to supercharge your AI workflows and unlock powerful automation capabilities.
+
+[![pypi version](https://img.shields.io/pypi/v/pica-langchain)](https://pypi.org/project/pica-langchain)
+
+<img src="https://assets.picaos.com/github/langchain.png" alt="Pica LangChain Banner" style={{ borderRadius: '25px' }} />
+
+<Card title="pica-langchain" icon="python" href="https://pypi.org/project/pica-langchain" horizontal>
+  Install the Python SDK to unlock powerful tools for LangChain
+</Card>
+
+## Installation
+
+Install the Pica LangChain SDK:
+
+```bash
+pip install pica-langchain
+```
+
+## Configuration
+
+The `PicaClientOptions` class allows you to configure the Pica client with the following options:
+
+| Option         | Type                              | Required | Default                                          | Description                                                                                                                                                                   |
+| -------------- | --------------------------------- | -------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| server\_url    | str                               | No       | [https://api.picaos.com](https://api.picaos.com) | URL for self-hosted Pica server.                                                                                                                                              |
+| connectors     | List\[str]                        | No       | All available connectors                         | List of connector keys to filter by. Pass \["\*"] to initialize all available connectors, or specific connector keys to filter. If empty, no connections will be initialized. |
+| identity       | str                               | No       | None                                             | Filter connections by specific identifier.                                                                                                                                    |
+| identity\_type | "user", "team", or "organization" | No       | None                                             | Filter connections by identity type.                                                                                                                                          |
+| authkit        | Boolean                           | No       | false                                            | If true, the SDK will use Authkit to connect to prompt the user to connect to a platform that they do not currently have access to                                            |
+
+The `create_pica_agent` function allows customizing the following parameters:
+
+| Option                      | Type            | Required | Default           | Description                                                    |
+| --------------------------- | --------------- | -------- | ----------------- | -------------------------------------------------------------- |
+| verbose                     | bool            | No       | False             | Whether to print verbose logs.                                 |
+| system\_prompt              | str             | No       | None              | A custom system prompt to append to the default system prompt. |
+| agent\_type                 | AgentType       | No       | OPENAI\_FUNCTIONS | The type of agent to create.                                   |
+| tools                       | List\[BaseTool] | No       | None              | A list of tools to use in the agent.                           |
+| return\_intermediate\_steps | bool            | No       | False             | Whether to return the intermediate steps of the agent.         |
+
+## Usage
+
+This is a getting started example using Pica with LangChain and OpenAI.
+
+Ensure you have the following environment variables set:
+
+```bash
+export PICA_SECRET="your-pica-secret"
+export OPENAI_API_KEY="your-openai-api-key"
+```
+
+```python
+import os
+from langchain_openai import ChatOpenAI
+from langchain.agents import AgentType
+from pica_langchain import PicaClient, create_pica_agent
+from pica_langchain.models import PicaClientOptions
+
+def main():
+    try:
+        pica_client = PicaClient(
+            secret=os.environ["PICA_SECRET"],
+            options=PicaClientOptions(
+                connectors=["*"] # Initialize all available connections or pass specific connector keys
+                # server_url="https://my-self-hosted-server.com",
+                # identity="user-id",
+                # identity_type="user"
+            )
+        )
+        
+        llm = ChatOpenAI(
+            temperature=0,
+            model="gpt-4o",
+        )
+
+        # Create an agent with Pica tools
+        agent = create_pica_agent(
+            client=pica_client,
+            llm=llm,
+            agent_type=AgentType.OPENAI_FUNCTIONS,
+        )
+
+        # Execute a multi-step workflow using the GitHub Connector
+        result = agent.invoke({
+            "input": (
+                "What connections do I have access to?"
+            )
+        })
+        
+        print(f"\nWorkflow Result:\n {result}")
+    
+    except Exception as e:
+        print(f"ERROR: An unexpected error occurred: {e}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
+```
+
+## Logging
+
+The Pica LangChain SDK uses the `logging` module to log messages. The log level can be set using the `PICA_LOG_LEVEL` environment variable.
+
+The following log levels are available:
+
+* `debug`
+* `info`
+* `warning`
+* `error`
+* `critical`
+
+```bash
+export PICA_LOG_LEVEL="debug"
+```
+
+## Examples
+
+### Code Solutions
+
+<Tabs>
+  <Tab title="Streaming Response">
+    ```python
+    import os
+    from langchain_openai import ChatOpenAI
+    from langchain.agents import AgentType
+    from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+    from pica_langchain import PicaClient, create_pica_agent
+    from pica_langchain.models import PicaClientOptions
+
+    pica_client = PicaClient(
+        secret=os.environ["PICA_SECRET"],
+        options=PicaClientOptions(
+            connectors=["*"], # Initialize all available connections for this example
+        )
+    )
+
+    llm_with_handler = ChatOpenAI(
+        temperature=0,
+        model="gpt-4o",
+        streaming=True,
+        callbacks=[StreamingStdOutCallbackHandler()]
+    )
+
+    agent_with_handler = create_pica_agent(
+        client=pica_client,
+        llm=llm_with_handler,
+        agent_type=AgentType.OPENAI_FUNCTIONS,
+    )
+
+    for chunk in agent_with_handler.stream({
+        "input": "List three platforms available in Pica."
+    }):
+        print(chunk)
+    ```
+  </Tab>
+
+  <Tab title="Using AuthKit">
+    ```python
+    import os
+    from langchain_openai import ChatOpenAI
+    from langchain.agents import AgentType
+    from pica_langchain import PicaClient, create_pica_agent
+    from pica_langchain.models import PicaClientOptions
+
+    pica_client = PicaClient(
+        secret=os.environ["PICA_SECRET"],
+        options=PicaClientOptions(
+            authkit=True, # Enable AuthKit settings
+            connectors=["*"]
+        )
+    )
+
+    llm = ChatOpenAI(
+        temperature=0,
+        model="gpt-4o",
+    )
+
+    # Create an agent with Pica tools
+    agent = create_pica_agent(
+        client=pica_client,
+        llm=llm,
+        agent_type=AgentType.OPENAI_FUNCTIONS,
+        return_intermediate_steps=True # Show the intermediate steps
+    )
+
+    result = agent.invoke({
+        "input": (
+            # This will trigger the promptToConnectPlatform tool 
+            # if the user doesn't have google calendar connected
+            # On your client, you can listen for this tool call and prompt 
+            # the user to connect via the AuthKit
+            "Connect to google calendar"
+        )
+    })
+
+    print(f"\nWorkflow Result:\n {result}")
+    ```
+  </Tab>
+</Tabs>
+
+### Workflows
+
+<Tabs>
+  <Tab title="Star a GitHub repo">
+    ```python
+    from langchain_openai import ChatOpenAI
+    from langchain.agents import AgentType
+    from pica_langchain import PicaClient, create_pica_agent
+
+    pica_client = PicaClient(
+        secret="YOUR_PICA_SECRET",
+        options=PicaClientOptions(
+            connectors=["*"]
+        )
+    )
+
+    llm = ChatOpenAI(temperature=0, model="gpt-4o")
+
+    agent = create_pica_agent(
+        client=pica_client,
+        llm=llm,
+        agent_type=AgentType.OPENAI_FUNCTIONS
+    )
+
+    result = agent.invoke({
+        "input": (
+            "Star the picahq/pica repo in github. "
+            "Then, list 5 of the repositories that I have starred in github."
+        )
+    })
+
+    print(f"Result: {result}")
+    ```
+  </Tab>
+
+  <Tab title="Create GitHub Issues from Airtable">
+    ```python
+    from langchain_openai import ChatOpenAI
+    from langchain.agents import AgentType
+    from pica_langchain import PicaClient, create_pica_agent
+
+    pica_client = PicaClient(
+        secret="YOUR_PICA_SECRET",
+        options=PicaClientOptions(
+            connectors=["*"]
+        )
+    )
+
+    llm = ChatOpenAI(temperature=0, model="gpt-4o")
+
+    agent = create_pica_agent(
+        client=pica_client,
+        llm=llm,
+        agent_type=AgentType.OPENAI_FUNCTIONS
+    )
+
+    result = agent.invoke({
+        "input": (
+            "Retrieve the list of available bases from Airtable."
+            "List the tasks from the Base 'My Tasks' with the status 'Todo'"
+            "For each task, create a GitHub issue in the '' repository."
+            "Use the task title as the issue title and the task description as the issue body."
+            "Add the Airtable ticket ID for reference in the issue."
+            "Assign the issue to the task's assignee if available."
+            "Report the number of tasks created, skipped, or failed."
+        )
+    })
+
+    print(f"Result: {result}")
+    ```
+  </Tab>
+
+  <Tab title="Email a Google Sheet Summary">
+    ```python
+    from langchain_openai import ChatOpenAI
+    from langchain.agents import AgentType
+    from pica_langchain import PicaClient, create_pica_agent
+
+    pica_client = PicaClient(
+        secret="YOUR_PICA_SECRET",
+        options=PicaClientOptions(
+            connectors=["*"]
+        )
+    )
+
+    llm = ChatOpenAI(temperature=0, model="gpt-4o")
+
+    agent = create_pica_agent(
+        client=pica_client,
+        llm=llm,
+        agent_type=AgentType.OPENAI_FUNCTIONS
+    )
+
+    result = agent.invoke({
+        "input": (
+            "List my available google spreadsheets. "
+            "Retrieve the data from Spreadsheet ID '1NBp5QpEJV43Sq2P0aeo1DtYUof2BDY_YcdKcIIQTCcs'. "
+            "List the content from the sheet named 'Sheet1' in the range 'A1:C5'."
+            "Summarize the Comment column"
+            "Send the summarized comment data to using gmail to hello@picaos.com"
+        )
+    })
+
+    print(f"Result: {result}")
+    ```
+  </Tab>
+</Tabs>
+
+## GitHub
+
+<Card title="@picahq/pica-langchain" icon="github" href="https://github.com/picahq/pica-langchain" horizontal>
+  Check out our GitHub repository to explore the code, contribute, or raise issues.
+</Card>
+
+
+# Vercel AI SDK
+Source: https://docs.picaos.com/sdk/vercel-ai
+
+Connect Pica with the Vercel AI SDK for enhanced AI capabilities
+
+[![npm version](https://img.shields.io/npm/v/%40picahq%2Fai)](https://npmjs.com/package/@picahq/ai)
+
+<Card title="@picahq/ai" icon="npm" href="https://npmjs.com/package/@picahq/ai" horizontal>
+  Install the Pica AI package to unlock powerful tools for the Vercel AI SDK
+</Card>
+
+The Pica AI SDK is a powerful tool that allows you connect Pica with Vercel's AI SDK for enhanced AI capabilities.
+
+## Configuration
+
+The Pica SDK can be configured with the following options:
+
+| Option         | Type                             | Required | Default                                                                                                                                                                      | Description                                                                                                                                             |
+| -------------- | -------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| serverUrl      | `String`                         | No       | [https://api.picaos.com](https://api.picaos.com)                                                                                                                             | URL for self-hosted Pica server.                                                                                                                        |
+| connectors     | `String[]`                       | No       | List of connector keys to filter by. Pass \["\*"] to initialize all available connectors, or specific connector keys to filter. If empty, no connections will be initialized |                                                                                                                                                         |
+| identity       | `String`                         | No       | None                                                                                                                                                                         | Filter connections by specific identifier.                                                                                                              |
+| identityType   | `"user", "team", "organization"` | No       | None                                                                                                                                                                         | Filter connections by identity type.                                                                                                                    |
+| authkit        | Boolean                          | No       | false                                                                                                                                                                        | If true, the SDK will use Authkit to connect to prompt the user to connect to a platform that they do not currently have access to                      |
+| knowledgeAgent | Boolean                          | No       | false                                                                                                                                                                        | If true, the SDK will never execute actions, but will use Pica's knowledge to generate code. If true, use pica.intelligenceTool instead of pica.oneTool |
+
+```typescript
+const pica = new Pica(process.env.PICA_SECRET_KEY!, {
+  serverUrl: "https://my-hosted-instance.com",
+  connectors: [
+    "test::gmail::default::0fc9f64d309349be8cccb63a02e16c2a",
+    "test::notion::default::0fc9f64d309349be8cccb63a02e16c2a",
+    "test::postgres::default::0fc9f64d309349be8cccb63a02e16c2a",
+  ]
+});
+```
+
+## Installation
+
+Install the [Pica AI package](https://npmjs.com/package/@picahq/ai):
+
+```bash
+npm install @picahq/ai
+```
+
+## Examples
+
+<Tabs>
+  <Tab title="Next.js API Route">
+    Install the required packages:
+
+    ```bash
+    npm install ai openai @picahq/ai
+    ```
+
+    Here's an example of using Pica with OpenAI in a Next.js API route:
+
+    ```typescript
+    import { openai } from "@ai-sdk/openai";
+    import { convertToCoreMessages, streamText } from "ai";
+    import { Pica } from "@picahq/ai";
+
+    export async function POST(request: Request) {
+      const { messages } = await request.json();
+
+      const pica = new Pica(process.env.PICA_SECRET_KEY as string);
+
+      const systemPrompt = await pica.generateSystemPrompt();
+
+      const stream = streamText({
+        model: openai("gpt-4o"),
+        system: systemPrompt,
+        tools: { ...pica.oneTool },
+        messages: convertToCoreMessages(messages),
+        maxSteps: 5,
+      });
+
+      return (await stream).toDataStreamResponse();
+    }
+    ```
+  </Tab>
+
+  <Tab title="Express Server">
+    1. **Install dependencies**
+
+    ```bash
+    npm install express @ai-sdk/openai ai @picahq/ai dotenv
+    ```
+
+    2. **Create the server**
+
+    ```typescript
+    import express from "express";
+    import { openai } from "@ai-sdk/openai";
+    import { generateText } from "ai";
+    import { Pica } from "@picahq/ai";
+    import * as dotenv from "dotenv";
+
+    dotenv.config();
+
+    const app = express();
+    const port = process.env.PORT || 3000;
+
+    app.use(express.json());
+
+    app.post("/api/ai", async (req, res) => {
+      try {
+        const { message } = req.body;
+
+        // Initialize Pica
+        const pica = new Pica(process.env.PICA_SECRET_KEY);
+
+        // Generate the system prompt
+        const systemPrompt = await pica.generateSystemPrompt();
+
+        // Create the stream
+        const { text } = await generateText({
+          model: openai("gpt-4o"),
+          system: systemPrompt,
+          tools: { ...pica.oneTool },
+          prompt: message,
+          maxSteps: 5,
+        });
+
+        res.setHeader("Content-Type", "application/json");
+        
+        res.status(200).json({ text });
+      } catch (error) {
+        console.error("Error processing AI request:", error);
+
+        res.status(500).json({ error: "Internal server error" });
+      }
+    });
+
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+
+    export default app;
+    ```
+
+    3. **Test the server**
+
+    ```bash
+    curl --location 'http://localhost:3000/api/ai' \
+    --header 'Content-Type: application/json' \
+    --data '{
+        "message": "What connections do I have access to?"
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+### AuthKit
+
+The authkit configuration option initiates Pica's AuthKit. When enabled, the SDK will prompt the user to connect to a platform that they do not currently have access to.
+
+<Tabs>
+  <Tab title="Backend">
+    ```typescript
+    const pica = new Pica(process.env.PICA_SECRET_KEY!, { 
+      authkit: true // Simply pass true to enable AuthKit
+    });
+    ```
+  </Tab>
+
+  <Tab title="Frontend" />
+
+  <Tab title="Hooks" />
+</Tabs>
+
+### Knowledge Agent
+
+The knowledge agent is a configuration optional that initiates Pica's knowledge agent. When enabled, the knowledge agent will be used to generate code instead of executing actions.
+
+```typescript
+const pica = new Pica(process.env.PICA_SECRET_KEY!, { 
+  knowledgeAgent: true
+});
+```
+
+## Demo
+
+You can now use the chat interface directly in the [Pica Dashboard](https://app.picaos.com/chat).
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/0dVQw_gkMlc" title="Pica OneTool Demo with Vercel AI SDK" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" controls allowFullScreen />
+
+<Card title="@picahq/onetool-demo" icon="github" href="https://github.com/picahq/onetool-demo" horizontal>
+  View on GitHub
+</Card>
+
+<Info>Want to learn more about Vercel AI SDK? [Read the docs](https://sdk.vercel.ai/docs/introduction).</Info>
+
+
+# Awesome Pica
+Source: https://docs.picaos.com/use-cases/awesome-pica
+
+A collection of awesome Pica projects and resources.
+
+<img src="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/pica-man.png" alt="Pica Man" style={{ borderRadius: '5px', width: '200px', margin: '0 auto', display: 'block' }} />
+
+## GitHub Repository
+
+<Card title="@picahq/awesome-pica" icon="github" href="https://github.com/picahq/awesome-pica" horizontal>
+  Check out our GitHub repository to explore the code, contribute, or raise issues.
+</Card>
+
+<Note>
+  Browse the list of awesome Pica projects and resources and add your own!
+</Note>
+
+## 🚀 Need some inspiration?
+
+### Communication & Productivity
+
+* Send an email using Gmail to a colleague with a meeting summary
+* Create a calendar event in Google Calendar for next Tuesday at 2pm
+* Send a message in Slack to the #marketing channel with the latest campaign metrics
+* Find documents in Google Drive related to Q3 planning
+
+### Data Access & Analysis
+
+* List the top 10 customers from my PostgreSQL database
+* Create a new sheet in Google Sheets with sales data
+* Query Salesforce for opportunities closing this month
+* Update a Notion database with project statuses
+
+### Business Operations
+
+* Create a support ticket in Zendesk from customer feedback
+* Process a refund for a customer order in Stripe
+* Add a new lead to HubSpot from a website inquiry
+* Generate an invoice in QuickBooks for a client project
+
+### AI & Content
+
+* Generate an image with DALL-E based on product specifications
+* Transcribe a meeting recording with ElevenLabs
+* Research market trends using Tavily or SerpApi
+* Analyze customer sentiment from support tickets
+
+
+# Chat App
+Source: https://docs.picaos.com/use-cases/chat-app
+
+Integrating Pica with a Chat App
+
+<video muted controls className="w-full aspect-video" src="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/videos/chat-app.mp4" />
+
+<Card title="Chat App Example" icon="github" href="https://github.com/picahq/onetool-demo" horizontal>
+  Clone the repository to get started with the Chat App.
+</Card>
+
+<Tip>
+  The Chat App is now also available directly in the [Pica Dashboard](https://app.picaos.com/chat).
+</Tip>
+
+## Getting Started
+
+This example demonstrates how to integrate [Pica OneTool](https://docs.picaos.com/core/one-tool) with a Chat App.
+
+1. **Clone the repository:**
+
+```bash
+git clone https://github.com/picahq/onetool-demo.git
+cd onetool-demo
+```
+
+2. **Install dependencies:**
+
+```bash
+npm install
+```
+
+3. **Create a `.env` file in the root directory from the `.env.example` file:**
+
+```env
+PICA_SECRET_KEY=your_secret_key
+OPENAI_API_KEY=your_openai_api_key
+```
+
+| Variable          | Description                                                          | Required |
+| ----------------- | -------------------------------------------------------------------- | -------- |
+| `PICA_SECRET_KEY` | Your [Pica API secret key](https://app.picaos.com/settings/api-keys) | Yes      |
+| `OPENAI_API_KEY`  | Your OpenAI API key                                                  | Yes      |
+
+4. **Run the development server:**
+
+```bash
+npm run dev
+```
+
+5. **Open [http://localhost:3000](http://localhost:3000) in your browser 🚀**
+
+## Usage
+
+Here are some example commands you can use to get started:
+
+* What connections are available?
+* Send an email using gmail to [john@doe.com](mailto:john@doe.com)
+* Create a new Shopify product
+* Insert a new record into my Postgres database
+* Create a record in Airtable
+* What actions are supported for Attio?
+* Search the web for the best restaurants in SF using Exa
+
+
+# ElevenLabs
+Source: https://docs.picaos.com/use-cases/elevenlabs
+
+Integrating the ElevenLabs Conversational AI Agent with Pica
+
+<img src="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/elevenlabs.png" alt="ElevenLabs" style={{ borderRadius: '5px' }} />
+
+<Card title="ElevenLabs Conversational AI Agent Example" icon="github" href="https://github.com/picahq/awesome-pica/tree/main/elevenlabs-conversational-ai-agent" horizontal>
+  Clone the repository to get started with the ElevenLabs Conversational AI Agent.
+</Card>
+
+## Getting Started
+
+This example demonstrates how to integrate an [ElevenLabs Conversational AI Agent](https://elevenlabs.io/conversational-ai) with [Pica OneTool](https://docs.picaos.com/core/one-tool).
+
+### **Clone the repository:**
+
+```bash
+git clone https://github.com/picahq/awesome-pica.git
+cd awesome-pica/elevenlabs-conversational-ai-agent
+```
+
+## **Prerequisites**
+
+Before you begin, ensure you have:
+
+* A [**Pica**](https://picaos.com) account
+* An [**ElevenLabs**](https://elevenlabs.io/signup) account
+* **Node.js** installed
+* **ngrok** installed ([Installation guide](https://ngrok.com/download))
+
+## **Setup**
+
+### **1. Create a Pica Connection**
+
+1. Go to your [Pica dashboard](https://app.picaos.com/connections).
+2. Click **"Connections"** and create a new connection.
+
+### **2. Retrieve Your Pica Secret Key**
+
+1. In the Pica dashboard, go to the **"Connections"** tab.
+2. Click **"Settings"** and copy the [secret key](https://app.picaos.com/settings/api-keys).
+
+### **3. Get Your ElevenLabs API Key**
+
+1. Log in to [ElevenLabs](https://elevenlabs.io/signup).
+2. Navigate to your [API keys](https://elevenlabs.io/app/settings/api-keys) and copy your key.
+
+### **4. Install Dependencies**
+
+Run the following command:
+
+```bash
+npm install
+```
+
+### **5. Start the Server**
+
+Run the server locally:
+
+```bash
+npm start
+```
+
+To expose your server to the internet, use `ngrok`:
+
+```bash
+ngrok http 3000
+```
+
+Copy the public URL generated by `ngrok`.
+
+## **Configuration**
+
+Create a `.env` file and add the following:
+
+| Variable              | Description                                                            | Required |
+| --------------------- | ---------------------------------------------------------------------- | -------- |
+| `PICA_SECRET_KEY`     | Your [Pica API secret key](https://app.picaos.com/settings/api-keys)   | Yes      |
+| `OPENAI_API_KEY`      | Your OpenAI API key                                                    | Yes      |
+| `PICA_URL`            | Your Pica endpoint URL \[copied from ngrok]                            | Yes      |
+| `ELEVEN_LABS_API_KEY` | Your [ElevenLabs API key](https://elevenlabs.io/app/settings/api-keys) | Yes      |
+
+## **Create Your ElevenLabs Agent**
+
+Run the initialization script:
+
+```bash
+./init.sh
+```
+
+Once successful, you'll see:
+
+```
+Agent created successfully. You can access it at:  
+https://elevenlabs.io/app/talk-to?agent_id=<agent_id>
+```
+
+Copy the provided URL and open it in your browser.
+
+## Usage
+
+Here are some example commands you can use to get started:
+
+* What connections are available?
+* Send an email using gmail to [john@doe.com](mailto:john@doe.com)
+* Create a new Shopify product
+* Insert a new record into my Postgres database
+* Create a record in Airtable
+* What actions are supported for Attio?
+* Search the web for the best restaurants in SF using Exa
+
+## Support for the [ElevenLabs Hackathon](https://hackathon.elevenlabs.io/)?
+
+For support, please join the [ElevenLabs Discord server](https://discord.com/invite/elevenlabs)!
+
+
+# OpenAI Agents SDK
+Source: https://docs.picaos.com/use-cases/openai-agents
+
+Building agents with the OpenAI Agents SDK and Pica MCP
+
+<img src="https://mintlify.s3.us-west-1.amazonaws.com/pica-236d4a1e/images/openai-agents.png" alt="OpenAI Agents" style={{ borderRadius: '5px',margin: '0 auto', display: 'block' }} />
+
+This document demonstrates how to integrate the [Pica MCP server](https://github.com/picahq/pica-mcp) with [OpenAI's Agents SDK](https://openai.github.io/openai-agents-python/).
+
+## GitHub Repository
+
+<Card title="@picahq/awesome-pica" icon="github" href="https://github.com/picahq/awesome-pica/tree/main/openai-agents-sdk" horizontal>
+  Check out our GitHub repository to explore the code, contribute, or raise issues.
+</Card>
+
+## Example Use Cases
+
+In this section, we'll walk through some example use cases that you can use to get started with the OpenAI Agents SDK and Pica MCP.
+
+Start by installing the dependencies:
+
+```bash
+pip install openai-agents pica-ai
+```
+
+<Tabs>
+  <Tab title="Basic Example">
+    ```python
+    import asyncio
+    import os
+    from agents import Agent, Runner
+    from agents.mcp import MCPUtil, MCPServerStdio, MCPServerStdioParams
+    from dotenv import load_dotenv
+    from pica_ai import PicaClient, PicaClientOptions
+
+    load_dotenv()
+
+    async def use_pica_mcp():
+        pica_secret = os.getenv("PICA_SECRET")
+
+        if not pica_secret:
+            raise ValueError("PICA_SECRET environment variable is not set")
+
+        pica = PicaClient(
+            secret=pica_secret, 
+            options=PicaClientOptions(
+                connectors=["*"],
+            )
+        )
+
+        system_prompt = pica.generate_system_prompt()
+
+        params = MCPServerStdioParams({
+            "command": "npx",
+            "args": ["-y", "@picahq/pica-mcp"],
+            "env": {"PICA_SECRET": pica_secret}
+        })
+        
+        try:
+            async with MCPServerStdio(
+                params=params,
+                cache_tools_list=True,
+                name="Pica MCP Server"
+            ) as server:
+                server.invalidate_tools_cache()
+                agent_tools = await MCPUtil.get_function_tools(server)
+                
+                # Create an agent with MCP tools
+                mcp_agent = Agent(
+                    name="Assistant with Pica",
+                    instructions=system_prompt,
+                    tools=agent_tools,
+                    model="gpt-4o",
+                    tool_use_behavior="run_llm_again",
+                    mcp_servers=[server]
+                )
+                
+                # Run the agent with tools and the action logger
+                mcp_result = await Runner.run(
+                    starting_agent=mcp_agent, 
+                    input="What connections do I have in access to?",
+                    max_turns=20
+                )
+
+                print(mcp_result.final_output)
+                
+        except Exception as e:
+            print(f"Error running Pica MCP server: {e}")
+
+    if __name__ == "__main__":
+        asyncio.run(use_pica_mcp())
+    ```
+  </Tab>
+
+  <Tab title="Using Guardrails">
+    ```python
+    import asyncio
+    import os
+    from typing import Union
+    from dotenv import load_dotenv
+    from pydantic import BaseModel, Field
+    from pica_ai import PicaClient, PicaClientOptions
+    from agents.mcp import MCPUtil, MCPServerStdio, MCPServerStdioParams
+    from agents import (
+        Agent, 
+        GuardrailFunctionOutput, 
+        RunContextWrapper, 
+        Runner, 
+        TResponseInputItem, 
+        input_guardrail
+    )
+
+    load_dotenv()
+
+    class DeleteOrModifyOutput(BaseModel):
+        """Output model for the guardrail that checks for delete/modify operations."""
+        is_delete_or_modify: bool = Field(
+            ..., 
+            description="Whether the user is asking to delete or modify files"
+        )
+        reasoning: str = Field(
+            ..., 
+            description="Reasoning behind the decision"
+        )
+        
+        class Config:
+            extra = "forbid"
+
+
+    # Define the guardrail agent
+    guardrail_agent = Agent( 
+        name="Guardrail check",
+        instructions=(
+            "Check if the user is asking to delete or modify (write) anything. "
+            "If they are, return the is_delete_or_modify field as true and "
+            "the reasoning field as the reason for the deletion or modification"
+        ),
+        output_type=DeleteOrModifyOutput
+    )
+
+    @input_guardrail
+    async def write_guardrail(
+        ctx: RunContextWrapper[None], 
+        agent: Agent, 
+        input: Union[str, list[TResponseInputItem]]
+    ) -> GuardrailFunctionOutput:
+        """
+        Guardrail function that checks if the user is trying to delete or modify files.
+        """
+        result = await Runner.run(guardrail_agent, input, context=ctx.context)
+        
+        return GuardrailFunctionOutput(
+            output_info=result.final_output, 
+            tripwire_triggered=result.final_output.is_delete_or_modify,
+        )
+
+    async def use_pica_mcp():
+        """Main function to set up and run the Pica MCP server."""
+        pica_secret = os.getenv("PICA_SECRET")
+
+        if not pica_secret:
+            raise ValueError("PICA_SECRET environment variable is not set")
+
+        pica = PicaClient(
+            secret=pica_secret, 
+            options=PicaClientOptions(
+                connectors=["*"],
+            )
+        )
+
+        system_prompt = pica.generate_system_prompt()
+        
+        print("Starting Pica MCP server via npm...")
+        
+        params = MCPServerStdioParams({
+            "command": "npx",
+            "args": ["-y", "@picahq/pica-mcp"],
+            "env": {"PICA_SECRET": pica_secret}
+        })
+        
+        try:
+            async with MCPServerStdio(
+                params=params,
+                cache_tools_list=True,
+                name="Pica MCP Server"
+            ) as server:
+                agent_tools = await MCPUtil.get_function_tools(server)
+
+                # Setup the agent with MCP tools
+                mcp_agent =  Agent(
+                    name="Assistant with MCP",
+                    instructions=system_prompt,
+                    tools=agent_tools,
+                    input_guardrails=[write_guardrail],
+                )
+                
+                # Run the agent with a test query that should trigger the guardrail
+                mcp_result = await Runner.run(
+                    mcp_agent, 
+                    "Update the latest contact's name in my hubspot account to John Doe"
+                )
+                
+                print(mcp_result.final_output)
+                
+        except Exception as e:
+            print(f"Error: {e}")
+
+
+    if __name__ == "__main__":
+        asyncio.run(use_pica_mcp())
+    ```
+  </Tab>
+
+  <Tab title="Interactive Chat CLI">
+    ```python
+    from agents import Agent, ModelSettings, RunConfig, Runner, RunHooks
+    from agents.mcp import MCPUtil, MCPServerStdio, MCPServerStdioParams
+    import asyncio
+    import os
+    from dotenv import load_dotenv
+    from pica_ai import PicaClient, PicaClientOptions
+
+    load_dotenv()
+
+    class ActionLogger(RunHooks):
+        """A custom RunHooks implementation that logs all agent actions."""
+
+        async def on_tool_start(self, context, agent, tool):
+            print(f"[LOG] Running tool: {tool.name} 🚀")
+
+        async def on_tool_end(self, context, agent, tool, result):
+            print(f"[LOG] Tool {tool.name} finished running ✅")
+
+    class InteractiveRunner:
+        """A helper class to manage interactive chat sessions with an agent."""
+        
+        def __init__(self, agent, hooks=None, max_turns_per_interaction=20):
+            self.agent = agent
+            self.hooks = hooks
+            self.max_turns_per_interaction = max_turns_per_interaction
+            self.chat_history = []
+            
+        async def start_chat(self, initial_message=None):
+            """Start an interactive chat session with the agent."""
+            print("\n🤖 Welcome to the interactive chat! Type 'exit' or 'quit' to end the conversation.\n")
+            
+            if initial_message:
+                await self.process_user_message(initial_message)
+            
+            while True:
+                user_input = input("\n👤 You: ")
+                
+                if user_input.lower() in ['exit', 'quit']:
+                    print("\n🤖 Goodbye! Chat session ended.")
+                    break
+                
+                if user_input.lower() == 'clear':
+                    print("\n🤖 Clearing chat history...")
+                    self.chat_history = []
+                    continue
+                    
+                await self.process_user_message(user_input)
+        
+        async def process_user_message(self, message):
+            """Process a user message and get a response from the agent."""
+            self.chat_history.append({"role": "user", "content": message})
+            
+            try:
+                # If we have chat history, create a context-aware message
+                if len(self.chat_history) > 1:
+                    context_message = self._create_context_message(message)
+                else:
+                    context_message = message
+                    
+                result = await Runner.run(
+                    self.agent,
+                    context_message,
+                    max_turns=self.max_turns_per_interaction,
+                    hooks=self.hooks,
+                    run_config=RunConfig(
+                        model="gpt-4o",
+                        model_settings=ModelSettings(max_tokens=4096)
+                    )
+                )
+                
+                print(f"\n🤖 Assistant: {result.final_output}")
+                
+                self.chat_history.append({"role": "assistant", "content": result.final_output})
+                
+            except Exception as e:
+                print(f"\n❌ Error processing your message: {str(e)}")
+        
+        def _create_context_message(self, current_message):
+            """Create a context-aware message that includes relevant chat history."""
+            # Limit how much history we include to avoid exceeding token limits
+            # Include at most the last 10 messages
+            relevant_history = self.chat_history[-10:-1] if len(self.chat_history) > 10 else self.chat_history[:-1]
+            
+            context = "Here's our conversation so far:\n\n"
+            
+            for msg in relevant_history:
+                role = "You" if msg["role"] == "user" else "Assistant"
+                context += f"{role}: {msg['content']}\n\n"
+                
+            context += f"Based on this conversation history, please respond to my new message: {current_message}"
+            
+            return context
+
+    async def interactive_pica_chat():
+        """Start an interactive chat session with a Pica-powered agent."""
+        pica_secret = os.getenv("PICA_SECRET")
+
+        if not pica_secret:
+            raise ValueError("PICA_SECRET environment variable is not set")
+
+        pica = PicaClient(
+            secret=pica_secret, 
+            options=PicaClientOptions(
+                connectors=["*"],
+            )
+        )
+
+        system_prompt = pica.generate_system_prompt()
+        
+        print(f"Starting Pica MCP server via npm...")
+        
+        params = MCPServerStdioParams({
+            "command": "npx",
+            "args": ["-y", "@picahq/pica-mcp"],
+            "env": {"PICA_SECRET": pica_secret}
+        })
+        
+        try:
+            async with MCPServerStdio(
+                params=params,
+                cache_tools_list=True,
+                name="Pica MCP Server"
+            ) as server:
+                server.invalidate_tools_cache()
+                agent_tools = await MCPUtil.get_function_tools(server)
+                
+                # Create an agent with MCP tools
+                mcp_agent = Agent(
+                    name="Assistant with Pica",
+                    instructions=system_prompt,
+                    tools=agent_tools,
+                    model="gpt-4o",
+                    tool_use_behavior="run_llm_again",
+                    reset_tool_choice=False,
+                    mcp_servers=[server]
+                )
+                
+                interactive_runner = InteractiveRunner(
+                    agent=mcp_agent,
+                    max_turns_per_interaction=20,
+                    hooks=ActionLogger()
+                )
+                
+                await interactive_runner.start_chat()
+                
+        except Exception as e:
+            print(f"Error running Pica MCP server: {e}")
+
+    if __name__ == "__main__":
+        asyncio.run(interactive_pica_chat()) 
+    ```
+  </Tab>
+</Tabs>

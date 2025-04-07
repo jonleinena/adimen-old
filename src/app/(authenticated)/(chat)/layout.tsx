@@ -3,12 +3,13 @@ import { Inter as FontSans } from 'next/font/google'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
+import { ThemeProvider } from '@/components/theme-provider'
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Toaster } from '@/components/ui/sonner'
 import { getSession } from '@/features/account/controllers/get-session'
-import Footer from '@/features/chat/components/footer'
-import Header from '@/features/chat/components/header'
-import { ThemeProvider } from '@/features/chat/components/theme-provider'
+import { ChatSidebar } from "@/features/chat/components/chat-sidebar"
 import { cn } from '@/utils/cn'
+
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -39,11 +40,14 @@ export default async function ChatLayout({
         enableSystem
         disableTransitionOnChange
       >
-        <Header />
         <main>
-          {children}
+          <SidebarProvider defaultOpen={true}>
+            <div className="flex h-screen">
+              <ChatSidebar />
+              <SidebarInset className="flex flex-col">{children}</SidebarInset>
+            </div>
+          </SidebarProvider>
         </main>
-        <Footer />
         <Toaster />
       </ThemeProvider>
     </div>

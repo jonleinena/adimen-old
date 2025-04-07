@@ -1,29 +1,13 @@
-import { unstable_noStore as noStore } from 'next/cache'
-import { cookies } from 'next/headers'
+import { convertToCoreMessages, Message, streamText } from "ai";
 
-import { getUser } from '@/features/account/controllers/get-user'
-import { createManualToolStreamResponse } from '@/features/chat/streaming/create-manual-tool-stream'
-import { createToolCallingStreamResponse } from '@/features/chat/streaming/create-tool-calling-stream'
-import { Model } from '@/features/chat/types/models'
-import { isProviderEnabled } from '@/features/chat/utils/registry'
 import { withAuth } from '@/utils/auth-check'
-
-export const maxDuration = 30
-export const dynamic = 'force-dynamic'
-
-const DEFAULT_MODEL: Model = {
-  id: 'gpt-4o-mini',
-  name: 'GPT-4o mini',
-  provider: 'OpenAI',
-  providerId: 'openai',
-  enabled: true,
-  toolCallType: 'native'
-}
+import { openai } from "@ai-sdk/openai";
+import { Pica } from "@picahq/ai";
 
 export const POST = withAuth(async (req) => {
-  noStore()
   try {
-    const { messages, id: chatId } = await req.json()
+    const { messages, id: chatId }: { messages: Message[], id: string } = await req.json();
+
     const referer = req.headers.get('referer')
     const isSharePage = referer?.includes('/share/')
 
@@ -34,54 +18,25 @@ export const POST = withAuth(async (req) => {
       })
     }
 
-    // Get user ID from session
-    const user = await getUser()
-    const userId = user?.id
 
-    const cookieStore = await cookies()
-    const modelJson = cookieStore.get('selectedModel')?.value
-    const searchMode = cookieStore.get('search-mode')?.value === 'true'
+    const pica = new Pica(process.env.PICA_SECRET_KEY as string, {
+      connectors: ["*"], // Pass connector keys to allow access to
+      authkit: true
+    });
 
-    let selectedModel = DEFAULT_MODEL
+    const system = await pica.generateSystemPrompt();
 
-    if (modelJson) {
-      try {
-        selectedModel = JSON.parse(modelJson) as Model
-      } catch (e) {
-        console.error('Failed to parse selected model:', e)
-      }
-    }
+    const stream = streamText({
+      model: openai("gpt-4o-mini"),
+      system,
+      tools: {
+        ...pica.oneTool,
+      },
+      messages: convertToCoreMessages(messages),
+      maxSteps: 20,
+    });
 
-    if (
-      !isProviderEnabled(selectedModel.providerId) ||
-      selectedModel.enabled === false
-    ) {
-      return new Response(
-        `Selected provider is not enabled ${selectedModel.providerId}`,
-        {
-          status: 404,
-          statusText: 'Not Found'
-        }
-      )
-    }
-
-    const supportsToolCalling = selectedModel.toolCallType === 'native'
-
-    return supportsToolCalling
-      ? createToolCallingStreamResponse({
-        messages,
-        model: selectedModel,
-        chatId,
-        searchMode,
-        userId
-      })
-      : createManualToolStreamResponse({
-        messages,
-        model: selectedModel,
-        chatId,
-        searchMode,
-        userId
-      })
+    return (await stream).toDataStreamResponse();
   } catch (error) {
     console.error('API route error:', error)
     return new Response('Error processing your request', {

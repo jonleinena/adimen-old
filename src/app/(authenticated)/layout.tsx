@@ -17,7 +17,7 @@ export default async function AuthLayout({ children }: PropsWithChildren<{}>) {
         redirect('/login');
     }
 
-    // const t = await getTranslations('dashboard');
+    const t = await getTranslations('dashboard');
 
     return (
         <>

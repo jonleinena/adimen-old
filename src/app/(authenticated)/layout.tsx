@@ -44,7 +44,7 @@ export default async function AuthLayout({ children }: PropsWithChildren<{}>) {
                 </div>
             </header>
 
-            <main className="flex-1">
+            <main className="flex-1 pt-16 container">
                 {children}
             </main>
 

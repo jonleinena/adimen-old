@@ -6,7 +6,8 @@ import { useChat } from "ai/react"
 
 import { saveChat } from "@/features/chat/actions/chat"
 import { ChatMessage } from "@/features/chat/components/chat-message"
-
+import { createSupabaseServerClient } from "@/libs/supabase/supabase-server-client"
+import type { Chat } from "@/types/chat"
 interface ChatMessagesProps {
     chatId: string
     initialMessages: Message[]
@@ -19,16 +20,19 @@ export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
         initialMessages,
         api: "/api/chat",
         onFinish: async (message) => {
+            const supabase = await createSupabaseServerClient()
+            const { data: { user } } = await supabase.auth.getUser()
             // Save the chat after each message
-            const userId = localStorage.getItem("userId") || "anonymous"
+            const userId = user?.id || "anonymous"
+            const chat: Chat = {
+                id: chatId,
+                title: messages[0]?.content.substring(0, 100) || "New Chat",
+                messages: [...messages, message],
+                createdAt: new Date().toISOString(),
+                userId,
+            }
             await saveChat(
-                {
-                    id: chatId,
-                    title: messages[0]?.content.substring(0, 100) || "New Chat",
-                    messages: [...messages, message],
-                    createdAt: new Date().toISOString(),
-                    userId,
-                },
+                chat,
                 userId,
             )
         },

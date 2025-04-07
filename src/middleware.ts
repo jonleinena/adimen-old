@@ -59,8 +59,8 @@ export async function middleware(request: NextRequest) {
 
   // Check if this is an authenticated route (starts with /dashboard, /settings, etc.)
   // We're checking for routes that would be in the (auth) group
-  const isAuthRoute = pathname.startsWith('/settings') || pathname.startsWith('/chat') || pathname.startsWith('/search');
-  if (isAuthRoute && !session){
+  const isAuthRoute = pathname.startsWith('/settings') || pathname.startsWith('/chat');
+  if (isAuthRoute && !session) {
     // For UI routes, redirect to login
     const url = request.nextUrl.clone();
     url.pathname = '/login';

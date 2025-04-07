@@ -65,11 +65,13 @@ export async function getChats(userId?: string | null) {
 
 export async function getChat(id: string, userId: string = 'anonymous') {
     const redis = await getRedis()
-    const chat = await redis.hgetall<Chat>(`chat:${id}`)
+    const rawChat = await redis.hgetall<Record<string, unknown>>(`chat:${id}`)
 
-    if (!chat) {
+    if (!rawChat) {
         return null
     }
+
+    const chat = rawChat as unknown as Chat
 
     // Parse the messages if they're stored as a string
     if (typeof chat.messages === 'string') {
@@ -133,27 +135,27 @@ export async function saveChat(chat: Chat, userId: string = 'anonymous') {
 
 export async function getSharedChat(id: string) {
     const redis = await getRedis()
-    const chat = await redis.hgetall<Chat>(`chat:${id}`)
+    const rawChat = await redis.hgetall<Record<string, unknown>>(`chat:${id}`)
 
-    if (!chat || !chat.sharePath) {
+    if (!rawChat || !rawChat.sharePath) {
         return null
     }
 
-    return chat
+    return rawChat as unknown as Chat
 }
 
 export async function shareChat(id: string, userId: string = 'anonymous') {
     const redis = await getRedis()
-    const chat = await redis.hgetall<Chat>(`chat:${id}`)
+    const rawChat = await redis.hgetall<Record<string, unknown>>(`chat:${id}`)
 
-    if (!chat || chat.userId !== userId) {
+    if (!rawChat || rawChat.userId !== userId) {
         return null
     }
 
     const payload = {
-        ...chat,
+        ...rawChat,
         sharePath: `/share/${id}`
-    }
+    } as Chat
 
     await redis.hmset(`chat:${id}`, payload)
 

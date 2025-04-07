@@ -3,11 +3,10 @@
 import { useEffect, useRef } from "react"
 import type { Message } from "ai"
 import { useChat } from "ai/react"
-import { useUser } from "@/features/account/hooks/use-user"
 
+import { useUser } from "@/features/account/hooks/use-user"
 import { saveChat } from "@/features/chat/actions/chat"
 import { ChatMessage } from "@/features/chat/components/chat-message"
-
 import type { Chat } from "@/types/chat"
 interface ChatMessagesProps {
     chatId: string

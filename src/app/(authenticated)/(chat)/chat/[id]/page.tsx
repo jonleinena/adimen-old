@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
 
 import { getUser } from "@/features/account/controllers/get-user"
 import { getChat } from "@/features/chat/actions/chat"
 import { ChatMessages } from "@/features/chat/components/chat-messages"
 import { ChatPanel } from "@/features/chat/components/chat-pannel"
+import type { Chat } from "@/types/chat"
+
 export const metadata: Metadata = {
     title: "Chat",
     description: "Chat with AI using the Vercel AI SDK.",
@@ -16,10 +17,16 @@ export default async function ChatPage({ params }: { params: Promise<{ id: strin
 
     const chatId = await params;
 
-    const chat = await getChat(chatId.id, userId)
+    let chat = await getChat(chatId.id, userId)
 
     if (!chat) {
-        notFound()
+        const newChat: Chat = {
+            id: chatId.id,
+            messages: [],
+            createdAt: new Date().toISOString(),
+            userId: userId
+        }
+        chat = newChat
     }
 
     return (

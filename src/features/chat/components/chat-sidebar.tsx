@@ -27,59 +27,50 @@ import {
     SidebarSeparator,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { useUser } from "@/features/account/hooks/use-user"
 import { clearChats, getChats } from "@/features/chat/actions/chat"
 import { AuthKitButton } from "@/features/chat/components/authkit-button"
 import type { Chat } from "@/types/chat"
-import { getEnvVar } from '@/utils/get-env-var'
-import { createBrowserClient } from '@supabase/ssr'
 
 export function ChatSidebar() {
     const pathname = usePathname()
     const [chats, setChats] = useState<Chat[]>([])
-    const [loading, setLoading] = useState(true)
-    const [user, setUser] = useState<{ id: string } | null>(null)
-
-    const supabase = createBrowserClient(
-        getEnvVar(process.env.NEXT_PUBLIC_SUPABASE_URL, 'NEXT_PUBLIC_SUPABASE_URL'),
-        getEnvVar(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, 'NEXT_PUBLIC_SUPABASE_ANON_KEY')
-    )
-
-    useEffect(() => {
-        const getUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
-            setUser(user)
-        }
-        getUser()
-
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null)
-        })
-
-        return () => {
-            subscription.unsubscribe()
-        }
-    }, [supabase.auth])
+    const [loadingChats, setLoadingChats] = useState(true)
+    const { user, loading: loadingUser } = useUser()
 
     useEffect(() => {
         async function loadChats() {
-            setLoading(true)
+            if (!user && !loadingUser) {
+                setChats([])
+                setLoadingChats(false)
+                return
+            }
+            if (loadingUser || !user) return
+
+            setLoadingChats(true)
             try {
-                const userId = user?.id || "anonymous"
-                const chatList = await getChats(userId)
-                setChats(chatList)
+                const userId = user?.id
+                if (userId) {
+                    const chatList = await getChats(userId)
+                    setChats(chatList)
+                } else {
+                    setChats([])
+                }
             } catch (error) {
                 console.error("Failed to load chats:", error)
+                setChats([])
             } finally {
-                setLoading(false)
+                setLoadingChats(false)
             }
         }
 
         loadChats()
-    }, [user?.id])
+    }, [user, loadingUser])
 
     async function handleClearChats() {
+        if (!user) return
         try {
-            const userId = user?.id || "anonymous"
+            const userId = user.id
             await clearChats(userId)
             setChats([])
         } catch (error) {
@@ -107,8 +98,10 @@ export function ChatSidebar() {
                     </div>
                     <SidebarGroupLabel>Recent Chats</SidebarGroupLabel>
                     <SidebarMenu>
-                        {loading ? (
-                            <div className="px-4 py-2 text-sm text-muted-foreground">Loading chats...</div>
+                        {loadingUser || loadingChats ? (
+                            <div className="px-4 py-2 text-sm text-muted-foreground">Loading...</div>
+                        ) : !user ? (
+                            <div className="px-4 py-2 text-sm text-muted-foreground">Log in to see chats</div>
                         ) : chats.length > 0 ? (
                             chats.map((chat) => (
                                 <SidebarMenuItem key={chat.id}>
@@ -139,26 +132,34 @@ export function ChatSidebar() {
             <SidebarFooter>
                 <SidebarSeparator />
                 <div className="flex items-center justify-between p-4">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="rounded-full">
-                                <User className="h-5 w-5" />
-                                <span className="sr-only">User menu</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                                <User className="mr-2 h-4 w-4" />
-                                <span>Profile</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Settings className="mr-2 h-4 w-4" />
-                                <span>Settings</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={handleClearChats}>Clear all chats</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    {user ? (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon" className="rounded-full">
+                                    <User className="h-5 w-5" />
+                                    <span className="sr-only">User menu</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuItem asChild>
+                                    <Link href="/settings">
+                                        <User className="mr-2 h-4 w-4" />
+                                        <span>Profile</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/settings">
+                                        <Settings className="mr-2 h-4 w-4" />
+                                        <span>Settings</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={handleClearChats}>Clear all chats</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    ) : (
+                        <div className="text-sm text-muted-foreground">Please log in</div>
+                    )}
                 </div>
             </SidebarFooter>
         </Sidebar>

@@ -3,10 +3,11 @@
 import { useEffect, useRef } from "react"
 import type { Message } from "ai"
 import { useChat } from "ai/react"
+import { useUser } from "@/features/account/hooks/use-user"
 
 import { saveChat } from "@/features/chat/actions/chat"
 import { ChatMessage } from "@/features/chat/components/chat-message"
-import { createSupabaseServerClient } from "@/libs/supabase/supabase-server-client"
+
 import type { Chat } from "@/types/chat"
 interface ChatMessagesProps {
     chatId: string
@@ -15,15 +16,20 @@ interface ChatMessagesProps {
 
 export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
     const containerRef = useRef<HTMLDivElement>(null)
+    const { user, loading: userLoading } = useUser();
+
     const { messages } = useChat({
         id: chatId,
         initialMessages,
         api: "/api/chat",
         onFinish: async (message) => {
-            const supabase = await createSupabaseServerClient()
-            const { data: { user } } = await supabase.auth.getUser()
-            // Save the chat after each message
+            if (userLoading) {
+                console.log("Waiting for user data before saving chat...");
+                return;
+            }
+
             const userId = user?.id || "anonymous"
+
             const chat: Chat = {
                 id: chatId,
                 title: messages[0]?.content.substring(0, 100) || "New Chat",
@@ -31,10 +37,14 @@ export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
                 createdAt: new Date().toISOString(),
                 userId,
             }
-            await saveChat(
-                chat,
-                userId,
-            )
+            try {
+                await saveChat(
+                    chat,
+                    userId,
+                )
+            } catch (error) {
+                console.error("Failed to save chat:", error);
+            }
         },
     })
 

@@ -11,9 +11,9 @@ const corsHeaders = {
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-export const OPTIONS = withAuth(async (req, session) => {
+export const OPTIONS = async (req: NextRequest) => {
     return NextResponse.json({}, { headers: corsHeaders });
-})
+}
 
 export const POST = withAuth(async (req: NextRequest, session: Session) => {
     try {

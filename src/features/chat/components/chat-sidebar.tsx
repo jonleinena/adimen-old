@@ -49,13 +49,8 @@ export function ChatSidebar() {
 
             setLoadingChats(true)
             try {
-                const userId = user?.id
-                if (userId) {
-                    const chatList = await getChats(userId)
-                    setChats(chatList)
-                } else {
-                    setChats([])
-                }
+                const chatList = await getChats()
+                setChats(chatList)
             } catch (error) {
                 console.error("Failed to load chats:", error)
                 setChats([])
@@ -70,8 +65,7 @@ export function ChatSidebar() {
     async function handleClearChats() {
         if (!user) return
         try {
-            const userId = user.id
-            await clearChats(userId)
+            await clearChats()
             setChats([])
         } catch (error) {
             console.error("Failed to clear chats:", error)

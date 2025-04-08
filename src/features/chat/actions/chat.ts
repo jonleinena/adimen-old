@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
+import { getUser } from '@/features/account/controllers/get-user'
 import { getRedisClient, RedisWrapper } from '@/features/chat/redis/config'
 import { type Chat } from '@/types/chat'
 
@@ -15,14 +16,15 @@ function getUserChatKey(userId: string) {
     return `user:${CHAT_VERSION}:chat:${userId}`
 }
 
-export async function getChats(userId?: string | null) {
-    if (!userId) {
+export async function getChats() {
+    const user = await getUser()
+    if (!user) {
         return []
     }
 
     try {
         const redis = await getRedis()
-        const chats = await redis.zrange(getUserChatKey(userId), 0, -1, {
+        const chats = await redis.zrange(getUserChatKey(user.id), 0, -1, {
             rev: true
         })
 
@@ -59,12 +61,14 @@ export async function getChats(userId?: string | null) {
                 return plainChat as Chat
             })
     } catch (error) {
+        console.error("Error fetching chats:", error)
         return []
     }
 }
 
-export async function getChat(id: string, userId: string | null) {
-    if (!userId) {
+export async function getChat(id: string) {
+    const user = await getUser()
+    if (!user) {
         return null
     }
 
@@ -75,9 +79,13 @@ export async function getChat(id: string, userId: string | null) {
         return null
     }
 
+    if (rawChat.userId !== user.id) {
+        console.warn(`User ${user.id} attempted to access chat ${id} owned by ${rawChat.userId}`)
+        return null
+    }
+
     const chat = rawChat as unknown as Chat
 
-    // Parse the messages if they're stored as a string
     if (typeof chat.messages === 'string') {
         try {
             chat.messages = JSON.parse(chat.messages)
@@ -86,7 +94,6 @@ export async function getChat(id: string, userId: string | null) {
         }
     }
 
-    // Ensure messages is always an array
     if (!Array.isArray(chat.messages)) {
         chat.messages = []
     }
@@ -94,18 +101,20 @@ export async function getChat(id: string, userId: string | null) {
     return chat
 }
 
-export async function clearChats(
-    userId: string | null
-): Promise<{ error?: string }> {
-    if (!userId) {
-        return { error: 'User ID is required' }
+export async function clearChats(): Promise<void> {
+    const user = await getUser()
+    if (!user) {
+        console.warn("Attempted to clear chats without authentication.")
+        redirect('/login')
+        return
     }
 
     const redis = await getRedis()
-    const userChatKey = getUserChatKey(userId)
+    const userChatKey = getUserChatKey(user.id)
     const chats = await redis.zrange(userChatKey, 0, -1)
     if (!chats.length) {
-        return { error: 'No chats to clear' }
+        console.log(`No chats found for user ${user.id} to clear.`)
+        return
     }
     const pipeline = redis.pipeline()
 
@@ -116,13 +125,12 @@ export async function clearChats(
 
     await pipeline.exec()
 
-    revalidatePath('/')
-    redirect('/')
 }
 
-export async function saveChat(chat: Chat, userId: string | null) {
-    if (!userId) {
-        return { error: 'User ID is required' }
+export async function saveChat(chat: Chat) {
+    const user = await getUser()
+    if (!user) {
+        throw new Error('User must be logged in to save a chat.')
     }
 
     try {
@@ -131,16 +139,18 @@ export async function saveChat(chat: Chat, userId: string | null) {
 
         const chatToSave = {
             ...chat,
+            userId: user.id,
             messages: JSON.stringify(chat.messages)
         }
 
         pipeline.hmset(`chat:${chat.id}`, chatToSave)
-        pipeline.zadd(getUserChatKey(userId), Date.now(), `chat:${chat.id}`)
+        pipeline.zadd(getUserChatKey(user.id), Date.now(), `chat:${chat.id}`)
 
         const results = await pipeline.exec()
 
         return results
     } catch (error) {
+        console.error("Error saving chat:", error)
         throw error
     }
 }
@@ -156,15 +166,16 @@ export async function getSharedChat(id: string) {
     return rawChat as unknown as Chat
 }
 
-export async function shareChat(id: string, userId: string | null) {
-    if (!userId) {
-        return { error: 'User ID is required' }
+export async function shareChat(id: string) {
+    const user = await getUser()
+    if (!user) {
+        return null
     }
 
     const redis = await getRedis()
     const rawChat = await redis.hgetall<Record<string, unknown>>(`chat:${id}`)
 
-    if (!rawChat || rawChat.userId !== userId) {
+    if (!rawChat || rawChat.userId !== user.id) {
         return null
     }
 
@@ -174,6 +185,5 @@ export async function shareChat(id: string, userId: string | null) {
     } as Chat
 
     await redis.hmset(`chat:${id}`, payload)
-
     return payload
 }

@@ -30,7 +30,7 @@ export default async function ChatPage({ params }: { params: Promise<{ id: strin
     }
 
     return (
-        <div className="flex-1 overflow-hidden">
+        <div className="py-16 flex-1 overflow-hidden">
             <ChatMessages chatId={chatId.id} initialMessages={chat.messages} />
             <ChatPanel chatId={chatId.id} />
         </div>

@@ -5,7 +5,7 @@ export interface Chat {
     title?: string
     messages: Message[]
     createdAt: string
-    userId: string
+    userId?: string
     sharePath?: string
     [key: string]: unknown
 }

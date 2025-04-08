@@ -17,7 +17,7 @@ export default async function ChatPage({ params }: { params: Promise<{ id: strin
 
     const chatId = await params;
 
-    let chat = await getChat(chatId.id, userId)
+    let chat = await getChat(chatId.id)
 
     if (!chat) {
         const newChat: Chat = {

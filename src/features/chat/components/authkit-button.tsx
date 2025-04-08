@@ -1,13 +1,26 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/libs/supabase/supabase-client";
 import { getURL } from "@/utils/get-url";
 import { useAuthKit } from "@picahq/authkit";
+import { AuthError, Session } from '@supabase/supabase-js';
 
 export function AuthKitButton() {
+    const [session, setSession] = useState<Session | null>(null);
+    const [sessionError, setSessionError] = useState<AuthError | null>(null);
 
-    const { data: { session }, error: sessionError } = supabase.auth.getSession();
+    useEffect(() => {
+        const fetchSession = async () => {
+            const { data, error } = await supabase.auth.getSession();
+            setSession(data.session);
+            setSessionError(error);
+        };
+        fetchSession();
+    }, []);
+
     const accessToken = session?.access_token ?? '';
     const userId = session?.user?.id ?? '';
 
@@ -25,7 +38,7 @@ export function AuthKitButton() {
 
 
     return (
-        <Button onClick={open}>
+        <Button onClick={open} disabled={!session || !!sessionError}>
             Connect Tools
         </Button>
     );

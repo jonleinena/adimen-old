@@ -63,7 +63,11 @@ export async function getChats(userId?: string | null) {
     }
 }
 
-export async function getChat(id: string, userId: string = 'anonymous') {
+export async function getChat(id: string, userId: string | null) {
+    if (!userId) {
+        return null
+    }
+
     const redis = await getRedis()
     const rawChat = await redis.hgetall<Record<string, unknown>>(`chat:${id}`)
 
@@ -91,8 +95,12 @@ export async function getChat(id: string, userId: string = 'anonymous') {
 }
 
 export async function clearChats(
-    userId: string = 'anonymous'
+    userId: string | null
 ): Promise<{ error?: string }> {
+    if (!userId) {
+        return { error: 'User ID is required' }
+    }
+
     const redis = await getRedis()
     const userChatKey = getUserChatKey(userId)
     const chats = await redis.zrange(userChatKey, 0, -1)
@@ -112,7 +120,11 @@ export async function clearChats(
     redirect('/')
 }
 
-export async function saveChat(chat: Chat, userId: string = 'anonymous') {
+export async function saveChat(chat: Chat, userId: string | null) {
+    if (!userId) {
+        return { error: 'User ID is required' }
+    }
+
     try {
         const redis = await getRedis()
         const pipeline = redis.pipeline()
@@ -144,7 +156,11 @@ export async function getSharedChat(id: string) {
     return rawChat as unknown as Chat
 }
 
-export async function shareChat(id: string, userId: string = 'anonymous') {
+export async function shareChat(id: string, userId: string | null) {
+    if (!userId) {
+        return { error: 'User ID is required' }
+    }
+
     const redis = await getRedis()
     const rawChat = await redis.hgetall<Record<string, unknown>>(`chat:${id}`)
 

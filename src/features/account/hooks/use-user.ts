@@ -12,35 +12,46 @@ const supabase = createBrowserClient(
 
 export function useUser() {
     const [user, setUser] = useState<User | null>(null);
+    const [session, setSession] = useState<Session | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         setLoading(true);
-        const getUser = async () => {
+        const getSessionAndUser = async () => {
             try {
-                const { data: { user } } = await supabase.auth.getUser();
-                setUser(user);
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                if (sessionError) throw sessionError;
+                setSession(session);
+                setUser(session?.user ?? null);
+
+                if (!session?.user) {
+                    const { data: { user }, error: userError } = await supabase.auth.getUser();
+                    if (userError) throw userError;
+                    setUser(user);
+                }
             } catch (error) {
-                console.error("Error fetching user:", error);
+                console.error("Error fetching initial session/user:", error);
                 setUser(null);
+                setSession(null);
             } finally {
                 setLoading(false);
             }
         };
 
-        getUser();
+        getSessionAndUser();
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            (_event: AuthChangeEvent, session: Session | null) => {
-                setUser(session?.user ?? null);
-                setLoading(false); // Update loading state on auth change too
+            (_event: AuthChangeEvent, currentSession: Session | null) => {
+                setSession(currentSession);
+                setUser(currentSession?.user ?? null);
+                setLoading(false);
             }
         );
 
         return () => {
             subscription?.unsubscribe();
         };
-    }, []); // Empty dependency array ensures this runs only once on mount
+    }, []);
 
-    return { user, loading };
+    return { user, session, loading };
 } 

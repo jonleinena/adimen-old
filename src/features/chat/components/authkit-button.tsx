@@ -7,7 +7,7 @@ import { useAuthKit } from "@picahq/authkit";
 
 export function AuthKitButton() {
 
-    const { data: { session } } = supabase.auth.getSession();
+    const { data: { session }, error: sessionError } = supabase.auth.getSession();
     const accessToken = session?.access_token ?? '';
     const userId = session?.user?.id ?? '';
 

@@ -20,16 +20,13 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
         api: "/api/chat",
         onFinish: async (message) => {
             // Save the chat after each message
-            const userId = localStorage.getItem("userId") || "anonymous"
             await saveChat(
                 {
                     id: chatId,
                     title: messages[0]?.content.substring(0, 100) || "New Chat",
                     messages: [...messages, message],
                     createdAt: new Date().toISOString(),
-                    userId,
-                },
-                userId,
+                }
             )
         },
     })

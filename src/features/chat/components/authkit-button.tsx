@@ -1,15 +1,28 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { Button } from "@/components/ui/button";
-import { useUser } from "@/features/account/hooks/use-user";
+import { supabase } from "@/libs/supabase/supabase-client";
 import { getURL } from "@/utils/get-url";
 import { useAuthKit } from "@picahq/authkit";
+import { AuthError, Session } from '@supabase/supabase-js';
 
 export function AuthKitButton() {
-    const { user, session, loading } = useUser();
+    const [session, setSession] = useState<Session | null>(null);
+    const [sessionError, setSessionError] = useState<AuthError | null>(null);
+
+    useEffect(() => {
+        const fetchSession = async () => {
+            const { data, error } = await supabase.auth.getSession();
+            setSession(data.session);
+            setSessionError(error);
+        };
+        fetchSession();
+    }, []);
 
     const accessToken = session?.access_token ?? '';
-    const userId = user?.id ?? '';
+    const userId = session?.user?.id ?? '';
 
     const { open } = useAuthKit({
         token: {
@@ -23,16 +36,9 @@ export function AuthKitButton() {
         onClose: () => { console.log("AuthKit Closed"); },
     });
 
-    if (loading) {
-        return <Button disabled>Loading...</Button>;
-    }
-
-    if (!accessToken || !userId) {
-        return <Button disabled>Connect Tools (Auth Unavailable)</Button>;
-    }
 
     return (
-        <Button onClick={open}>
+        <Button onClick={open} disabled={!session || !!sessionError}>
             Connect Tools
         </Button>
     );

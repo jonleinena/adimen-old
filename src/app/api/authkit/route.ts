@@ -17,7 +17,6 @@ export const POST = async (req: NextRequest) => {
     try {
         const authKitToken = new AuthKitToken(process.env.PICA_SECRET_KEY as string);
 
-        const cookieStore = cookies();
         const userId = "anonymous";
 
         const token = await authKitToken.create({

@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from "next/server";
 
 import { withAuth } from '@/utils/auth-check'
@@ -19,7 +18,7 @@ export const POST = async (req: NextRequest) => {
         const authKitToken = new AuthKitToken(process.env.PICA_SECRET_KEY as string);
 
         const cookieStore = cookies();
-        const userId = cookieStore.get('userId')?.value || "anonymous";
+        const userId = "anonymous";
 
         const token = await authKitToken.create({
             identity: userId,

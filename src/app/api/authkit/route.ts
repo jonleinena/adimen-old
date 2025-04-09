@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { withAuth } from '@/utils/auth-check'
 import { AuthKitToken } from "@picahq/authkit-node";
-import { Session } from '@supabase/supabase-js';
 
 const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
@@ -15,20 +14,12 @@ export const OPTIONS = async (req: NextRequest) => {
     return NextResponse.json({}, { headers: corsHeaders });
 }
 
-export const POST = withAuth(async (req: NextRequest, session: Session) => {
+export const POST = async (req: NextRequest) => {
     try {
         const authKitToken = new AuthKitToken(process.env.PICA_SECRET_KEY as string);
 
-        if (!session?.user?.id) {
-            console.error('AuthKit token creation error: User ID not found in session');
-            return new Response('Error creating AuthKit token: Unauthorized', {
-                status: 401,
-                statusText: 'Unauthorized',
-                headers: corsHeaders,
-            });
-        }
-
-        const userId = session.user.id;
+        const cookieStore = cookies();
+        const userId = cookieStore.get('userId')?.value || "anonymous";
 
         const token = await authKitToken.create({
             identity: userId,
@@ -46,4 +37,4 @@ export const POST = withAuth(async (req: NextRequest, session: Session) => {
             headers: corsHeaders,
         })
     }
-})
+}

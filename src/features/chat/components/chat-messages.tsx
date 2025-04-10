@@ -55,10 +55,10 @@ export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
     return (
         <div
             ref={containerRef}
-            className="fixed left-4 right-0 bottom-auto"
+            className="fixed left-4 right-0 top-16 bottom-[80px] overflow-y-auto"
             aria-label="Chat messages"
         >
-            <div className="mx-auto max-w-2xl px-4">
+            <div className="mx-auto max-w-2xl px-4 pb-4">
                 {messages.length === 0 ? (
                     <div className="flex h-full flex-col items-center justify-center pt-12">
                         <div className="px-4 py-10 text-center">

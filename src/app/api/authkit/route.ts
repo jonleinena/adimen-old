@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { withAuth } from '@/utils/auth-check'
+import { supabase } from "@/libs/supabase/supabase-client";
+import { withAuth } from '@/utils/auth-check';
 import { AuthKitToken } from "@picahq/authkit-node";
 
 const corsHeaders = {
@@ -17,7 +18,21 @@ export const POST = async (req: NextRequest) => {
     try {
         const authKitToken = new AuthKitToken(process.env.PICA_SECRET_KEY as string);
 
-        const userId = "anonymous";
+        // Get the authorization header
+        const authHeader = req.headers.get('Authorization');
+        let userId = "anonymous";
+
+        // If there's an auth token, verify it and get the user ID
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            const token = authHeader.split(' ')[1];
+
+            // Verify the token with Supabase
+            const { data, error } = await supabase.auth.getUser(token);
+
+            if (!error && data.user) {
+                userId = data.user.id;
+            }
+        }
 
         const token = await authKitToken.create({
             identity: userId,

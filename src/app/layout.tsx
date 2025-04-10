@@ -5,9 +5,10 @@ import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 
-import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { Analytics } from '@vercel/analytics/react';
+
+import { Providers } from './providers';
 
 import '@/styles/globals.css';
 export const dynamic = 'force-dynamic';
@@ -55,12 +56,7 @@ export default async function RootLayout({
   return (
     <html lang={localeFromHeader} suppressHydrationWarning>
       <body className={`overflow-x-hidden font-sans ${montserrat.variable} ${montserratAlternates.variable}`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <Providers>
           <NextIntlClientProvider locale={localeFromHeader} messages={messages}>
             <div className="flex min-h-screen flex-col">
               {children}
@@ -68,7 +64,7 @@ export default async function RootLayout({
             <Toaster />
             <Analytics />
           </NextIntlClientProvider>
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -20,8 +20,8 @@ export default async function AuthLayout({ children }: PropsWithChildren<{}>) {
     const t = await getTranslations('dashboard');
 
     return (
-        <div className="flex flex-col h-screen">
-            <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex flex-col h-screen overflow-hidden">
+            <header className="w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container flex h-16 items-center justify-between">
                     <Link href="/chat" className="flex items-center space-x-2">
                         <span className="text-xl font-bold">Adimen</span>
@@ -44,7 +44,7 @@ export default async function AuthLayout({ children }: PropsWithChildren<{}>) {
                 </div>
             </header>
 
-            <main className="flex-1 pt-16 container">
+            <main className="flex-1 container">
                 {children}
             </main>
 

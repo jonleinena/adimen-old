@@ -1,6 +1,7 @@
 import { unstable_noStore as noStore } from 'next/cache'
 import { redirect } from 'next/navigation'
 
+import { SidebarToggle } from "@/components/sidebar-toggle"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { getSession } from '@/features/account/controllers/get-session'
 import { ChatSidebar } from "@/features/chat/components/chat-sidebar"
@@ -19,13 +20,13 @@ export default async function ChatLayout({
     redirect('/login')
   }
 
-  noStore()
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <div className="flex h-[calc(100vh-4rem)]">
+      <div className="flex h-full">
         <ChatSidebar />
-        <SidebarInset className="flex flex-col">{children}</SidebarInset>
+        <SidebarToggle />
+        <SidebarInset className="flex flex-col w-full">{children}</SidebarInset>
       </div>
     </SidebarProvider>
   )

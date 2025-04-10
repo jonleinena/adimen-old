@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Plug } from 'lucide-react';
 
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/libs/supabase/supabase-client";
@@ -38,8 +39,15 @@ export function AuthKitButton() {
 
 
     return (
-        <Button onClick={open} disabled={!session || !!sessionError}>
-            Connect Tools
+        <Button
+            onClick={open}
+            disabled={!session || !!sessionError}
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-full hover:bg-muted"
+        >
+            <Plug className="h-4 w-4" />
+            <span className="sr-only">Connect</span>
         </Button>
     );
 }

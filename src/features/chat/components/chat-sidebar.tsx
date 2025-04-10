@@ -30,6 +30,7 @@ import {
 import { clearChats, getChats } from "@/features/chat/actions/chat"
 import { AuthKitButton } from "@/features/chat/components/authkit-button"
 import type { Chat } from "@/types/chat"
+import { cn } from "@/utils/cn"
 
 export function ChatSidebar() {
     const pathname = usePathname()
@@ -73,7 +74,7 @@ export function ChatSidebar() {
             <SidebarContent>
                 <SidebarGroup>
                     <div className="px-4 py-2">
-                        <Button asChild variant="outline" className="w-full justify-start">
+                        <Button asChild variant="outline" className="w-full justify-start ">
                             <Link href={`/chat/${nanoid()}`}>
                                 <PlusCircle className="mr-2 h-4 w-4" />
                                 New Chat
@@ -86,17 +87,20 @@ export function ChatSidebar() {
                             <div className="px-4 py-2 text-sm text-muted-foreground">Loading...</div>
                         ) : chats.length > 0 ? (
                             chats.map((chat) => (
-                                <SidebarMenuItem key={chat.id}>
-                                    <SidebarMenuButton
-                                        asChild
-                                        isActive={pathname === `/chat/${chat.id}`}
-                                        tooltip={chat.title || "Untitled Chat"}
+                                <li key={chat.id} className="px-4 py-1">
+                                    <Link
+                                        href={`/chat/${chat.id}`}
+                                        className={cn(
+                                            "block text-sm truncate transition-colors",
+                                            pathname === `/chat/${chat.id}`
+                                                ? "text-primary font-medium"
+                                                : "text-muted-foreground hover:text-foreground"
+                                        )}
+                                        title={chat.title || "Untitled Chat"}
                                     >
-                                        <Link href={`/chat/${chat.id}`}>
-                                            <span>{chat.title || "Untitled Chat"}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
+                                        {chat.title || "Untitled Chat"}
+                                    </Link>
+                                </li>
                             ))
                         ) : (
                             <div className="px-4 py-2 text-sm text-muted-foreground">No chats yet</div>

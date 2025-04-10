@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { SendHorizontal } from "lucide-react"
 import type React from "react"
 
@@ -9,13 +9,17 @@ import { Textarea } from "@/components/ui/textarea"
 import { saveChat } from "@/features/chat/actions/chat"
 import { useChat } from "@ai-sdk/react"
 
+import { AuthKitButton } from "./authkit-button"
+
 interface ChatPanelProps {
     chatId: string
 }
 
 export function ChatPanel({ chatId }: ChatPanelProps) {
     const [inputValue, setInputValue] = useState("")
-    const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+    const inputRef = useRef<HTMLTextAreaElement>(null)
+
+    const { messages, input, handleInputChange, handleSubmit, isLoading, status, stop } = useChat({
         id: chatId,
         api: "/api/chat",
         onFinish: async (message) => {
@@ -30,6 +34,13 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
             )
         },
     })
+
+    // Focus input on mount
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus()
+        }
+    }, [])
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -48,37 +59,45 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
     }
 
     return (
-        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white from-50% to-transparent pb-8 pt-6 dark:from-gray-800">
-            <div className="mx-auto flex w-full max-w-3xl flex-col items-center space-y-4 px-4 sm:px-6 md:px-8">
+        <div className="fixed left-4 right-0 bottom-0 bg-white dark:bg-gray-900 dark:border-gray-800 py-4">
+            <div className="mx-auto max-w-2xl px-4">
                 <form
                     onSubmit={handleFormSubmit}
-                    className="relative flex w-full max-w-3xl items-center rounded-xl border bg-white p-1 shadow-sm focus-within:ring-1 focus-within:ring-primary dark:bg-gray-700"
+                    className="relative"
                 >
-                    <Textarea
-                        value={input}
-                        onChange={(e) => {
-                            handleInputChange(e)
-                            setInputValue(e.target.value)
-                        }}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Message..."
-                        className="min-h-12 max-h-36 flex-1 resize-none border-0 bg-transparent py-3 px-3 focus-visible:ring-0"
-                        rows={1}
-                    />
-                    <Button
-                        type="submit"
-                        size="icon"
-                        variant="ghost"
-                        disabled={isLoading || !inputValue.trim()}
-                        className="absolute right-2 h-8 w-8 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
-                    >
-                        <SendHorizontal className="h-4 w-4" />
-                        <span className="sr-only">Send message</span>
-                    </Button>
+                    <div className="overflow-hidden rounded-[20px] border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700">
+                        <Textarea
+                            ref={inputRef}
+                            value={input}
+                            onChange={(e) => {
+                                handleInputChange(e)
+                                setInputValue(e.target.value)
+                            }}
+                            onKeyDown={handleKeyDown}
+                            placeholder={isLoading ? "Waiting for response..." : "Message..."}
+                            className="min-h-[60px] max-h-[300px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm"
+                            rows={1}
+                            disabled={isLoading}
+                            id="message-input"
+                        />
+                        <div className="flex items-center justify-between px-3 py-1.5 border-t border-gray-200 dark:border-gray-700">
+                            <span className="text-xs text-muted-foreground">
+                                AI may produce inaccurate information
+                            </span>
+                            <div className="flex items-center gap-2">
+                                <AuthKitButton />
+                                <Button
+                                    type="submit"
+                                    disabled={isLoading || !inputValue.trim()}
+                                    className="rounded-full h-8 w-8 flex items-center justify-center bg-primary text-primary-foreground hover:bg-primary/90"
+                                    size="icon"
+                                >
+                                    <SendHorizontal className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
                 </form>
-                <p className="text-xs text-muted-foreground">
-                    AI may produce inaccurate information about people, places, or facts.
-                </p>
             </div>
         </div>
     )

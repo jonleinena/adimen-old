@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { supabase } from "@/libs/supabase/supabase-client";
+import { createSupabaseServerClient } from "@/libs/supabase/supabase-server-client";
 import { withAuth } from '@/utils/auth-check';
 import { AuthKitToken } from "@picahq/authkit-node";
 
@@ -17,6 +17,7 @@ export const OPTIONS = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
     try {
         const authKitToken = new AuthKitToken(process.env.PICA_SECRET_KEY as string);
+        const supabase = await createSupabaseServerClient();
 
         // Get the authorization header
         const authHeader = req.headers.get('Authorization');

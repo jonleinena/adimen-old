@@ -1,13 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { useChat } from "ai/react"
 import { SendHorizontal } from "lucide-react"
 import type React from "react"
 
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { saveChat } from "@/features/chat/actions/chat"
+import { useChat } from "@ai-sdk/react"
 
 interface ChatPanelProps {
     chatId: string

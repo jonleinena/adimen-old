@@ -53,25 +53,14 @@ export async function middleware(request: NextRequest) {
     supabaseResponse.cookies.set('NEXT_LOCALE', locale, { path: '/' });
   }
 
-  // 5. Apply next-intl middleware to handle routing and locale context
-  request.headers.set('x-pathname', request.nextUrl.pathname);
-  const intlResponse = nextIntlMiddleware(request);
-  intlResponse.headers.set('x-default-locale', defaultLocale);
-
   // 4. Check authentication for protected routes
   const pathname = request.nextUrl.pathname;
 
-  // Explicitly skip auth check for the /api/authkit route
-  if (pathname.startsWith('/api/authkit')) {
-    // Merge cookies from next-intl response into supabase response for authkit routes
-    mergeResponseData(intlResponse, supabaseResponse);
-    return supabaseResponse;
-  }
 
   // Check if this is an authenticated route (starts with /dashboard, /settings, etc.)
   // We're checking for routes that would be in the (auth) group
   const isAuthRoute = pathname.startsWith('/settings') || pathname.startsWith('/chat');
-  if (isAuthRoute && !session) {
+  if (isAuthRoute && !session && pathname !== '/api/authkit') {
     // For UI routes, redirect to login
     const url = request.nextUrl.clone();
     url.pathname = '/login';
@@ -85,6 +74,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // 5. Apply next-intl middleware to handle routing and locale context
+  request.headers.set('x-pathname', request.nextUrl.pathname);
+  const intlResponse = nextIntlMiddleware(request);
+  intlResponse.headers.set('x-default-locale', defaultLocale);
+
   // 6. Add base URL and request information to response headers
   const protocol = request.headers.get('x-forwarded-proto') || request.nextUrl.protocol;
   const host = request.headers.get('x-forwarded-host') || request.headers.get('host') || '';
@@ -95,17 +89,9 @@ export async function middleware(request: NextRequest) {
   supabaseResponse.headers.set('x-protocol', protocol);
   supabaseResponse.headers.set('x-base-url', baseUrl);
 
-  // 7. Merge cookies and headers from next-intl response into supabase response
-  mergeResponseData(intlResponse, supabaseResponse);
-
-  return supabaseResponse;
-}
-
-// Helper function to merge response data
-function mergeResponseData(from: NextResponse, to: NextResponse) {
-  // Merge cookies
-  from.cookies.getAll().forEach(cookie => {
-    to.cookies.set(cookie.name, cookie.value, {
+  // 7. Merge cookies from next‑intl response into supabase response
+  intlResponse.cookies.getAll().forEach(cookie => {
+    supabaseResponse.cookies.set(cookie.name, cookie.value, {
       path: cookie.path || '/',
       maxAge: cookie.maxAge,
       domain: cookie.domain,
@@ -114,13 +100,15 @@ function mergeResponseData(from: NextResponse, to: NextResponse) {
     });
   });
 
-  // Merge next-intl locale header
-  to.headers.set(
+  // 8. Merge next‑intl headers (including the locale) into supabaseResponse
+  supabaseResponse.headers.set(
     'x-next-intl-locale',
-    from.headers.get('x-next-intl-locale') || ''
+    intlResponse.headers.get('x-next-intl-locale') ?? locale
   );
+
+  return supabaseResponse;
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|/api/authkit|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|config/models.json).*)']
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|config/models.json).*)']
 };

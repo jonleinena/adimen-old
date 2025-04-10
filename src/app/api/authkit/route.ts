@@ -21,6 +21,9 @@ export const POST = async (req: NextRequest) => {
 
         // Get the authorization header
         const authHeader = req.headers.get('Authorization');
+        if (!authHeader) {
+            return NextResponse.json({ error: 'No authorization header' }, { status: 401 });
+        }
         let userId = "anonymous";
 
         // If there's an auth token, verify it and get the user ID
@@ -30,9 +33,16 @@ export const POST = async (req: NextRequest) => {
             // Verify the token with Supabase
             const { data, error } = await supabase.auth.getUser(token);
 
-            if (!error && data.user) {
-                userId = data.user.id;
+            if (error) {
+                throw new Error(error.message);
             }
+
+            if (!data.user) {
+                return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+            }
+
+
+            userId = data.user.id;
         }
 
         const token = await authKitToken.create({

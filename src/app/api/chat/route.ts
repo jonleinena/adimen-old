@@ -29,7 +29,7 @@ export const POST = withAuth(async (req) => {
     const system = await pica.generateSystemPrompt();
 
     const stream = streamText({
-      model: openai("o3-mini"),
+      model: openai("gpt-4o"),
       system,
       tools: {
         ...pica.oneTool,

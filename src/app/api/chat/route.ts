@@ -4,6 +4,8 @@ import { withAuth } from '@/utils/auth-check'
 import { openai } from "@ai-sdk/openai";
 import { Pica } from "@picahq/ai";
 
+export const maxDuration = 60;
+
 export const POST = withAuth(async (req) => {
   try {
     const { messages, id: chatId }: { messages: Message[], id: string } = await req.json();

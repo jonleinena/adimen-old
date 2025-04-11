@@ -4,7 +4,7 @@ import { withAuth } from '@/utils/auth-check'
 import { openai } from "@ai-sdk/openai";
 import { Pica } from "@picahq/ai";
 
-export const maxDuration = 300;
+export const maxDuration = 60;
 
 export const POST = withAuth(async (req) => {
   try {
@@ -29,7 +29,7 @@ export const POST = withAuth(async (req) => {
     const system = await pica.generateSystemPrompt();
 
     const stream = streamText({
-      model: openai("gpt-4o-mini"),
+      model: openai("o3-mini"),
       system,
       tools: {
         ...pica.oneTool,

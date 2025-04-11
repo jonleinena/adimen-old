@@ -4,6 +4,8 @@ import { createSupabaseServerClient } from "@/libs/supabase/supabase-server-clie
 import { withAuth } from '@/utils/auth-check';
 import { AuthKitToken } from "@picahq/authkit-node";
 
+export const maxDuration = 60;
+
 const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "POST, GET, PUT, DELETE, OPTIONS",

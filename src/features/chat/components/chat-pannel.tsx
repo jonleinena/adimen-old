@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { CircleFadingPlus, SendHorizontal, FileText } from "lucide-react"
+import { CircleFadingPlus, FileText, SendHorizontal } from "lucide-react"
 import type React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -66,12 +66,12 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
             }
 
             // Append attachment descriptions to the message
-            const messageContent = attachmentDescriptions 
+            const messageContent = attachmentDescriptions
                 ? `${inputValue}\n\n${attachmentDescriptions}`
                 : inputValue;
 
-            handleSubmit(e, { 
-                experimental_attachments: files 
+            handleSubmit(e, {
+                experimental_attachments: files
             })
             setInputValue("")
             setFiles(undefined)

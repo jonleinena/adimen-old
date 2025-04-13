@@ -1,5 +1,6 @@
 "use client"
 
+import Image from 'next/image';
 import { Message } from "ai"
 import { motion } from "framer-motion"
 import { Bot } from "lucide-react"
@@ -116,10 +117,12 @@ export function ChatMessage({ message }: ChatMessageProps) {
                     if (attachment.contentType?.includes('image/')) {
                         return (
                             <div key={`${message.id}-${index}`} className="relative">
-                                <img
+                                <Image
                                     className="max-w-[200px] rounded-md"
                                     src={attachment.url}
-                                    alt={attachment.name}
+                                    alt={attachment.name ?? 'Attachment image'}
+                                    width={200}
+                                    height={200}
                                 />
                                 <span className="text-xs text-muted-foreground mt-1 block truncate">
                                     {attachment.name}

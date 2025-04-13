@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { SendHorizontal } from "lucide-react"
+import { CircleFadingPlus, FileText, SendHorizontal } from "lucide-react"
 import type React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -17,7 +17,9 @@ interface ChatPanelProps {
 
 export function ChatPanel({ chatId }: ChatPanelProps) {
     const [inputValue, setInputValue] = useState("")
+    const [files, setFiles] = useState<FileList | undefined>(undefined)
     const inputRef = useRef<HTMLTextAreaElement>(null)
+    const fileInputRef = useRef<HTMLInputElement>(null)
 
     const { messages, input, handleInputChange, handleSubmit, isLoading, status, stop } = useChat({
         id: chatId,
@@ -45,8 +47,37 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (inputValue.trim()) {
-            handleSubmit(e)
+            // Process attachments if present
+            let attachmentDescriptions = '';
+            if (files?.length) {
+                attachmentDescriptions = Array.from(files)
+                    .map(file => {
+                        if (file.type.startsWith('image/')) {
+                            return `[Attached Image: ${file.name}]`;
+                        } else if (file.type.startsWith('text/')) {
+                            return `[Attached Text File: ${file.name}]`;
+                        } else if (file.type === 'application/pdf') {
+                            return `[Attached PDF: ${file.name}]`;
+                        }
+                        return '';
+                    })
+                    .filter(Boolean)
+                    .join('\n');
+            }
+
+            // Append attachment descriptions to the message
+            const messageContent = attachmentDescriptions
+                ? `${inputValue}\n\n${attachmentDescriptions}`
+                : inputValue;
+
+            handleSubmit(e, {
+                experimental_attachments: files
+            })
             setInputValue("")
+            setFiles(undefined)
+            if (fileInputRef.current) {
+                fileInputRef.current.value = ''
+            }
         }
     }
 
@@ -63,8 +94,51 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
             <div className="mx-auto max-w-2xl px-4">
                 <form
                     onSubmit={handleFormSubmit}
-                    className="relative"
+                    className="relative space-y-4"
                 >
+                    {/* File preview section */}
+                    {files && (
+                        <div className="flex flex-row gap-2 items-start">
+                            {Array.from(files).map((file, index) => {
+                                if (file.type.startsWith('image/')) {
+                                    return (
+                                        <div key={`${file.name}-${index}`} className="relative group">
+                                            <img
+                                                className="w-24 h-24 object-cover rounded-md"
+                                                src={URL.createObjectURL(file)}
+                                                alt={file.name}
+                                            />
+                                            <span className="text-xs text-muted-foreground mt-1 block truncate max-w-[96px]">
+                                                {file.name}
+                                            </span>
+                                        </div>
+                                    )
+                                } else if (file.type === 'application/pdf') {
+                                    return (
+                                        <div key={`${file.name}-${index}`} className="relative group">
+                                            <div className="w-24 h-24 bg-secondary rounded-md flex flex-col items-center justify-center gap-2">
+                                                <FileText className="h-8 w-8 text-muted-foreground" />
+                                                <span className="text-xs text-muted-foreground text-center px-2">
+                                                    {file.name}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )
+                                } else {
+                                    return (
+                                        <div key={`${file.name}-${index}`} className="relative group">
+                                            <div className="w-24 h-24 bg-secondary rounded-md flex items-center justify-center">
+                                                <span className="text-xs text-muted-foreground text-center px-2">
+                                                    {file.name}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            })}
+                        </div>
+                    )}
+
                     <div className="overflow-hidden rounded-[20px] border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700">
                         <Textarea
                             ref={inputRef}
@@ -81,9 +155,32 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                             id="message-input"
                         />
                         <div className="flex items-center justify-between px-3 py-1.5 border-t border-gray-200 dark:border-gray-700">
-                            <span className="text-xs text-muted-foreground">
-                                AI may produce inaccurate information
-                            </span>
+                            <div className="flex items-center gap-2">
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    onChange={(e) => {
+                                        if (e.target.files) {
+                                            setFiles(e.target.files)
+                                        }
+                                    }}
+                                    multiple
+                                    className="hidden"
+                                    accept="image/*,text/*,application/pdf"
+                                />
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8"
+                                    onClick={() => fileInputRef.current?.click()}
+                                >
+                                    <CircleFadingPlus className="h-4 w-4" />
+                                </Button>
+                                <span className="text-xs text-muted-foreground">
+                                    AI may produce inaccurate information
+                                </span>
+                            </div>
                             <div className="flex items-center gap-2">
                                 <AuthKitButton />
                                 <Button

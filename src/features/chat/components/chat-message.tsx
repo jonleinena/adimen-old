@@ -1,8 +1,10 @@
 "use client"
 
+import Image from 'next/image';
 import { Message } from "ai"
 import { motion } from "framer-motion"
 import { Bot } from "lucide-react"
+import { FileText } from "lucide-react"
 
 import { Markdown } from "@/components/markdown"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -106,6 +108,59 @@ export function ChatMessage({ message }: ChatMessageProps) {
         );
     };
 
+    const renderAttachments = () => {
+        if (!message.experimental_attachments?.length) return null;
+
+        return (
+            <div className="flex flex-row flex-wrap gap-2 mt-2">
+                {message.experimental_attachments.map((attachment, index) => {
+                    if (attachment.contentType?.includes('image/')) {
+                        return (
+                            <div key={`${message.id}-${index}`} className="relative">
+                                <Image
+                                    className="max-w-[200px] rounded-md"
+                                    src={attachment.url}
+                                    alt={attachment.name ?? 'Attachment image'}
+                                    width={200}
+                                    height={200}
+                                />
+                                <span className="text-xs text-muted-foreground mt-1 block truncate">
+                                    {attachment.name}
+                                </span>
+                            </div>
+                        );
+                    } else if (attachment.contentType?.includes('text/')) {
+                        return (
+                            <div
+                                key={`${message.id}-${index}`}
+                                className="max-w-[200px] p-3 rounded-md bg-secondary/50"
+                            >
+                                <pre className="text-xs overflow-auto whitespace-pre-wrap break-words">
+                                    {attachment.url}
+                                </pre>
+                                <span className="text-xs text-muted-foreground mt-1 block truncate">
+                                    {attachment.name}
+                                </span>
+                            </div>
+                        );
+                    } else if (attachment.contentType === 'application/pdf') {
+                        return (
+                            <div key={`${message.id}-${index}`} className="relative">
+                                <div className="max-w-[100px] aspect-[3/4] bg-secondary/50 rounded-md flex flex-col items-center justify-center gap-1">
+                                    <FileText className="h-4 w-4 text-muted-foreground" />
+                                    <span className="text-[10px] text-muted-foreground block truncate max-w-[90px] px-2">
+                                        {attachment.name}
+                                    </span>
+                                </div>
+                            </div>
+                        );
+                    }
+                    return null;
+                })}
+            </div>
+        );
+    };
+
     return (
         <motion.div
             className="py-2 w-full"
@@ -125,6 +180,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                             )}>
                                 <Markdown>{message.content}</Markdown>
                             </div>
+                            {renderAttachments()}
                         </div>
                     </div>
                 </div>
@@ -144,6 +200,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                             "break-words",
                         )}>
                             <Markdown>{message.content}</Markdown>
+                            {renderAttachments()}
                             {processToolInvocations()}
                         </div>
                     </div>

@@ -64,7 +64,7 @@ export function ChatSidebar() {
     }
 
     return (
-        <Sidebar>
+        <Sidebar className="bg-sidebar">
             <SidebarHeader>
                 <div className="flex items-center justify-between px-4 py-2">
                     <h2 className="text-lg font-semibold">Chats</h2>

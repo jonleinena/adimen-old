@@ -1,6 +1,6 @@
 "use client"
-
 import { useEffect, useRef, useState } from "react"
+import Image from 'next/image';
 import { CircleFadingPlus, FileText, SendHorizontal } from "lucide-react"
 import type React from "react"
 
@@ -103,7 +103,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                                 if (file.type.startsWith('image/')) {
                                     return (
                                         <div key={`${file.name}-${index}`} className="relative group">
-                                            <img
+                                            <Image
                                                 className="w-24 h-24 object-cover rounded-md"
                                                 src={URL.createObjectURL(file)}
                                                 alt={file.name}
@@ -149,7 +149,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                             }}
                             onKeyDown={handleKeyDown}
                             placeholder={isLoading ? "Waiting for response..." : "Message..."}
-                            className="min-h-[60px] max-h-[300px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm"
+                            className="min-h-[60px] max-h-[300px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm dark:text-gray-50"
                             rows={1}
                             disabled={isLoading}
                             id="message-input"
@@ -172,7 +172,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                                     type="button"
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8"
+                                    className="h-8 w-8 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
                                     onClick={() => fileInputRef.current?.click()}
                                 >
                                     <CircleFadingPlus className="h-4 w-4" />

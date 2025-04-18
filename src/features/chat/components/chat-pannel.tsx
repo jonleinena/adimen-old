@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { CircleFadingPlus, SendHorizontal, FileText, X } from "lucide-react"
+import { CircleFadingPlus, FileText, SendHorizontal, X } from "lucide-react"
 import type React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -138,7 +138,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
     }
 
     return (
-        <div className="fixed left-4 right-0 bottom-0 bg-white dark:bg-gray-900 dark:border-gray-800 py-4">
+        <div className="fixed left-4 right-0 bottom-0 bg-[#242525] py-4">
             <div className="mx-auto max-w-2xl px-4">
                 <form
                     onSubmit={handleFormSubmit}
@@ -203,7 +203,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                          <p className="text-sm text-red-500 px-1">{errorMessage}</p>
                     )}
 
-                    <div className="overflow-hidden rounded-[20px] border border-gray-200 bg-white dark:bg-gray-800 dark:border-gray-700">
+                    <div className="overflow-hidden rounded-[18px] border border-[#444654] bg-[#343541]">
                         <Textarea
                             ref={inputRef}
                             value={input}
@@ -213,12 +213,12 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                             }}
                             onKeyDown={handleKeyDown}
                             placeholder={isLoading ? "Waiting for response..." : "Message..."}
-                            className="min-h-[60px] max-h-[300px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm"
+                            className="min-h-[60px] max-h-[300px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-[18px] text-[#ECECF1] placeholder:text-gray-400"
                             rows={1}
                             disabled={isLoading}
                             id="message-input"
                         />
-                        <div className="flex items-center justify-between px-3 py-1.5 border-t border-gray-200 dark:border-gray-700">
+                        <div className="flex items-center justify-between px-3 py-1.5 border-t border-[#444654]">
                             <div className="flex items-center gap-2">
                                 <input
                                     type="file"
@@ -231,12 +231,12 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                                     type="button"
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8"
+                                    className="h-8 w-8 text-[#ECECF1] hover:bg-[#444654]"
                                     onClick={() => fileInputRef.current?.click()}
                                 >
                                     <CircleFadingPlus className="h-4 w-4" />
                                 </Button>
-                                <span className="text-xs text-muted-foreground">
+                                <span className="text-sm text-[#ECECF1]">
                                     AI may produce inaccurate information
                                 </span>
                             </div>
@@ -245,7 +245,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                                 <Button
                                     type="submit"
                                     disabled={isLoading || (!inputValue.trim() && files.length === 0)}
-                                    className="rounded-full h-8 w-8 flex items-center justify-center bg-primary text-primary-foreground hover:bg-primary/90"
+                                    className="rounded-full h-8 w-8 flex items-center justify-center bg-[#444654] text-[#ECECF1] hover:bg-[#444654]/90 disabled:opacity-50"
                                     size="icon"
                                 >
                                     <SendHorizontal className="h-4 w-4" />

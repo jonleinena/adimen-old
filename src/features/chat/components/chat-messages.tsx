@@ -55,10 +55,10 @@ export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
     return (
         <div
             ref={containerRef}
-            className="fixed left-4 right-0 top-16 bottom-[180px] overflow-y-auto bg-white dark:bg-gray-900"
+            className="fixed left-4 right-0 top-16 bottom-[80px] overflow-y-auto bg-[#242525]"
             aria-label="Chat messages"
         >
-            <div className="mx-auto max-w-2xl px-4 pb-4">
+            <div className="mx-auto max-w-2xl px-4">
                 {messages.length === 0 ? (
                     <div className="flex h-full flex-col items-center justify-center pt-12">
                         <div className="px-4 py-10 text-center">
@@ -68,7 +68,7 @@ export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
                         <SuggestedActions messages={messages} onActionClick={handleSuggestedActionClick} />
                     </div>
                 ) : (
-                    <div className="py-6 space-y-4">
+                    <div className="space-y-4">
                         {messages.map((message, index) => (
                             <ChatMessage key={index} message={message} />
                         ))}

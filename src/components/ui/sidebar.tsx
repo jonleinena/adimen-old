@@ -147,7 +147,7 @@ const SidebarProvider = React.forwardRef<
               } as React.CSSProperties
             }
             className={cn(
-              "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-[#343541]",
+              "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-[#eae2d8] dark:has-[[data-variant=inset]]:bg-[#343541]",
               className
             )}
             ref={ref}
@@ -187,7 +187,7 @@ const Sidebar = React.forwardRef<
       return (
         <div
           className={cn(
-            "flex h-full w-[--sidebar-width] flex-col bg-[#343541] text-[#ECECF1]",
+            "flex h-full w-[--sidebar-width] flex-col bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-[#ECECF1]",
             className
           )}
           ref={ref}
@@ -204,7 +204,7 @@ const Sidebar = React.forwardRef<
           <SheetContent
             data-sidebar="sidebar"
             data-mobile="true"
-            className="w-[--sidebar-width] bg-[#343541] p-0 text-[#ECECF1] [&>button]:hidden"
+            className="w-[--sidebar-width] bg-[#eae2d8] dark:bg-[#343541] p-0 text-black dark:text-[#ECECF1] [&>button]:hidden"
             style={
               {
                 "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
@@ -258,7 +258,7 @@ const Sidebar = React.forwardRef<
         >
           <div
             data-sidebar="sidebar"
-            className="flex h-full w-full flex-col bg-[#343541] group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-[#ECECF1] group-data-[variant=floating]:shadow"
+            className="flex h-full w-full flex-col bg-[#eae2d8] dark:bg-[#343541] group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-gray-200 dark:group-data-[variant=floating]:border-[#ECECF1] group-data-[variant=floating]:shadow"
           >
             {children}
           </div>

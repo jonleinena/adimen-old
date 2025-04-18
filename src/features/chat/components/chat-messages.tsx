@@ -55,7 +55,7 @@ export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
     return (
         <div
             ref={containerRef}
-            className="fixed left-4 right-0 top-16 bottom-[80px] overflow-y-auto bg-[#242525]"
+            className="fixed left-4 right-0 top-16 bottom-[80px] overflow-y-auto bg-[#f8f5f2] dark:bg-[#242525]"
             aria-label="Chat messages"
         >
             <div className="mx-auto max-w-2xl px-4">

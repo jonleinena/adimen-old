@@ -138,7 +138,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
     }
 
     return (
-        <div className="fixed left-4 right-0 bottom-0 bg-[#242525] py-4">
+        <div className="fixed left-4 right-0 bottom-0 bg-[#f8f5f2] dark:bg-[#242525] py-4">
             <div className="mx-auto max-w-2xl px-4">
                 <form
                     onSubmit={handleFormSubmit}
@@ -203,7 +203,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                          <p className="text-sm text-red-500 px-1">{errorMessage}</p>
                     )}
 
-                    <div className="overflow-hidden rounded-[18px] border border-[#444654] bg-[#343541]">
+                    <div className="overflow-hidden rounded-[18px] border border-gray-200 dark:border-[#444654] bg-[#eae2d8] dark:bg-[#343541]">
                         <Textarea
                             ref={inputRef}
                             value={input}
@@ -213,12 +213,12 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                             }}
                             onKeyDown={handleKeyDown}
                             placeholder={isLoading ? "Waiting for response..." : "Message..."}
-                            className="min-h-[60px] max-h-[300px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-[18px] text-[#ECECF1] placeholder:text-gray-400"
+                            className="min-h-[60px] max-h-[300px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-[18px] text-black dark:text-[#ECECF1] placeholder:text-gray-400"
                             rows={1}
                             disabled={isLoading}
                             id="message-input"
                         />
-                        <div className="flex items-center justify-between px-3 py-1.5 border-t border-[#444654]">
+                        <div className="flex items-center justify-between px-3 py-1.5 border-t border-gray-200 dark:border-[#444654]">
                             <div className="flex items-center gap-2">
                                 <input
                                     type="file"
@@ -231,12 +231,12 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                                     type="button"
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 text-[#ECECF1] hover:bg-[#444654]"
+                                    className="h-8 w-8 text-gray-700 dark:text-[#ECECF1] hover:bg-gray-200 dark:hover:bg-[#444654]"
                                     onClick={() => fileInputRef.current?.click()}
                                 >
                                     <CircleFadingPlus className="h-4 w-4" />
                                 </Button>
-                                <span className="text-sm text-[#ECECF1]">
+                                <span className="text-sm text-gray-700 dark:text-[#ECECF1]">
                                     AI may produce inaccurate information
                                 </span>
                             </div>
@@ -245,7 +245,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                                 <Button
                                     type="submit"
                                     disabled={isLoading || (!inputValue.trim() && files.length === 0)}
-                                    className="rounded-full h-8 w-8 flex items-center justify-center bg-[#444654] text-[#ECECF1] hover:bg-[#444654]/90 disabled:opacity-50"
+                                    className="rounded-full h-8 w-8 flex items-center justify-center bg-gray-200 dark:bg-[#444654] text-gray-900 dark:text-[#ECECF1] hover:bg-gray-300 dark:hover:bg-[#444654]/90 disabled:opacity-50"
                                     size="icon"
                                 >
                                     <SendHorizontal className="h-4 w-4" />

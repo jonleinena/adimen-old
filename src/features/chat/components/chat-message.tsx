@@ -171,16 +171,16 @@ export function ChatMessage({ message }: ChatMessageProps) {
             {isUser ? (
                 <div className="flex justify-end">
                     <div className="max-w-[65%]">
-                        <div className="rounded-[18px] py-2.5 px-4 bg-[#343541]">
+                        <div className="rounded-[18px] py-2.5 px-4 bg-[#eae2d8] dark:bg-[#343541]">
                             <div className={cn(
-                                "prose prose-sm max-w-none text-[#ECECF1] text-[18px]",
+                                "prose prose-sm max-w-none text-black dark:text-[#ECECF1] text-[18px]",
                                 "dark:prose-invert",
                                 "prose-p:leading-relaxed prose-pre:p-0",
                                 "break-words",
                             )}>
                                 <Markdown>{message.content}</Markdown>
+                                {renderAttachments()}
                             </div>
-                            {renderAttachments()}
                         </div>
                     </div>
                 </div>
@@ -192,9 +192,9 @@ export function ChatMessage({ message }: ChatMessageProps) {
                         </AvatarFallback>
                     </Avatar>
 
-                    <div className="max-w-[85%] text-[#ECECF1]">
+                    <div className="max-w-[85%] text-black dark:text-[#ECECF1]">
                         <div className={cn(
-                            "prose prose-sm max-w-none text-[18px]",
+                            "prose prose-sm max-w-none text-black dark:text-[#ECECF1] text-[18px]",
                             "dark:prose-invert",
                             "prose-p:leading-relaxed prose-pre:p-0",
                             "break-words",

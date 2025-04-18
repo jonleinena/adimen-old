@@ -139,71 +139,70 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
 
     return (
         <div className="fixed left-4 right-0 bottom-0 bg-[#f8f5f2] dark:bg-[#242525] py-4">
-            <div className="mx-auto max-w-2xl px-4">
+            <div className="mx-auto max-w-[52rem] px-4">
+                {errorMessage && (
+                    <div className="mb-4 p-4 rounded-lg bg-red-100 dark:bg-red-900/20 flex items-center justify-between">
+                        <p className="text-sm text-red-600 dark:text-red-400">{errorMessage}</p>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 hover:bg-red-200 dark:hover:bg-red-900/40"
+                            onClick={() => setErrorMessage(null)}
+                        >
+                            <X className="h-4 w-4 text-red-600 dark:text-red-400" />
+                        </Button>
+                    </div>
+                )}
                 <form
                     onSubmit={handleFormSubmit}
                     className="relative space-y-4"
                 >
-                    {/* File preview section */}
-                    {files.length > 0 && (
-                        <div className="flex flex-row gap-2 items-start flex-wrap">
-                            {files.map((file, index) => {
-                                // Contenedor relativo para el botón de eliminar
-                                const PreviewContainer = ({ children }: { children: React.ReactNode }) => (
-                                    <div className="relative group">
-                                        {children}
-                                        <Button
-                                            type="button"
-                                            variant="destructive"
-                                            size="icon"
-                                            className="absolute -top-2 -right-2 h-5 w-5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                                            onClick={() => handleRemoveFile(index)}
-                                        >
-                                            <X className="h-3 w-3" />
-                                        </Button>
-                                        <span className="text-xs text-muted-foreground mt-1 block truncate max-w-[96px]">
-                                            {file.name}
-                                        </span>
-                                    </div>
-                                );
-
-                                if (file.type.startsWith('image/')) {
-                                    return (
-                                        <PreviewContainer key={`${file.name}-${index}`}>
-                                            <img
-                                                className="w-24 h-24 object-cover rounded-md"
-                                                src={URL.createObjectURL(file)}
-                                                alt={file.name}
-                                            />
-                                        </PreviewContainer>
-                                    )
-                                } else if (file.type === 'application/pdf') {
-                                    return (
-                                        <PreviewContainer key={`${file.name}-${index}`}>
-                                            <div className="w-24 h-24 bg-secondary rounded-md flex flex-col items-center justify-center gap-1 p-2">
-                                                <FileText className="h-8 w-8 text-muted-foreground" />
-                                            </div>
-                                        </PreviewContainer>
-                                    )
-                                } else {
-                                    return (
-                                        <PreviewContainer key={`${file.name}-${index}`}>
-                                            <div className="w-24 h-24 bg-secondary rounded-md flex flex-col items-center justify-center gap-1 p-2">
-                                                <FileText className="h-8 w-8 text-muted-foreground" />
-                                            </div>
-                                        </PreviewContainer>
-                                    )
-                                }
-                            })}
-                        </div>
-                    )}
-
-                    {/* Error message display */}
-                    {errorMessage && (
-                         <p className="text-sm text-red-500 px-1">{errorMessage}</p>
-                    )}
-
                     <div className="overflow-hidden rounded-[18px] border border-gray-200 dark:border-[#444654] bg-[#eae2d8] dark:bg-[#343541]">
+                        {/* File preview section moved inside */}
+                        {files.length > 0 && (
+                            <div className="flex flex-row gap-2 items-start flex-wrap p-3 border-b border-gray-200 dark:border-[#444654]">
+                                {files.map((file, index) => {
+                                    const PreviewContainer = ({ children }: { children: React.ReactNode }) => (
+                                        <div className="relative group">
+                                            {children}
+                                            <Button
+                                                type="button"
+                                                variant="destructive"
+                                                size="icon"
+                                                className="absolute -top-2 -right-2 h-5 w-5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                                                onClick={() => handleRemoveFile(index)}
+                                            >
+                                                <X className="h-3 w-3" />
+                                            </Button>
+                                            <span className="text-xs text-muted-foreground mt-1 block truncate max-w-[96px]">
+                                                {file.name}
+                                            </span>
+                                        </div>
+                                    );
+
+                                    if (file.type.startsWith('image/')) {
+                                        return (
+                                            <PreviewContainer key={`${file.name}-${index}`}>
+                                                <img
+                                                    className="w-16 h-16 object-cover rounded-md"
+                                                    src={URL.createObjectURL(file)}
+                                                    alt={file.name}
+                                                />
+                                            </PreviewContainer>
+                                        )
+                                    } else {
+                                        return (
+                                            <PreviewContainer key={`${file.name}-${index}`}>
+                                                <div className="w-16 h-16 bg-secondary rounded-md flex flex-col items-center justify-center gap-1 p-2">
+                                                    <FileText className="h-6 w-6 text-muted-foreground" />
+                                                </div>
+                                            </PreviewContainer>
+                                        )
+                                    }
+                                })}
+                            </div>
+                        )}
                         <Textarea
                             ref={inputRef}
                             value={input}

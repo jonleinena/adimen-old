@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { CircleFadingPlus, FileText, SendHorizontal, X } from "lucide-react"
+import { CircleFadingPlus, FileText, SendHorizontal, X, Search } from "lucide-react"
 import type React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -22,12 +22,16 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
     const [inputValue, setInputValue] = useState("")
     const [files, setFiles] = useState<File[]>([])
     const [errorMessage, setErrorMessage] = useState<string | null>(null); // State for error message
+    const [webSearchEnabled, setWebSearchEnabled] = useState(false)
     const inputRef = useRef<HTMLTextAreaElement>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const { messages, input, handleInputChange, handleSubmit, isLoading, status, stop } = useChat({
         id: chatId,
         api: "/api/chat",
+        body: {
+            webSearchEnabled
+        },
         onFinish: async (message) => {
             // Save the chat after each message
             await saveChat(
@@ -234,6 +238,15 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                                     onClick={() => fileInputRef.current?.click()}
                                 >
                                     <CircleFadingPlus className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    className={`flex items-center gap-2 px-3 h-8 text-gray-700 dark:text-[#ECECF1] hover:bg-gray-200 dark:hover:bg-[#444654] ${webSearchEnabled ? 'bg-gray-200 dark:bg-[#444654]' : ''}`}
+                                    onClick={() => setWebSearchEnabled(!webSearchEnabled)}
+                                >
+                                    <Search className="h-4 w-4" />
+                                    <span className="text-sm">Search</span>
                                 </Button>
                                 <span className="text-sm text-gray-700 dark:text-[#ECECF1]">
                                     AI may produce inaccurate information

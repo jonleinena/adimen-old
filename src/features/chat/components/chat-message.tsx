@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Message } from "ai"
 import { motion } from "framer-motion"
-import { Bot } from "lucide-react"
+import { Bot, ExternalLink, Search, Globe } from "lucide-react"
 import { FileText } from "lucide-react"
 
 import { Markdown } from "@/components/markdown"
@@ -24,6 +24,12 @@ export function ChatMessage({ message }: ChatMessageProps) {
         if (!message.toolInvocations || message.toolInvocations.length === 0) {
             return null;
         }
+
+        // Process web search results
+        const webSearchResults = message.toolInvocations
+            .filter((tool: any) => tool.toolName === "web_search" && tool.state === "result" && tool.result?.success)
+            .map((tool: any) => tool.result.results)
+            .flat();
 
         // Collect all actions and knowledge from tool invocations
         const allActions = message.toolInvocations.reduce((acc, toolInvocation) => {
@@ -78,6 +84,43 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
         return (
             <div className="space-y-4 mt-4">
+                {/* Show web search results if any */}
+                {webSearchResults && webSearchResults.length > 0 && (
+                    <div className="border-l-4 border-primary/50 pl-4">
+                        <div className="flex items-center gap-2 mb-2 text-sm text-muted-foreground">
+                            <Globe className="h-4 w-4" />
+                            <span>Referencias web</span>
+                        </div>
+                        <div className="grid gap-2">
+                            {webSearchResults
+                                .sort((a: any, b: any) => b.score - a.score)
+                                .slice(0, 3)
+                                .map((result: any, index: number) => (
+                                    <a 
+                                        key={index}
+                                        href={result.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group flex items-start gap-2 hover:bg-primary/5 p-2 rounded-lg transition-colors"
+                                    >
+                                        <div className="min-w-[24px] h-6 flex items-center justify-center rounded bg-primary/10 text-primary text-xs font-medium">
+                                            {index + 1}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-1 text-sm font-medium text-primary group-hover:underline truncate">
+                                                {result.title}
+                                                <ExternalLink className="h-3 w-3 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            </div>
+                                            <p className="text-sm text-muted-foreground line-clamp-2">
+                                                {result.content}
+                                            </p>
+                                        </div>
+                                    </a>
+                                ))}
+                        </div>
+                    </div>
+                )}
+
                 {/* Show KnowledgeCard if we have any platforms or knowledge */}
                 {(Object.keys(allActions.platforms).length > 0 || (allActions.knowledge && allActions.knowledge.length > 0)) && (
                     <KnowledgeCard
@@ -96,7 +139,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                 {/* If there are any other tool invocations that weren't processed above, show them as JSON */}
                 {message.toolInvocations.filter(tool =>
                     !(tool as any).toolName ||
-                    !["execute", "getAvailableActions", "getActionKnowledge"].includes((tool as any).toolName)
+                    !["execute", "getAvailableActions", "getActionKnowledge", "web_search"].includes((tool as any).toolName)
                 ).map((tool, index) => (
                     <div key={index} className="border border-primary/20 rounded-xl p-4 bg-primary/5 my-2">
                         <pre className="bg-gray-800 p-2 rounded-lg text-xs overflow-x-auto">

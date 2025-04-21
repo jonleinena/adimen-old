@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Message } from "ai"
 import { motion } from "framer-motion"
-import { Bot, ExternalLink, Globe,Search } from "lucide-react"
+import { Bot, ExternalLink, Globe, Search } from "lucide-react"
 import { FileText } from "lucide-react"
 
 import { Markdown } from "@/components/markdown"
@@ -96,7 +96,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                                 .sort((a: any, b: any) => b.score - a.score)
                                 .slice(0, 3)
                                 .map((result: any, index: number) => (
-                                    <a 
+                                    <a
                                         key={index}
                                         href={result.url}
                                         target="_blank"
@@ -236,7 +236,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                     <div className="max-w-[85%] text-black dark:text-[#ECECF1]">
                         <div className={cn(
                             "max-w-none text-black dark:text-[#ECECF1] text-sm leading-normal",
-                            "break-words bg-[#f8f5f2] dark:bg-[#343541] rounded-[18px] py-2.5 px-4",
+                            "break-words bg-[#f8f5f2] dark:bg-[#242525] rounded-[18px] py-2.5 px-4",
                         )}>
                             <Markdown>{message.content}</Markdown>
                             {renderAttachments()}

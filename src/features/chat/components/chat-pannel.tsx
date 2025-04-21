@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { CircleFadingPlus, FileText, Search,SendHorizontal, X } from "lucide-react"
+import Image from "next/image"
+import { CircleFadingPlus, FileText, Search, SendHorizontal, X } from "lucide-react"
 import type React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -188,7 +189,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                                     if (file.type.startsWith('image/')) {
                                         return (
                                             <PreviewContainer key={`${file.name}-${index}`}>
-                                                <img
+                                                <Image
                                                     className="w-16 h-16 object-cover rounded-md"
                                                     src={URL.createObjectURL(file)}
                                                     alt={file.name}
@@ -216,7 +217,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                             }}
                             onKeyDown={handleKeyDown}
                             placeholder={isLoading ? "Waiting for response..." : "Message..."}
-                            className="min-h-[52px] max-h-[300px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm text-black dark:text-[#ECECF1] placeholder:text-gray-400"
+                            className="min-h-[52px] max-h-[240px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm text-black dark:text-[#ECECF1] placeholder:text-gray-400"
                             rows={1}
                             disabled={isLoading}
                             id="message-input"

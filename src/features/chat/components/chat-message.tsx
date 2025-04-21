@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Message } from "ai"
 import { motion } from "framer-motion"
-import { Bot, ExternalLink, Search, Globe } from "lucide-react"
+import { Bot, ExternalLink, Globe,Search } from "lucide-react"
 import { FileText } from "lucide-react"
 
 import { Markdown } from "@/components/markdown"

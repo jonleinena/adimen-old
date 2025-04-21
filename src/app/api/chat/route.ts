@@ -1,9 +1,9 @@
 import { convertToCoreMessages, Message, streamText } from "ai";
 
+import { webSearchTool } from "@/lib/tools/webSearch";
 import { withAuth } from '@/utils/auth-check'
 import { openai } from "@ai-sdk/openai";
 import { Pica } from "@picahq/ai";
-import { webSearchTool } from "@/lib/tools/webSearch";
 
 export const maxDuration = 60;
 

@@ -15,14 +15,14 @@ export function SidebarToggle() {
     return (
         <div
             className={cn(
-                "fixed top-[72px] left-5 z-30 transition-all duration-300",
+                "fixed left-5 top-5 z-30 transition-all duration-300",
                 isCollapsed ? "opacity-100" : "opacity-0 pointer-events-none -translate-x-10"
             )}
         >
             <Button
-                variant="outline"
+                variant="ghost"
                 size="icon"
-                className="h-9 w-9 rounded-md bg-background dark:bg-gray-800 hover:bg-primary/10 border"
+                className="h-9 w-9 bg-[#f8f5f2] dark:bg-[#343541] text-black dark:text-white hover:bg-[#eae2d8] dark:hover:bg-[#444654]"
                 onClick={toggleSidebar}
                 aria-label="Open sidebar"
             >

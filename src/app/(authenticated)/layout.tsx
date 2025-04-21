@@ -23,7 +23,7 @@ export default async function AuthLayout({ children }: PropsWithChildren<{}>) {
         <div className="flex flex-col h-screen overflow-hidden">
             <header className="w-full border-b bg-[#f8f5f2] dark:bg-[#242525]">
                 <div className="container flex h-16 items-center justify-between text-black dark:text-[#ECECF1]">
-                    <Link href="/chat" className="flex items-center space-x-2">
+                    <Link href="/chat" className="flex items-center space-x-2 pl-40">
                         <span className="text-xl font-bold">Adimen</span>
                     </Link>
 

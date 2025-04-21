@@ -66,17 +66,16 @@ export function ChatSidebar() {
     return (
         <Sidebar className="bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white">
             <SidebarHeader>
-                <div className="flex items-center justify-between px-4 py-2">
-                    <h2 className="text-base font-semibold text-black dark:text-white">Chats</h2>
-                    <SidebarTrigger />
+                <div className="flex items-center px-3 pt-3">
+                    <SidebarTrigger className="h-9 w-9 bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]" />
                 </div>
             </SidebarHeader>
             <SidebarContent>
-                <SidebarGroup>
-                    <div className="px-4 py-2">
+                <SidebarGroup className="pt-0">
+                    <div className="px-4 pt-0 pb-2">
                         <Button asChild variant="outline" className="w-full justify-start bg-transparent text-black dark:text-white border-gray-200 dark:border-[#4E4F60] hover:bg-[#f8f5f2] dark:hover:bg-[#444654] text-xs">
-                            <Link href={`/chat/${nanoid()}`}>
-                                <PlusCircle className="mr-2 h-3 w-3" />
+                            <Link href={`/chat/${nanoid()}`} className="pl-2">
+                                <PlusCircle className="mr-5 h-3 w-3" />
                                 New Chat
                             </Link>
                         </Button>

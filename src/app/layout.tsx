@@ -58,7 +58,7 @@ export default async function RootLayout({
       <body className={`overflow-x-hidden font-sans ${montserrat.variable} ${montserratAlternates.variable}`}>
         <Providers>
           <NextIntlClientProvider locale={localeFromHeader} messages={messages}>
-            <div className="flex min-h-screen flex-col">
+            <div className="flex min-h-screen flex-col bg-[#f8f5f2] dark:bg-[#242525]">
               {children}
             </div>
             <Toaster />

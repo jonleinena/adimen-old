@@ -3,12 +3,13 @@ import { convertToCoreMessages, Message, streamText } from "ai";
 import { withAuth } from '@/utils/auth-check'
 import { openai } from "@ai-sdk/openai";
 import { Pica } from "@picahq/ai";
+import { webSearchTool } from "@/lib/tools/webSearch";
 
 export const maxDuration = 60;
 
 export const POST = withAuth(async (req) => {
   try {
-    const { messages, id: chatId }: { messages: Message[], id: string } = await req.json();
+    const { messages, id: chatId, webSearchEnabled = true }: { messages: Message[], id: string, webSearchEnabled?: boolean } = await req.json();
 
     const referer = req.headers.get('referer')
     const isSharePage = referer?.includes('/share/')
@@ -33,6 +34,7 @@ export const POST = withAuth(async (req) => {
       system,
       tools: {
         ...pica.oneTool,
+        ...(webSearchEnabled ? { web_search: webSearchTool } : {}),
       },
       messages: convertToCoreMessages(messages),
       maxSteps: 20,

@@ -143,7 +143,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
 
     return (
         <div className="fixed left-4 right-0 bottom-0 bg-[#f8f5f2] dark:bg-[#242525] py-4">
-            <div className="mx-auto max-w-[52rem] px-4">
+            <div className="mx-auto max-w-2xl px-4">
                 {errorMessage && (
                     <div className="mb-4 p-4 rounded-lg bg-red-100 dark:bg-red-900/20 flex items-center justify-between">
                         <p className="text-sm text-red-600 dark:text-red-400">{errorMessage}</p>
@@ -216,7 +216,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                             }}
                             onKeyDown={handleKeyDown}
                             placeholder={isLoading ? "Waiting for response..." : "Message..."}
-                            className="min-h-[60px] max-h-[300px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-[18px] text-black dark:text-[#ECECF1] placeholder:text-gray-400"
+                            className="min-h-[52px] max-h-[300px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm text-black dark:text-[#ECECF1] placeholder:text-gray-400"
                             rows={1}
                             disabled={isLoading}
                             id="message-input"
@@ -242,13 +242,13 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
                                 <Button
                                     type="button"
                                     variant="ghost"
-                                    className={`flex items-center gap-2 px-3 h-8 text-gray-700 dark:text-[#ECECF1] hover:bg-gray-200 dark:hover:bg-[#444654] ${webSearchEnabled ? 'bg-gray-200 dark:bg-[#444654]' : ''}`}
+                                    className={`flex items-center gap-1.5 px-2 h-7 text-gray-700 dark:text-[#ECECF1] hover:bg-gray-200 dark:hover:bg-[#444654] ${webSearchEnabled ? 'bg-gray-200 dark:bg-[#444654]' : ''}`}
                                     onClick={() => setWebSearchEnabled(!webSearchEnabled)}
                                 >
-                                    <Search className="h-4 w-4" />
-                                    <span className="text-sm">Search</span>
+                                    <Search className="h-3.5 w-3.5" />
+                                    <span className="text-xs">Search</span>
                                 </Button>
-                                <span className="text-sm text-gray-700 dark:text-[#ECECF1]">
+                                <span className="text-xs text-gray-700 dark:text-[#ECECF1]">
                                     AI may produce inaccurate information
                                 </span>
                             </div>

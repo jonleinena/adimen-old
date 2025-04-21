@@ -87,8 +87,8 @@ export function ChatMessage({ message }: ChatMessageProps) {
                 {/* Show web search results if any */}
                 {webSearchResults && webSearchResults.length > 0 && (
                     <div className="border-l-4 border-primary/50 pl-4">
-                        <div className="flex items-center gap-2 mb-2 text-sm text-muted-foreground">
-                            <Globe className="h-4 w-4" />
+                        <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
+                            <Globe className="h-3 w-3" />
                             <span>Referencias web</span>
                         </div>
                         <div className="grid gap-2">
@@ -103,15 +103,15 @@ export function ChatMessage({ message }: ChatMessageProps) {
                                         rel="noopener noreferrer"
                                         className="group flex items-start gap-2 hover:bg-primary/5 p-2 rounded-lg transition-colors"
                                     >
-                                        <div className="min-w-[24px] h-6 flex items-center justify-center rounded bg-primary/10 text-primary text-xs font-medium">
+                                        <div className="min-w-[20px] h-5 flex items-center justify-center rounded bg-primary/10 text-primary text-[10px] font-medium">
                                             {index + 1}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <div className="flex items-center gap-1 text-sm font-medium text-primary group-hover:underline truncate">
+                                            <div className="flex items-center gap-1 text-xs font-medium text-primary group-hover:underline truncate">
                                                 {result.title}
-                                                <ExternalLink className="h-3 w-3 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                                <ExternalLink className="h-2.5 w-2.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
                                             </div>
-                                            <p className="text-sm text-muted-foreground line-clamp-2">
+                                            <p className="text-xs text-muted-foreground line-clamp-2">
                                                 {result.content}
                                             </p>
                                         </div>
@@ -214,11 +214,9 @@ export function ChatMessage({ message }: ChatMessageProps) {
             {isUser ? (
                 <div className="flex justify-end">
                     <div className="max-w-[65%]">
-                        <div className="rounded-[18px] py-2.5 px-4 bg-[#eae2d8] dark:bg-[#343541]">
+                        <div className="rounded-[18px] py-2.5 px-4 bg-[#eae2d8] dark:bg-[#444654]">
                             <div className={cn(
-                                "prose prose-sm max-w-none text-black dark:text-[#ECECF1] text-[18px]",
-                                "dark:prose-invert",
-                                "prose-p:leading-relaxed prose-pre:p-0",
+                                "max-w-none text-black dark:text-[#ECECF1] text-sm leading-normal",
                                 "break-words",
                             )}>
                                 <Markdown>{message.content}</Markdown>
@@ -237,10 +235,8 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
                     <div className="max-w-[85%] text-black dark:text-[#ECECF1]">
                         <div className={cn(
-                            "prose prose-sm max-w-none text-black dark:text-[#ECECF1] text-[18px]",
-                            "dark:prose-invert",
-                            "prose-p:leading-relaxed prose-pre:p-0",
-                            "break-words",
+                            "max-w-none text-black dark:text-[#ECECF1] text-sm leading-normal",
+                            "break-words bg-[#f8f5f2] dark:bg-[#343541] rounded-[18px] py-2.5 px-4",
                         )}>
                             <Markdown>{message.content}</Markdown>
                             {renderAttachments()}

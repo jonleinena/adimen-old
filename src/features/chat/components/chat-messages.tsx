@@ -58,12 +58,12 @@ export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
             className="fixed left-4 right-0 top-16 bottom-[80px] overflow-y-auto bg-[#f8f5f2] dark:bg-[#242525]"
             aria-label="Chat messages"
         >
-            <div className="mx-auto max-w-[52rem] px-4">
+            <div className="mx-auto max-w-3xl px-4">
                 {messages.length === 0 ? (
-                    <div className="flex h-full flex-col items-center justify-center pt-12">
-                        <div className="px-4 py-10 text-center">
-                            <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100">How can I help you today?</h1>
-                            <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">Ask me anything or start a conversation.</p>
+                    <div className="flex h-full flex-col items-center justify-center pt-8">
+                        <div className="px-4 py-8 text-center">
+                            <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">How can I help you today?</h1>
+                            <p className="mt-3 text-base text-gray-600 dark:text-gray-400">Ask me anything or start a conversation.</p>
                         </div>
                         <SuggestedActions messages={messages} onActionClick={handleSuggestedActionClick} />
                     </div>

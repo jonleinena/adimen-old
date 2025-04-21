@@ -41,14 +41,14 @@ export function AccountMenu({ signOut }: { signOut: () => Promise<ActionResponse
     <div className="flex items-center gap-2">
       <ThemeToggle />
       <DropdownMenu>
-        <DropdownMenuTrigger className='rounded-full'>
-          <IoPersonCircleOutline size={24} />
+        <DropdownMenuTrigger className='rounded-full flex items-center justify-center h-7 w-7'>
+          <IoPersonCircleOutline size={20} />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className='me-4 bg-white dark:bg-[#343541] text-gray-900 dark:text-white border-gray-200 dark:border-none'>
-          <DropdownMenuItem asChild className="hover:bg-gray-100 dark:hover:bg-[#444654] focus:bg-gray-100 dark:focus:bg-[#444654] cursor-pointer">
+        <DropdownMenuContent className='me-4 bg-white dark:bg-[#343541] text-gray-900 dark:text-white border-gray-200 dark:border-none min-w-[auto]'>
+          <DropdownMenuItem asChild className="text-xs hover:bg-gray-100 dark:hover:bg-[#444654] focus:bg-gray-100 dark:focus:bg-[#444654] cursor-pointer px-2 py-1 h-7">
             <Link href='/account'>Account</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleLogoutClick} className="hover:bg-gray-100 dark:hover:bg-[#444654] focus:bg-gray-100 dark:focus:bg-[#444654] cursor-pointer">
+          <DropdownMenuItem onClick={handleLogoutClick} className="text-xs hover:bg-gray-100 dark:hover:bg-[#444654] focus:bg-gray-100 dark:focus:bg-[#444654] cursor-pointer px-2 py-1 h-7">
             Log Out
           </DropdownMenuItem>
           <DropdownMenuArrow className='me-4 fill-white dark:fill-[#343541]' />

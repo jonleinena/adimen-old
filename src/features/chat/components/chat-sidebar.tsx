@@ -63,20 +63,26 @@ function ConfirmationDialogContent({
     onConfirm
 }: ConfirmationDialogProps) {
     return (
-        <DialogContent className="sm:max-w-[425px] bg-[#f8f5f2] dark:bg-[#242525] rounded-lg text-black dark:text-white">
+        <DialogContent className="sm:max-w-[425px] bg-[#f8f5f2] dark:bg-[#242525] rounded-lg text-black dark:text-white border border-gray-300 dark:border-gray-700">
             <DialogHeader>
                 <DialogTitle>{title}</DialogTitle>
-                <DialogDescription>{description}</DialogDescription>
+                <DialogDescription className="text-gray-600 dark:text-gray-400">{description}</DialogDescription>
             </DialogHeader>
-            <DialogFooter>
+            <DialogFooter className="mt-4">
                 <DialogClose asChild>
-                    <Button type="button" variant="outline" className="rounded-lg">{cancelText}</Button>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="rounded-lg bg-transparent border border-gray-300 dark:border-gray-600 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                        {cancelText}
+                    </Button>
                 </DialogClose>
                 <DialogClose asChild>
                     <Button
                         type="button"
                         variant="outline"
-                        className="border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive rounded-lg"
+                        className="rounded-lg bg-transparent border border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive"
                         onClick={onConfirm}
                     >
                         {confirmText}
@@ -199,18 +205,18 @@ export function ChatSidebar() {
 
     return (
         <TooltipProvider delayDuration={100}>
-            <Sidebar className="bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white">
+            <Sidebar className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white">
                 <SidebarHeader>
                     <div className="flex items-center justify-between px-3 pt-3">
-                        <SidebarTrigger className="h-9 w-9 bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]" />
+                        <SidebarTrigger className="h-9 w-9 bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white hover:bg-[#eae2d8] dark:hover:bg-[#343541]" />
                         <div className="flex items-center gap-1">
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button
                                         asChild
-                                        variant="outline"
+                                        variant="ghost"
                                         size="icon"
-                                        className="h-8 w-8 text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]"
+                                        className="h-8 w-8 text-black dark:text-white hover:bg-[#eae2d8] dark:hover:bg-[#343541]"
                                     >
                                         <Link href={`/chat/${nanoid()}`}>
                                             <PlusCircle className="h-4 w-4" />
@@ -258,7 +264,7 @@ export function ChatSidebar() {
                                 <div className="px-4 py-2 text-xs text-black/70 dark:text-white/70">Loading...</div>
                             ) : chats.length > 0 ? (
                                 chats.map((chat) => (
-                                    <li key={chat.id} className="group flex items-center justify-between px-2 py-0.5 hover:bg-[#f8f5f2] dark:hover:bg-[#444654] rounded-md">
+                                    <li key={chat.id} className="group flex items-center justify-between px-2 py-0.5 hover:bg-[#eae2d8] dark:hover:bg-[#343541] rounded-md">
                                         {editingChatId === chat.id ? (
                                             <div className="flex-grow flex items-center gap-1 py-1 pl-2 pr-1">
                                                 <Input
@@ -267,7 +273,7 @@ export function ChatSidebar() {
                                                     onChange={(e) => setEditingValue(e.target.value)}
                                                     onKeyDown={(e) => handleEditInputKeyDown(e, chat.id)}
                                                     onBlur={() => handleSaveTitle(chat.id)}
-                                                    className="h-7 text-xs flex-grow bg-white dark:bg-black/30 border-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0"
+                                                    className="h-7 text-xs flex-grow bg-white dark:bg-black/30 border-gray-300 dark:border-gray-600 focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0 rounded"
                                                 />
                                             </div>
                                         ) : (
@@ -278,7 +284,7 @@ export function ChatSidebar() {
                                                         "flex-grow text-xs truncate transition-colors rounded-md px-2 py-1.5",
                                                         pathname === `/chat/${chat.id}`
                                                             ? "text-black dark:text-white font-semibold"
-                                                            : "text-black dark:text-white"
+                                                            : "text-black/80 dark:text-white/80"
                                                     )}
                                                     title={chat.title || "Untitled Chat"}
                                                 >
@@ -293,7 +299,7 @@ export function ChatSidebar() {
                                                                         <Button
                                                                             variant="ghost"
                                                                             size="icon"
-                                                                            className="h-6 w-6 text-black dark:text-white hover:bg-[#e0d9d1] dark:hover:bg-[#4E4F60]"
+                                                                            className="h-6 w-6 text-black dark:text-white hover:bg-[#eae2d8] dark:hover:bg-[#343541]"
                                                                         >
                                                                             <MoreHorizontal className="h-4 w-4" />
                                                                             <span className="sr-only">More options</span>
@@ -306,10 +312,10 @@ export function ChatSidebar() {
                                                             </Tooltip>
                                                             <DropdownMenuContent
                                                                 align="end"
-                                                                className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white border-gray-300 dark:border-gray-700 w-40 rounded-md"
+                                                                className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white border border-gray-300 dark:border-gray-700 w-40 rounded-lg"
                                                             >
                                                                 <DropdownMenuItem
-                                                                    className="text-xs cursor-pointer hover:bg-[#e0d9d1] dark:hover:bg-[#4E4F60] focus:bg-[#e0d9d1] dark:focus:bg-[#4E4F60]"
+                                                                    className="text-xs cursor-pointer hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] rounded-[5px]"
                                                                     onClick={(e) => { e.preventDefault(); handleStartEdit(chat); }}
                                                                 >
                                                                     <Pencil className="mr-2 h-3.5 w-3.5" />
@@ -317,7 +323,7 @@ export function ChatSidebar() {
                                                                 </DropdownMenuItem>
                                                                 <DialogTrigger asChild>
                                                                     <DropdownMenuItem
-                                                                        className="text-xs cursor-pointer text-destructive dark:text-red-500 hover:!bg-destructive/10 hover:!text-destructive dark:hover:!bg-red-500/10 dark:hover:!text-red-500 focus:bg-destructive/10 focus:text-destructive dark:focus:bg-red-500/10 dark:focus:text-red-500"
+                                                                        className="text-xs cursor-pointer text-destructive dark:text-red-500 hover:!bg-destructive/10 hover:!text-destructive dark:hover:!bg-red-500/10 dark:hover:!text-red-500 focus:bg-destructive/10 focus:text-destructive dark:focus:bg-red-500/10 dark:focus:text-red-500 rounded-[5px]"
                                                                         onSelect={(e) => e.preventDefault()}
                                                                     >
                                                                         <Trash2 className="mr-2 h-3.5 w-3.5" />
@@ -343,7 +349,7 @@ export function ChatSidebar() {
                             )}
                         </SidebarMenu>
                     </SidebarGroup>
-                    <SidebarSeparator className="bg-gray-200 dark:bg-[#4E4F60]" />
+                    <SidebarSeparator className="bg-gray-300 dark:bg-gray-700" />
                     <SidebarGroup>
                         <SidebarGroupLabel className="text-black dark:text-white text-xs px-4">Integrations</SidebarGroupLabel>
                         <div className="px-4 py-2">
@@ -352,17 +358,17 @@ export function ChatSidebar() {
                     </SidebarGroup>
                 </SidebarContent>
                 <SidebarFooter>
-                    <SidebarSeparator className="bg-gray-200 dark:bg-[#4E4F60]" />
+                    <SidebarSeparator className="bg-gray-300 dark:bg-gray-700" />
                     <div className="flex items-center justify-between p-4">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]">
+                                <Button variant="ghost" size="icon" className="text-black dark:text-white hover:bg-[#eae2d8] dark:hover:bg-[#343541]">
                                     <Settings className="h-5 w-5" />
                                     <span className="sr-only">Settings</span>
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white border-gray-200 dark:border-none">
-                                <DropdownMenuItem asChild className="text-xs hover:bg-[#f8f5f2] dark:hover:bg-[#444654] focus:bg-[#f8f5f2] dark:focus:bg-[#444654] cursor-pointer">
+                            <DropdownMenuContent align="end" className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg">
+                                <DropdownMenuItem asChild className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px]">
                                     <Link href="/settings" className="flex items-center">
                                         <Settings className="mr-2 h-3 w-3" />
                                         <span>Settings</span>

@@ -63,17 +63,24 @@ function ConfirmationDialogContent({
     onConfirm
 }: ConfirmationDialogProps) {
     return (
-        <DialogContent className="sm:max-w-[425px] bg-[#f8f5f2] dark:bg-[#242525]">
+        <DialogContent className="sm:max-w-[425px] bg-[#f8f5f2] dark:bg-[#242525] rounded-lg">
             <DialogHeader>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogDescription>{description}</DialogDescription>
             </DialogHeader>
             <DialogFooter>
                 <DialogClose asChild>
-                    <Button type="button" variant="secondary">{cancelText}</Button>
+                    <Button type="button" variant="outline">{cancelText}</Button>
                 </DialogClose>
                 <DialogClose asChild>
-                    <Button type="button" variant="destructive" onClick={onConfirm}>{confirmText}</Button>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive"
+                        onClick={onConfirm}
+                    >
+                        {confirmText}
+                    </Button>
                 </DialogClose>
             </DialogFooter>
         </DialogContent>

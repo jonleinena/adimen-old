@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { Pencil, PlusCircle, Settings, Trash2, X } from "lucide-react"
+import { MoreHorizontal, Pencil, PlusCircle, Settings, Trash2 } from "lucide-react"
 import { nanoid } from "nanoid"
 
 import { Button } from "@/components/ui/button"
@@ -285,40 +285,47 @@ export function ChatSidebar() {
                                                     {chat.title || "Untitled Chat"}
                                                 </Link>
                                                 <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity pr-1">
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="icon"
-                                                                className="h-6 w-6 text-black dark:text-white hover:bg-[#e0d9d1] dark:hover:bg-[#4E4F60]"
-                                                                onClick={(e) => { e.preventDefault(); handleStartEdit(chat); }}
-                                                            >
-                                                                <Pencil className="h-3.5 w-3.5" />
-                                                                <span className="sr-only">Edit title</span>
-                                                            </Button>
-                                                        </TooltipTrigger>
-                                                        <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
-                                                            Edit title
-                                                        </TooltipContent>
-                                                    </Tooltip>
                                                     <Dialog>
-                                                        <Tooltip>
-                                                            <TooltipTrigger asChild>
+                                                        <DropdownMenu>
+                                                            <Tooltip>
+                                                                <TooltipTrigger asChild>
+                                                                    <DropdownMenuTrigger asChild>
+                                                                        <Button
+                                                                            variant="ghost"
+                                                                            size="icon"
+                                                                            className="h-6 w-6 text-black dark:text-white hover:bg-[#e0d9d1] dark:hover:bg-[#4E4F60]"
+                                                                        >
+                                                                            <MoreHorizontal className="h-4 w-4" />
+                                                                            <span className="sr-only">More options</span>
+                                                                        </Button>
+                                                                    </DropdownMenuTrigger>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
+                                                                    More options
+                                                                </TooltipContent>
+                                                            </Tooltip>
+                                                            <DropdownMenuContent
+                                                                align="end"
+                                                                className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white border-gray-300 dark:border-gray-700 w-40"
+                                                            >
+                                                                <DropdownMenuItem
+                                                                    className="text-xs cursor-pointer hover:bg-[#e0d9d1] dark:hover:bg-[#4E4F60] focus:bg-[#e0d9d1] dark:focus:bg-[#4E4F60]"
+                                                                    onClick={(e) => { e.preventDefault(); handleStartEdit(chat); }}
+                                                                >
+                                                                    <Pencil className="mr-2 h-3.5 w-3.5" />
+                                                                    <span>Edit title</span>
+                                                                </DropdownMenuItem>
                                                                 <DialogTrigger asChild>
-                                                                    <Button
-                                                                        variant="ghost"
-                                                                        size="icon"
-                                                                        className="h-6 w-6 text-destructive hover:bg-destructive/10 dark:text-red-500 dark:hover:bg-red-500/10"
+                                                                    <DropdownMenuItem
+                                                                        className="text-xs cursor-pointer text-destructive dark:text-red-500 hover:!bg-destructive/10 hover:!text-destructive dark:hover:!bg-red-500/10 dark:hover:!text-red-500 focus:bg-destructive/10 focus:text-destructive dark:focus:bg-red-500/10 dark:focus:text-red-500"
+                                                                        onSelect={(e) => e.preventDefault()}
                                                                     >
-                                                                        <Trash2 className="h-3.5 w-3.5" />
-                                                                        <span className="sr-only">Delete chat</span>
-                                                                    </Button>
+                                                                        <Trash2 className="mr-2 h-3.5 w-3.5" />
+                                                                        <span>Delete chat</span>
+                                                                    </DropdownMenuItem>
                                                                 </DialogTrigger>
-                                                            </TooltipTrigger>
-                                                            <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
-                                                                Delete chat
-                                                            </TooltipContent>
-                                                        </Tooltip>
+                                                            </DropdownMenuContent>
+                                                        </DropdownMenu>
                                                         <ConfirmationDialogContent
                                                             title="Delete Chat?"
                                                             description={`Are you sure you want to delete "${chat.title || 'this chat'}"?`}

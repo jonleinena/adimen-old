@@ -63,20 +63,20 @@ function ConfirmationDialogContent({
     onConfirm
 }: ConfirmationDialogProps) {
     return (
-        <DialogContent className="sm:max-w-[425px] bg-[#f8f5f2] dark:bg-[#242525] rounded-lg">
+        <DialogContent className="sm:max-w-[425px] bg-[#f8f5f2] dark:bg-[#242525] rounded-lg text-black dark:text-white">
             <DialogHeader>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogDescription>{description}</DialogDescription>
             </DialogHeader>
             <DialogFooter>
                 <DialogClose asChild>
-                    <Button type="button" variant="outline">{cancelText}</Button>
+                    <Button type="button" variant="outline" className="rounded-lg">{cancelText}</Button>
                 </DialogClose>
                 <DialogClose asChild>
                     <Button
                         type="button"
                         variant="outline"
-                        className="border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive"
+                        className="border-destructive text-destructive hover:bg-destructive/10 hover:text-destructive rounded-lg"
                         onClick={onConfirm}
                     >
                         {confirmText}
@@ -208,7 +208,7 @@ export function ChatSidebar() {
                                 <TooltipTrigger asChild>
                                     <Button
                                         asChild
-                                        variant="ghost"
+                                        variant="outline"
                                         size="icon"
                                         className="h-8 w-8 text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]"
                                     >
@@ -306,7 +306,7 @@ export function ChatSidebar() {
                                                             </Tooltip>
                                                             <DropdownMenuContent
                                                                 align="end"
-                                                                className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white border-gray-300 dark:border-gray-700 w-40"
+                                                                className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white border-gray-300 dark:border-gray-700 w-40 rounded-md"
                                                             >
                                                                 <DropdownMenuItem
                                                                     className="text-xs cursor-pointer hover:bg-[#e0d9d1] dark:hover:bg-[#4E4F60] focus:bg-[#e0d9d1] dark:focus:bg-[#4E4F60]"

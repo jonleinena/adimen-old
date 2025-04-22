@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { MoreHorizontal, Pencil, PlusCircle, Settings, Trash2 } from "lucide-react"
+import { useTheme } from "next-themes"
+import { LogOut, Moon, MoreHorizontal, Pencil, PlusCircle, Settings, Sun, Trash2, User } from "lucide-react"
 import { nanoid } from "nanoid"
 
 import { Button } from "@/components/ui/button"
@@ -101,6 +102,13 @@ export function ChatSidebar() {
     const [editingChatId, setEditingChatId] = useState<string | null>(null)
     const [editingValue, setEditingValue] = useState("")
     const editInputRef = useRef<HTMLInputElement>(null)
+    const { theme, setTheme } = useTheme()
+
+    const user = { email: "jon.leinena@example.com", name: "Jon Leineña" }
+    const handleSignOut = async () => {
+        console.log("Signing out...")
+        router.push('/login')
+    }
 
     useEffect(() => {
         async function loadChats() {
@@ -205,7 +213,7 @@ export function ChatSidebar() {
 
     return (
         <TooltipProvider delayDuration={100}>
-            <Sidebar className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white">
+            <Sidebar className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white flex flex-col h-full">
                 <SidebarHeader>
                     <div className="flex items-center justify-between px-3 pt-3">
                         <SidebarTrigger className="h-9 w-9 bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white hover:bg-[#eae2d8] dark:hover:bg-[#343541]" />
@@ -256,7 +264,7 @@ export function ChatSidebar() {
                         </div>
                     </div>
                 </SidebarHeader>
-                <SidebarContent>
+                <SidebarContent className="flex-1 overflow-y-auto">
                     <SidebarGroup className="pt-2">
                         <SidebarGroupLabel className="text-black dark:text-white text-xs px-4">Recent Chats</SidebarGroupLabel>
                         <SidebarMenu>
@@ -357,26 +365,49 @@ export function ChatSidebar() {
                         </div>
                     </SidebarGroup>
                 </SidebarContent>
-                <SidebarFooter>
-                    <SidebarSeparator className="bg-gray-300 dark:bg-gray-700" />
-                    <div className="flex items-center justify-between p-4">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="text-black dark:text-white hover:bg-[#eae2d8] dark:hover:bg-[#343541]">
-                                    <Settings className="h-5 w-5" />
-                                    <span className="sr-only">Settings</span>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg">
-                                <DropdownMenuItem asChild className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px]">
-                                    <Link href="/settings" className="flex items-center">
-                                        <Settings className="mr-2 h-3 w-3" />
-                                        <span>Settings</span>
-                                    </Link>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
+                <SidebarFooter className="mt-auto border-t border-gray-300 dark:border-gray-700 p-3">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="w-full justify-start items-center text-left h-auto px-2 py-1.5 hover:bg-[#eae2d8] dark:hover:bg-[#343541]">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
+                                        {user.name?.charAt(0).toUpperCase() || <User size={12} />}
+                                    </div>
+                                    <div className="flex flex-col overflow-hidden">
+                                        <span className="text-sm font-medium truncate">{user.name || "User"}</span>
+                                        <span className="text-xs text-black/60 dark:text-white/60 truncate">{user.email}</span>
+                                    </div>
+                                </div>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                            align="end"
+                            side="top"
+                            className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg w-60 mb-1"
+                        >
+                            <DropdownMenuItem asChild className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px]">
+                                <Link href="/settings" className="flex items-center">
+                                    <Settings className="mr-2 h-3.5 w-3.5" />
+                                    <span>Settings</span>
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px] flex items-center"
+                                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                            >
+                                {theme === "dark" ? <Sun className="mr-2 h-3.5 w-3.5" /> : <Moon className="mr-2 h-3.5 w-3.5" />}
+                                <span>Toggle Theme</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator className="bg-gray-300 dark:bg-gray-700" />
+                            <DropdownMenuItem
+                                className="text-xs text-destructive dark:text-red-500 hover:!bg-destructive/10 hover:!text-destructive dark:hover:!bg-red-500/10 dark:hover:!text-red-500 focus:bg-destructive/10 focus:text-destructive dark:focus:bg-red-500/10 dark:focus:text-red-500 cursor-pointer rounded-[5px] flex items-center"
+                                onClick={handleSignOut}
+                            >
+                                <LogOut className="mr-2 h-3.5 w-3.5" />
+                                <span>Log out</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </SidebarFooter>
             </Sidebar>
         </TooltipProvider>

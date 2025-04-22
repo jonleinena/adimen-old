@@ -127,6 +127,17 @@ export async function clearChats(): Promise<void> {
 
 }
 
+export async function clearChat(id: string) {
+    const user = await getUser()
+    if (!user) {
+        return
+    }
+
+    const redis = await getRedis()
+    await redis.del(`chat:${id}`)
+    await redis.zrem(getUserChatKey(user.id), `chat:${id}`)
+}
+
 export async function saveChat(chat: Chat) {
     const user = await getUser()
     if (!user) {

@@ -48,16 +48,14 @@ import type { Chat } from "@/types/chat"
 import { cn } from "@/utils/cn"
 
 interface ConfirmationDialogProps {
-    trigger: React.ReactNode;
     title: string;
     description: string;
     confirmText?: string;
     cancelText?: string;
-    onConfirm: () => void;
+    onConfirm: (e?: React.MouseEvent<HTMLButtonElement> | Event) => void;
 }
 
-function ConfirmationDialog({
-    trigger,
+function ConfirmationDialogContent({
     title,
     description,
     confirmText = "Confirm",
@@ -65,23 +63,20 @@ function ConfirmationDialog({
     onConfirm
 }: ConfirmationDialogProps) {
     return (
-        <Dialog>
-            <DialogTrigger asChild>{trigger}</DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-[#f8f5f2] dark:bg-[#242525]">
-                <DialogHeader>
-                    <DialogTitle>{title}</DialogTitle>
-                    <DialogDescription>{description}</DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type="button" variant="secondary">{cancelText}</Button>
-                    </DialogClose>
-                    <DialogClose asChild>
-                        <Button type="button" variant="destructive" onClick={onConfirm}>{confirmText}</Button>
-                    </DialogClose>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+        <DialogContent className="sm:max-w-[425px] bg-[#f8f5f2] dark:bg-[#242525]">
+            <DialogHeader>
+                <DialogTitle>{title}</DialogTitle>
+                <DialogDescription>{description}</DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+                <DialogClose asChild>
+                    <Button type="button" variant="secondary">{cancelText}</Button>
+                </DialogClose>
+                <DialogClose asChild>
+                    <Button type="button" variant="destructive" onClick={onConfirm}>{confirmText}</Button>
+                </DialogClose>
+            </DialogFooter>
+        </DialogContent>
     );
 }
 
@@ -220,10 +215,10 @@ export function ChatSidebar() {
                                     New Chat
                                 </TooltipContent>
                             </Tooltip>
-                            <ConfirmationDialog
-                                trigger={
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
+                            <Dialog>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <DialogTrigger asChild>
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
@@ -232,17 +227,19 @@ export function ChatSidebar() {
                                                 <Trash2 className="h-4 w-4" />
                                                 <span className="sr-only">Clear All Chats</span>
                                             </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
-                                            Clear All Chats
-                                        </TooltipContent>
-                                    </Tooltip>
-                                }
-                                title="Clear All Chats?"
-                                description="This action cannot be undone. All your conversations will be permanently deleted."
-                                confirmText="Clear All"
-                                onConfirm={handleClearAllChats}
-                            />
+                                        </DialogTrigger>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
+                                        Clear All Chats
+                                    </TooltipContent>
+                                </Tooltip>
+                                <ConfirmationDialogContent
+                                    title="Clear All Chats?"
+                                    description="This action cannot be undone. All your conversations will be permanently deleted."
+                                    confirmText="Clear All"
+                                    onConfirm={handleClearAllChats}
+                                />
+                            </Dialog>
                         </div>
                     </div>
                 </SidebarHeader>
@@ -297,10 +294,10 @@ export function ChatSidebar() {
                                                             Edit title
                                                         </TooltipContent>
                                                     </Tooltip>
-                                                    <ConfirmationDialog
-                                                        trigger={
-                                                            <Tooltip>
-                                                                <TooltipTrigger asChild>
+                                                    <Dialog>
+                                                        <Tooltip>
+                                                            <TooltipTrigger asChild>
+                                                                <DialogTrigger asChild>
                                                                     <Button
                                                                         variant="ghost"
                                                                         size="icon"
@@ -309,17 +306,19 @@ export function ChatSidebar() {
                                                                         <Trash2 className="h-3.5 w-3.5" />
                                                                         <span className="sr-only">Delete chat</span>
                                                                     </Button>
-                                                                </TooltipTrigger>
-                                                                <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
-                                                                    Delete chat
-                                                                </TooltipContent>
-                                                            </Tooltip>
-                                                        }
-                                                        title="Delete Chat?"
-                                                        description={`Are you sure you want to delete "${chat.title || 'this chat'}"?`}
-                                                        confirmText="Delete"
-                                                        onConfirm={(e?: Event) => { e?.preventDefault(); handleDeleteChat(chat.id); }}
-                                                    />
+                                                                </DialogTrigger>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
+                                                                Delete chat
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                        <ConfirmationDialogContent
+                                                            title="Delete Chat?"
+                                                            description={`Are you sure you want to delete "${chat.title || 'this chat'}"?`}
+                                                            confirmText="Delete"
+                                                            onConfirm={(e?: React.MouseEvent<HTMLButtonElement> | Event) => { e?.preventDefault(); handleDeleteChat(chat.id); }}
+                                                        />
+                                                    </Dialog>
                                                 </div>
                                             </>
                                         )}

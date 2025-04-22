@@ -152,7 +152,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
     }
 
     return (
-        <div className="fixed inset-x-0 bottom-0 bg-[#f8f5f2] dark:bg-[#242525] py-4">
+        <div className="fixed inset-x-0 bottom-0 bg-[#f8f5f2] dark:bg-[#242525]">
             <div className="mx-auto max-w-[44.5rem] px-4">
                 {errorMessage && (
                     <div className="mb-4 p-4 rounded-lg bg-red-100 dark:bg-red-900/20 flex items-center justify-between">

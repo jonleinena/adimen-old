@@ -45,8 +45,10 @@ import {
 } from "@/components/ui/tooltip"
 import { clearChat, clearChats, getChats, updateChatTitle } from "@/features/chat/actions/chat"
 import { AuthKitButton } from "@/features/chat/components/authkit-button"
+import { supabase } from "@/libs/supabase/supabase-client"
 import type { Chat } from "@/types/chat"
 import { cn } from "@/utils/cn"
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 interface ConfirmationDialogProps {
     title: string;
@@ -103,8 +105,8 @@ export function ChatSidebar() {
     const [editingValue, setEditingValue] = useState("")
     const editInputRef = useRef<HTMLInputElement>(null)
     const { theme, setTheme } = useTheme()
+    const [userData, setUserData] = useState<SupabaseUser | null>(null);
 
-    const user = { email: "jon.leinena@example.com", name: "Jon Leineña" }
     const handleSignOut = async () => {
         console.log("Signing out...")
         router.push('/login')
@@ -125,6 +127,14 @@ export function ChatSidebar() {
         }
         loadChats()
     }, [])
+
+    useEffect(() => {
+        async function fetchUser() {
+            const { data: { user } } = await supabase.auth.getUser();
+            setUserData(user);
+        }
+        fetchUser();
+    }, []);
 
     useEffect(() => {
         if (editingChatId && editInputRef.current) {
@@ -371,11 +381,11 @@ export function ChatSidebar() {
                             <Button variant="ghost" className="w-full justify-start items-center text-left h-auto px-2 py-1.5 hover:bg-[#eae2d8] dark:hover:bg-[#343541]">
                                 <div className="flex items-center gap-2">
                                     <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
-                                        {user.name?.charAt(0).toUpperCase() || <User size={12} />}
+                                        {userData?.user_metadata?.name?.charAt(0).toUpperCase() || userData?.email?.charAt(0).toUpperCase() || <User size={12} />}
                                     </div>
                                     <div className="flex flex-col overflow-hidden">
-                                        <span className="text-sm font-medium truncate">{user.name || "User"}</span>
-                                        <span className="text-xs text-black/60 dark:text-white/60 truncate">{user.email}</span>
+                                        <span className="text-sm font-medium truncate">{userData?.user_metadata?.name || userData?.email || "User"}</span>
+                                        <span className="text-xs text-black/60 dark:text-white/60 truncate">{userData?.email || "Loading..."}</span>
                                     </div>
                                 </div>
                             </Button>

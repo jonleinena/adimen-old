@@ -125,6 +125,8 @@ export async function clearChats(): Promise<void> {
 
     await pipeline.exec()
 
+    // Add revalidation
+    revalidatePath('/chat')
 }
 
 export async function clearChat(id: string) {
@@ -134,8 +136,23 @@ export async function clearChat(id: string) {
     }
 
     const redis = await getRedis()
-    await redis.del(`chat:${id}`)
-    await redis.zrem(getUserChatKey(user.id), `chat:${id}`)
+    const chatKey = `chat:${id}` // Define chatKey for checking ownership
+
+    // Optional: Verify ownership before deleting
+    const ownerId = await redis.hget(chatKey, 'userId')
+    if (!ownerId || ownerId !== user.id) {
+        console.warn(`User ${user.id} attempt to delete chat ${id} failed ownership check.`)
+        // Decide if you want to return silently or throw an error
+        return // Or throw new Error("Permission denied")
+    }
+
+    await redis.del(chatKey)
+    await redis.zrem(getUserChatKey(user.id), chatKey)
+
+    // Add revalidation
+    revalidatePath('/chat')
+    // Also revalidate the specific chat page in case someone is viewing it
+    revalidatePath(`/chat/${id}`)
 }
 
 export async function saveChat(chat: Chat) {
@@ -147,6 +164,7 @@ export async function saveChat(chat: Chat) {
     try {
         const redis = await getRedis()
         const pipeline = redis.pipeline()
+        const chatKey = `chat:${chat.id}` // Use consistent key naming
 
         const chatToSave = {
             ...chat,
@@ -154,16 +172,75 @@ export async function saveChat(chat: Chat) {
             messages: JSON.stringify(chat.messages)
         }
 
-        pipeline.hmset(`chat:${chat.id}`, chatToSave)
-        pipeline.zadd(getUserChatKey(user.id), Date.now(), `chat:${chat.id}`)
+        pipeline.hmset(chatKey, chatToSave)
+        pipeline.zadd(getUserChatKey(user.id), Date.now(), chatKey)
 
         const results = await pipeline.exec()
+
+        // Add revalidation after successful save
+        revalidatePath('/chat')
+        // Revalidate the specific chat page as well
+        revalidatePath(`/chat/${chat.id}`)
 
         return results
     } catch (error) {
         console.error("Error saving chat:", error)
-        throw error
+        throw error // Rethrow to indicate failure
     }
+}
+
+export async function updateChatTitle(id: string, title: string): Promise<Chat | null> {
+    const user = await getUser()
+    if (!user) {
+        console.warn("Attempted to update chat title without authentication.")
+        return null // Or throw an error
+    }
+
+    const redis = await getRedis()
+    const chatKey = `chat:${id}`
+    const chatExists = await redis.exists(chatKey)
+
+    if (!chatExists) {
+        console.warn(`Chat with id ${id} not found for title update.`)
+        return null
+    }
+
+    // Verify ownership before updating
+    const ownerId = await redis.hget(chatKey, 'userId')
+    if (ownerId !== user.id) {
+        console.warn(`User ${user.id} attempted to update title of chat ${id} owned by ${ownerId}`)
+        return null // Or throw an error
+    }
+
+    // Update the title
+    await redis.hset(chatKey, 'title', title)
+
+    // Optionally, fetch and return the updated chat data
+    const updatedChatData = await redis.hgetall<Record<string, unknown>>(chatKey)
+
+    if (!updatedChatData) {
+        return null // Should not happen if hset succeeded, but good practice
+    }
+
+    // Reconstruct the chat object (similar to getChat)
+    const chat = updatedChatData as unknown as Chat
+    if (typeof chat.messages === 'string') {
+        try {
+            chat.messages = JSON.parse(chat.messages)
+        } catch (error) {
+            chat.messages = []
+        }
+    }
+    if (!Array.isArray(chat.messages)) {
+        chat.messages = []
+    }
+
+    // Revalidate the path for the specific chat page if necessary
+    revalidatePath(`/chat/${id}`)
+    // Revalidate the base path to update the sidebar list potentially
+    revalidatePath('/chat')
+
+    return chat
 }
 
 export async function getSharedChat(id: string) {

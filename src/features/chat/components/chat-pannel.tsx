@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { CircleFadingPlus, FileText, Search, SendHorizontal, X } from "lucide-react"
 import type React from "react"
 
@@ -20,6 +21,7 @@ const MAX_SIZE_MB = 5;
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
 
 export function ChatPanel({ chatId }: ChatPanelProps) {
+    const router = useRouter()
     const [inputValue, setInputValue] = useState("")
     const [files, setFiles] = useState<File[]>([])
     const [errorMessage, setErrorMessage] = useState<string | null>(null); // State for error message
@@ -35,14 +37,21 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
         },
         onFinish: async (message) => {
             // Save the chat after each message
-            await saveChat(
-                {
-                    id: chatId,
-                    title: messages[0]?.content.substring(0, 100) || "New Chat",
-                    messages: [...messages, message],
-                    createdAt: new Date().toISOString(),
-                }
-            )
+            try {
+                await saveChat(
+                    {
+                        id: chatId,
+                        title: messages[0]?.content.substring(0, 100) || "New Chat",
+                        messages: [...messages, message],
+                        createdAt: new Date().toISOString(),
+                    }
+                )
+                // Refresh the data on the client after successful save
+                router.refresh()
+            } catch (error) {
+                console.error("Failed to save chat after message finish:", error)
+                // Optionally inform the user that saving failed
+            }
         },
     })
 

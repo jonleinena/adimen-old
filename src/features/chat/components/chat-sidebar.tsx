@@ -1,12 +1,22 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { PlusCircle, Settings } from "lucide-react"
+import { usePathname, useRouter } from "next/navigation"
+import { Pencil, PlusCircle, Settings, Trash2, X } from "lucide-react"
 import { nanoid } from "nanoid"
 
 import { Button } from "@/components/ui/button"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,6 +24,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
 import {
     Sidebar,
     SidebarContent,
@@ -22,20 +33,66 @@ import {
     SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
     SidebarSeparator,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { clearChats, getChats } from "@/features/chat/actions/chat"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { clearChat, clearChats, getChats, updateChatTitle } from "@/features/chat/actions/chat"
 import { AuthKitButton } from "@/features/chat/components/authkit-button"
 import type { Chat } from "@/types/chat"
 import { cn } from "@/utils/cn"
 
+interface ConfirmationDialogProps {
+    trigger: React.ReactNode;
+    title: string;
+    description: string;
+    confirmText?: string;
+    cancelText?: string;
+    onConfirm: () => void;
+}
+
+function ConfirmationDialog({
+    trigger,
+    title,
+    description,
+    confirmText = "Confirm",
+    cancelText = "Cancel",
+    onConfirm
+}: ConfirmationDialogProps) {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>{trigger}</DialogTrigger>
+            <DialogContent className="sm:max-w-[425px] bg-[#f8f5f2] dark:bg-[#242525]">
+                <DialogHeader>
+                    <DialogTitle>{title}</DialogTitle>
+                    <DialogDescription>{description}</DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type="button" variant="secondary">{cancelText}</Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                        <Button type="button" variant="destructive" onClick={onConfirm}>{confirmText}</Button>
+                    </DialogClose>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+}
+
 export function ChatSidebar() {
     const pathname = usePathname()
+    const router = useRouter()
     const [chats, setChats] = useState<Chat[]>([])
     const [loadingChats, setLoadingChats] = useState(true)
+    const [editingChatId, setEditingChatId] = useState<string | null>(null)
+    const [editingValue, setEditingValue] = useState("")
+    const editInputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         async function loadChats() {
@@ -50,96 +107,260 @@ export function ChatSidebar() {
                 setLoadingChats(false)
             }
         }
-
         loadChats()
     }, [])
 
-    async function handleClearChats() {
+    useEffect(() => {
+        if (editingChatId && editInputRef.current) {
+            editInputRef.current.focus()
+            editInputRef.current.select()
+        }
+    }, [editingChatId])
+
+    async function handleClearAllChats() {
         try {
             await clearChats()
             setChats([])
+            router.refresh()
+            if (pathname.startsWith('/chat/')) {
+                router.push('/')
+            }
         } catch (error) {
             console.error("Failed to clear chats:", error)
         }
     }
 
+    async function handleDeleteChat(id: string) {
+        const currentChats = chats
+        setChats(prev => prev.filter(chat => chat.id !== id))
+        try {
+            await clearChat(id)
+            router.refresh()
+            if (pathname === `/chat/${id}`) {
+                router.push('/')
+            }
+        } catch (error) {
+            console.error(`Failed to delete chat ${id}:`, error)
+            setChats(currentChats)
+        }
+    }
+
+    function handleStartEdit(chat: Chat) {
+        setEditingChatId(chat.id)
+        setEditingValue(chat.title || "Untitled Chat")
+    }
+
+    function handleCancelEdit() {
+        setEditingChatId(null)
+        setEditingValue("")
+    }
+
+    async function handleSaveTitle(chatId: string) {
+        if (!editingValue.trim() || !editingChatId || chatId !== editingChatId) {
+            handleCancelEdit()
+            return
+        }
+        const originalTitle = chats.find(c => c.id === chatId)?.title
+        const newTitle = editingValue.trim()
+
+        if (newTitle === originalTitle) {
+            handleCancelEdit()
+            return
+        }
+
+        setChats(prev => prev.map(c => c.id === chatId ? { ...c, title: newTitle } : c))
+        setEditingChatId(null)
+        setEditingValue("")
+
+        try {
+            const updatedChat = await updateChatTitle(chatId, newTitle)
+            router.refresh()
+            if (!updatedChat) {
+                setChats(prev => prev.map(c => c.id === chatId ? { ...c, title: originalTitle || "Untitled Chat" } : c))
+                console.error("Failed to update title on server.")
+            }
+        } catch (error) {
+            setChats(prev => prev.map(c => c.id === chatId ? { ...c, title: originalTitle || "Untitled Chat" } : c))
+            console.error(`Failed to save title for chat ${chatId}:`, error)
+        }
+    }
+
+    function handleEditInputKeyDown(event: React.KeyboardEvent<HTMLInputElement>, chatId: string) {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            handleSaveTitle(chatId)
+        } else if (event.key === 'Escape') {
+            event.preventDefault()
+            handleCancelEdit()
+        }
+    }
+
     return (
-        <Sidebar className="bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white">
-            <SidebarHeader>
-                <div className="flex items-center px-3 pt-3">
-                    <SidebarTrigger className="h-9 w-9 bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]" />
-                </div>
-            </SidebarHeader>
-            <SidebarContent>
-                <SidebarGroup className="pt-0">
-                    <div className="px-4 pt-0 pb-2">
-                        <Button asChild variant="outline" className="w-full justify-start bg-transparent text-black dark:text-white border-gray-200 dark:border-[#4E4F60] hover:bg-[#f8f5f2] dark:hover:bg-[#444654] text-xs">
-                            <Link href={`/chat/${nanoid()}`} className="pl-2">
-                                <PlusCircle className="mr-5 h-3 w-3" />
-                                New Chat
-                            </Link>
-                        </Button>
-                    </div>
-                    <SidebarGroupLabel className="text-black dark:text-white text-xs">Recent Chats</SidebarGroupLabel>
-                    <SidebarMenu>
-                        {loadingChats ? (
-                            <div className="px-4 py-2 text-xs text-black/70 dark:text-white/70">Loading...</div>
-                        ) : chats.length > 0 ? (
-                            chats.map((chat) => (
-                                <li key={chat.id} className="px-4 py-1">
-                                    <Link
-                                        href={`/chat/${chat.id}`}
-                                        className={cn(
-                                            "block text-xs truncate transition-colors rounded-md px-2 py-1",
-                                            pathname === `/chat/${chat.id}`
-                                                ? "bg-[#f8f5f2] text-black dark:bg-[#444654] dark:text-white font-medium"
-                                                : "text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]"
-                                        )}
-                                        title={chat.title || "Untitled Chat"}
+        <TooltipProvider delayDuration={100}>
+            <Sidebar className="bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white">
+                <SidebarHeader>
+                    <div className="flex items-center justify-between px-3 pt-3">
+                        <SidebarTrigger className="h-9 w-9 bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]" />
+                        <div className="flex items-center gap-1">
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        asChild
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]"
                                     >
-                                        {chat.title || "Untitled Chat"}
-                                    </Link>
-                                </li>
-                            ))
-                        ) : (
-                            <div className="px-4 py-2 text-xs text-black/70 dark:text-white/70">No chats yet</div>
-                        )}
-                    </SidebarMenu>
-                </SidebarGroup>
-                <SidebarSeparator className="bg-gray-200 dark:bg-[#4E4F60]" />
-                <SidebarGroup>
-                    <SidebarGroupLabel className="text-black dark:text-white text-xs">Integrations</SidebarGroupLabel>
-                    <div className="px-4 py-2">
-                        <AuthKitButton />
+                                        <Link href={`/chat/${nanoid()}`}>
+                                            <PlusCircle className="h-4 w-4" />
+                                            <span className="sr-only">New Chat</span>
+                                        </Link>
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
+                                    New Chat
+                                </TooltipContent>
+                            </Tooltip>
+                            <ConfirmationDialog
+                                trigger={
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 text-destructive hover:bg-destructive/10 dark:text-red-500 dark:hover:bg-red-500/10"
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                                <span className="sr-only">Clear All Chats</span>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
+                                            Clear All Chats
+                                        </TooltipContent>
+                                    </Tooltip>
+                                }
+                                title="Clear All Chats?"
+                                description="This action cannot be undone. All your conversations will be permanently deleted."
+                                confirmText="Clear All"
+                                onConfirm={handleClearAllChats}
+                            />
+                        </div>
                     </div>
-                </SidebarGroup>
-            </SidebarContent>
-            <SidebarFooter>
-                <SidebarSeparator className="bg-gray-200 dark:bg-[#4E4F60]" />
-                <div className="flex items-center justify-between p-4">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]">
-                                <Settings className="h-5 w-5" />
-                                <span className="sr-only">Settings</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white border-gray-200 dark:border-none">
-                            <DropdownMenuItem asChild className="text-xs hover:bg-[#f8f5f2] dark:hover:bg-[#444654] focus:bg-[#f8f5f2] dark:focus:bg-[#444654] cursor-pointer">
-                                <Link href="/settings" className="flex items-center">
-                                    <Settings className="mr-2 h-3 w-3" />
-                                    <span>Settings</span>
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator className="bg-gray-200 dark:bg-[#4E4F60]" />
-                            <DropdownMenuItem onClick={handleClearChats} className="text-xs hover:bg-[#f8f5f2] dark:hover:bg-[#444654] focus:bg-[#f8f5f2] dark:focus:bg-[#444654] cursor-pointer">
-                                Clear all chats
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-            </SidebarFooter>
-        </Sidebar>
+                </SidebarHeader>
+                <SidebarContent>
+                    <SidebarGroup className="pt-2">
+                        <SidebarGroupLabel className="text-black dark:text-white text-xs px-4">Recent Chats</SidebarGroupLabel>
+                        <SidebarMenu>
+                            {loadingChats ? (
+                                <div className="px-4 py-2 text-xs text-black/70 dark:text-white/70">Loading...</div>
+                            ) : chats.length > 0 ? (
+                                chats.map((chat) => (
+                                    <li key={chat.id} className="group flex items-center justify-between px-2 py-0.5 hover:bg-[#f8f5f2] dark:hover:bg-[#444654] rounded-md">
+                                        {editingChatId === chat.id ? (
+                                            <div className="flex-grow flex items-center gap-1 py-1 pl-2 pr-1">
+                                                <Input
+                                                    ref={editInputRef}
+                                                    value={editingValue}
+                                                    onChange={(e) => setEditingValue(e.target.value)}
+                                                    onKeyDown={(e) => handleEditInputKeyDown(e, chat.id)}
+                                                    onBlur={() => handleSaveTitle(chat.id)}
+                                                    className="h-7 text-xs flex-grow bg-white dark:bg-black/30 border-primary focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <Link
+                                                    href={`/chat/${chat.id}`}
+                                                    className={cn(
+                                                        "flex-grow text-xs truncate transition-colors rounded-md px-2 py-1.5",
+                                                        pathname === `/chat/${chat.id}`
+                                                            ? "text-black dark:text-white font-semibold"
+                                                            : "text-black dark:text-white"
+                                                    )}
+                                                    title={chat.title || "Untitled Chat"}
+                                                >
+                                                    {chat.title || "Untitled Chat"}
+                                                </Link>
+                                                <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity pr-1">
+                                                    <Tooltip>
+                                                        <TooltipTrigger asChild>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                className="h-6 w-6 text-black dark:text-white hover:bg-[#e0d9d1] dark:hover:bg-[#4E4F60]"
+                                                                onClick={(e) => { e.preventDefault(); handleStartEdit(chat); }}
+                                                            >
+                                                                <Pencil className="h-3.5 w-3.5" />
+                                                                <span className="sr-only">Edit title</span>
+                                                            </Button>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
+                                                            Edit title
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                    <ConfirmationDialog
+                                                        trigger={
+                                                            <Tooltip>
+                                                                <TooltipTrigger asChild>
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="h-6 w-6 text-destructive hover:bg-destructive/10 dark:text-red-500 dark:hover:bg-red-500/10"
+                                                                    >
+                                                                        <Trash2 className="h-3.5 w-3.5" />
+                                                                        <span className="sr-only">Delete chat</span>
+                                                                    </Button>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
+                                                                    Delete chat
+                                                                </TooltipContent>
+                                                            </Tooltip>
+                                                        }
+                                                        title="Delete Chat?"
+                                                        description={`Are you sure you want to delete "${chat.title || 'this chat'}"?`}
+                                                        confirmText="Delete"
+                                                        onConfirm={(e?: Event) => { e?.preventDefault(); handleDeleteChat(chat.id); }}
+                                                    />
+                                                </div>
+                                            </>
+                                        )}
+                                    </li>
+                                ))
+                            ) : (
+                                <div className="px-4 py-2 text-xs text-black/70 dark:text-white/70">No chats yet</div>
+                            )}
+                        </SidebarMenu>
+                    </SidebarGroup>
+                    <SidebarSeparator className="bg-gray-200 dark:bg-[#4E4F60]" />
+                    <SidebarGroup>
+                        <SidebarGroupLabel className="text-black dark:text-white text-xs px-4">Integrations</SidebarGroupLabel>
+                        <div className="px-4 py-2">
+                            <AuthKitButton />
+                        </div>
+                    </SidebarGroup>
+                </SidebarContent>
+                <SidebarFooter>
+                    <SidebarSeparator className="bg-gray-200 dark:bg-[#4E4F60]" />
+                    <div className="flex items-center justify-between p-4">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon" className="text-black dark:text-white hover:bg-[#f8f5f2] dark:hover:bg-[#444654]">
+                                    <Settings className="h-5 w-5" />
+                                    <span className="sr-only">Settings</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="bg-[#eae2d8] dark:bg-[#343541] text-black dark:text-white border-gray-200 dark:border-none">
+                                <DropdownMenuItem asChild className="text-xs hover:bg-[#f8f5f2] dark:hover:bg-[#444654] focus:bg-[#f8f5f2] dark:focus:bg-[#444654] cursor-pointer">
+                                    <Link href="/settings" className="flex items-center">
+                                        <Settings className="mr-2 h-3 w-3" />
+                                        <span>Settings</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                </SidebarFooter>
+            </Sidebar>
+        </TooltipProvider>
     )
 }
 

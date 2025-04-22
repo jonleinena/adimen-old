@@ -58,6 +58,32 @@ export class RedisWrapper {
         }
     }
 
+    async exists(key: string): Promise<number> {
+        if (this.client instanceof Redis) {
+            return await this.client.exists(key)
+        } else {
+            return await (this.client as RedisClientType).exists(key)
+        }
+    }
+
+    async hget(key: string, field: string): Promise<string | null> {
+        if (this.client instanceof Redis) {
+            const result = await this.client.hget<string>(key, field);
+            return result;
+        } else {
+            const result = await (this.client as RedisClientType).hGet(key, field)
+            return result ?? null;
+        }
+    }
+
+    async hset(key: string, field: string, value: string): Promise<number> {
+        if (this.client instanceof Redis) {
+            return await this.client.hset(key, { [field]: value })
+        } else {
+            return await (this.client as RedisClientType).hSet(key, field, value)
+        }
+    }
+
     pipeline() {
         return this.client instanceof Redis
             ? new UpstashPipelineWrapper(this.client.pipeline())
@@ -68,7 +94,10 @@ export class RedisWrapper {
         if (this.client instanceof Redis) {
             return this.client.hmset(key, value)
         } else {
-            return (this.client as RedisClientType).hSet(key, value)
+            const stringValue = Object.fromEntries(
+                Object.entries(value).map(([k, v]) => [k, String(v)])
+            );
+            return (this.client as RedisClientType).hSet(key, stringValue)
         }
     }
 
@@ -105,10 +134,11 @@ export class RedisWrapper {
 
     async close(): Promise<void> {
         if (this.client instanceof Redis) {
-            // Upstash Redis doesn't require explicit closing
             return
         } else {
-            await (this.client as RedisClientType).quit()
+            if ((this.client as RedisClientType).isOpen) {
+                await (this.client as RedisClientType).quit()
+            }
         }
     }
 }
@@ -179,7 +209,6 @@ class LocalPipelineWrapper {
     }
 
     hmset(key: string, value: Record<string, any>) {
-        // Convert all values to strings
         const stringValue = Object.fromEntries(
             Object.entries(value).map(([k, v]) => [k, String(v)])
         )

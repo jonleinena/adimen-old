@@ -3,8 +3,7 @@
 import Image from 'next/image';
 import { Message } from "ai"
 import { motion } from "framer-motion"
-import { Bot, ExternalLink, Globe, Search } from "lucide-react"
-import { FileText } from "lucide-react"
+import { Bot, FileText } from "lucide-react"
 
 import { Markdown } from "@/components/markdown"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -12,11 +11,14 @@ import ExecuteCard, { ExecuteResult } from "@/components/ui/execute-card"
 import KnowledgeCard from "@/components/ui/knowledge-card"
 import { cn } from "@/utils/cn"
 
+import { ChatMessageSources } from "./chat-message-sources"
+
 interface ChatMessageProps {
     message: Message
+    isLoading?: boolean
 }
 
-export function ChatMessage({ message }: ChatMessageProps) {
+export function ChatMessage({ message, isLoading }: ChatMessageProps) {
     const isUser = message.role === "user"
 
     // Process tool invocations if they exist
@@ -84,43 +86,6 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
         return (
             <div className="space-y-4 mt-4">
-                {/* Show web search results if any */}
-                {webSearchResults && webSearchResults.length > 0 && (
-                    <div className="border-l-4 border-primary/50 pl-4">
-                        <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
-                            <Globe className="h-3 w-3" />
-                            <span>Referencias web</span>
-                        </div>
-                        <div className="grid gap-2">
-                            {webSearchResults
-                                .sort((a: any, b: any) => b.score - a.score)
-                                .slice(0, 3)
-                                .map((result: any, index: number) => (
-                                    <a
-                                        key={index}
-                                        href={result.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="group flex items-start gap-2 hover:bg-primary/5 p-2 rounded-lg transition-colors"
-                                    >
-                                        <div className="min-w-[20px] h-5 flex items-center justify-center rounded bg-primary/10 text-primary text-[10px] font-medium">
-                                            {index + 1}
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex items-center gap-1 text-xs font-medium text-primary group-hover:underline truncate">
-                                                {result.title}
-                                                <ExternalLink className="h-2.5 w-2.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                            </div>
-                                            <p className="text-xs text-muted-foreground line-clamp-2">
-                                                {result.content}
-                                            </p>
-                                        </div>
-                                    </a>
-                                ))}
-                        </div>
-                    </div>
-                )}
-
                 {/* Show KnowledgeCard if we have any platforms or knowledge */}
                 {(Object.keys(allActions.platforms).length > 0 || (allActions.knowledge && allActions.knowledge.length > 0)) && (
                     <KnowledgeCard
@@ -147,6 +112,11 @@ export function ChatMessage({ message }: ChatMessageProps) {
                         </pre>
                     </div>
                 ))}
+
+                {/* Render sources button only when NOT loading and results exist */}
+                {!isLoading && webSearchResults && webSearchResults.length > 0 && (
+                    <ChatMessageSources webSearchResults={webSearchResults} />
+                )}
             </div>
         );
     };

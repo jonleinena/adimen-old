@@ -15,7 +15,7 @@ interface ChatMessagesProps {
 export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
     const containerRef = useRef<HTMLDivElement>(null)
 
-    const { messages, append } = useChat({
+    const { messages, append, isLoading } = useChat({
         id: chatId,
         initialMessages,
         api: "/api/chat",
@@ -53,7 +53,11 @@ export function ChatMessages({ chatId, initialMessages }: ChatMessagesProps) {
                 ) : (
                     <div className="space-y-4">
                         {messages.map((message, index) => (
-                            <ChatMessage key={index} message={message} />
+                            <ChatMessage 
+                                key={index} 
+                                message={message} 
+                                isLoading={index === messages.length - 1 ? isLoading : false} 
+                            />
                         ))}
                     </div>
                 )}

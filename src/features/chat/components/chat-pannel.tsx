@@ -15,12 +15,13 @@ import { AuthKitButton } from "./authkit-button"
 
 interface ChatPanelProps {
     chatId: string
+    initialMessages?: Message[]
 }
 
 const MAX_SIZE_MB = 5;
 const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
 
-export function ChatPanel({ chatId }: ChatPanelProps) {
+export function ChatPanel({ chatId, initialMessages }: ChatPanelProps) {
     const router = useRouter()
     const [inputValue, setInputValue] = useState("")
     const [files, setFiles] = useState<File[]>([])
@@ -32,6 +33,7 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
     const { messages, input, handleInputChange, handleSubmit, isLoading, status, stop } = useChat({
         id: chatId,
         api: "/api/chat",
+        initialMessages: initialMessages,
         body: {
             webSearchEnabled
         },

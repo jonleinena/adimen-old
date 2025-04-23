@@ -34,7 +34,7 @@ export default async function ChatPage({ params }: { params: Promise<{ id: strin
             <div className="flex-1 overflow-x-hidden overflow-y-auto">
                 <ChatMessages chatId={chatId.id} initialMessages={chat.messages} />
             </div>
-            <ChatPanel chatId={chatId.id} />
+            <ChatPanel chatId={chatId.id} initialMessages={chat.messages} />
         </div>
     )
 }

@@ -57,8 +57,6 @@ export function ChatPanel({ chatId, initialMessages }: ChatPanelProps) {
                         createdAt: new Date().toISOString(),
                     }
                 )
-
-                router.refresh()
             } catch (error) {
                 console.error("Failed to save chat after message finish:", error)
             }

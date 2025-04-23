@@ -1,14 +1,18 @@
 "use client"
 
+// React & Next
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { CircleFadingPlus, FileText, Search, SendHorizontal, X } from "lucide-react"
 import type React from "react"
+import TextareaAutosize from 'react-textarea-autosize'
 
+// Internal Modules
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
+// import { Textarea } from "@/components/ui/textarea"
 import { saveChat } from "@/features/chat/actions/chat"
+// External Libraries
 import { type Message, useChat } from "@ai-sdk/react"
 
 import { AuthKitButton } from "./authkit-button"
@@ -233,7 +237,7 @@ export function ChatPanel({ chatId, initialMessages }: ChatPanelProps) {
                                 })}
                             </div>
                         )}
-                        <Textarea
+                        <TextareaAutosize
                             ref={inputRef}
                             value={input}
                             onChange={(e) => {
@@ -242,8 +246,9 @@ export function ChatPanel({ chatId, initialMessages }: ChatPanelProps) {
                             }}
                             onKeyDown={handleKeyDown}
                             placeholder={isLoading ? "Waiting for response..." : "Message..."}
-                            className="min-h-[52px] max-h-[240px] w-full resize-none border-0 bg-transparent py-3.5 px-4 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm text-black dark:text-[#ECECF1] placeholder:text-gray-400"
-                            rows={1}
+                            className="w-full resize-none border-0 bg-transparent py-4 px-4 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none text-sm text-black dark:text-[#ECECF1] placeholder:text-gray-400"
+                            maxRows={6}
+                            minRows={1}
                             disabled={isLoading}
                             id="message-input"
                         />

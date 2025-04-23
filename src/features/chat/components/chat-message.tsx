@@ -208,9 +208,20 @@ export function ChatMessage({ message, isLoading }: ChatMessageProps) {
                             "max-w-none text-black dark:text-[#ECECF1] text-sm leading-normal",
                             "break-words bg-[#f8f5f2] dark:bg-[#242525] rounded-[18px] py-2.5 px-4",
                         )}>
-                            <Markdown>{message.content}</Markdown>
-                            {renderAttachments()}
-                            {processToolInvocations()}
+                            {isLoading ? (
+                                <div className="flex space-x-1 items-center h-[20px]"> {/* Ensure height consistency */}
+                                    <span className="sr-only">Loading...</span>
+                                    <div className="h-1.5 w-1.5 bg-current rounded-full animate-pulse [animation-delay:-0.3s]"></div>
+                                    <div className="h-1.5 w-1.5 bg-current rounded-full animate-pulse [animation-delay:-0.15s]"></div>
+                                    <div className="h-1.5 w-1.5 bg-current rounded-full animate-pulse"></div>
+                                </div>
+                            ) : (
+                                <>
+                                    <Markdown>{message.content}</Markdown>
+                                    {renderAttachments()}
+                                    {processToolInvocations()}
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

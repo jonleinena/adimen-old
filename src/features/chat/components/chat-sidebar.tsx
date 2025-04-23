@@ -50,6 +50,10 @@ import type { Chat } from "@/types/chat"
 import { cn } from "@/utils/cn"
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
+interface ChatSidebarProps {
+    initialChats: Chat[];
+}
+
 interface ConfirmationDialogProps {
     title: string;
     description: string;
@@ -96,37 +100,26 @@ function ConfirmationDialogContent({
     );
 }
 
-export function ChatSidebar() {
+export function ChatSidebar({ initialChats }: ChatSidebarProps) {
     const pathname = usePathname()
     const router = useRouter()
-    const [chats, setChats] = useState<Chat[]>([])
-    const [loadingChats, setLoadingChats] = useState(true)
+    const [chats, setChats] = useState<Chat[]>(initialChats)
+    const [loadingChats, setLoadingChats] = useState(false)
     const [editingChatId, setEditingChatId] = useState<string | null>(null)
     const [editingValue, setEditingValue] = useState("")
     const editInputRef = useRef<HTMLInputElement>(null)
     const { theme, setTheme } = useTheme()
     const [userData, setUserData] = useState<SupabaseUser | null>(null);
 
+    // Sync internal state with the prop when it changes
+    useEffect(() => {
+        setChats(initialChats);
+    }, [initialChats]);
+
     const handleSignOut = async () => {
         console.log("Signing out...")
         router.push('/login')
     }
-
-    useEffect(() => {
-        async function loadChats() {
-            setLoadingChats(true)
-            try {
-                const chatList = await getChats()
-                setChats(chatList)
-            } catch (error) {
-                console.error("Failed to load chats:", error)
-                setChats([])
-            } finally {
-                setLoadingChats(false)
-            }
-        }
-        loadChats()
-    }, [])
 
     useEffect(() => {
         async function fetchUser() {

@@ -9,7 +9,7 @@ import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { saveChat } from "@/features/chat/actions/chat"
-import { useChat } from "@ai-sdk/react"
+import { type Message, useChat } from "@ai-sdk/react"
 
 import { AuthKitButton } from "./authkit-button"
 
@@ -38,22 +38,38 @@ export function ChatPanel({ chatId }: ChatPanelProps) {
         onFinish: async (message) => {
             // Save the chat after each message
             try {
+                const currentMessages = messagesRef.current;
+                const messagesToSave = currentMessages;
+
+                // Ensure messagesToSave is not empty before proceeding
+                if (messagesToSave.length === 0) {
+                    return;
+                }
+
                 await saveChat(
                     {
                         id: chatId,
-                        title: messages[0]?.content.substring(0, 100) || "New Chat",
-                        messages: [...messages, message],
+                        // Use messagesToSave for title calculation
+                        title: messagesToSave[0]?.content.substring(0, 100) || "New Chat",
+                        messages: messagesToSave, // Pass the ref's current value directly
                         createdAt: new Date().toISOString(),
                     }
                 )
-                // Refresh the data on the client after successful save
+
                 router.refresh()
             } catch (error) {
                 console.error("Failed to save chat after message finish:", error)
-                // Optionally inform the user that saving failed
             }
         },
     })
+
+    // Ref to hold the latest messages
+    const messagesRef = useRef<Message[]>(messages);
+
+    // Update the ref whenever messages change
+    useEffect(() => {
+        messagesRef.current = messages;
+    }, [messages]);
 
     // Focus input on mount
     useEffect(() => {

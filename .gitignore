@@ -37,3 +37,6 @@ next-env.d.ts
 
 # supabase
 /supabase/.temp/
+
+src/features/account/controllers/get-user.ts
+src/features/account/controllers/get-session.ts

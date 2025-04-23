@@ -3,7 +3,7 @@ description: Generating any type of front-end code
 globs: *.tsx, components, components.json, package.json
 alwaysApply: false
 ---
-If at any point you are generating new UI code, you are forced to always use shadcn. And you must ensure that you install the new components with bunx --bun shadcn@latest add <component>
+If at any point you are generating new UI code, you are forced to always use shadcn. And you must ensure that you install the new components with npx shadcn@latest add <component>
 
 
 

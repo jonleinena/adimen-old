@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useTheme } from "next-themes"
-import { LogOut, Moon, MoreHorizontal, Pencil, PlusCircle, Settings, Sun, Trash2, User } from "lucide-react"
+import { LogOut, Moon, MoreHorizontal, Pencil, PlusCircle, Settings, Sparkles, Sun, Trash2, User } from "lucide-react"
 import { nanoid } from "nanoid"
 
 import { Button } from "@/components/ui/button"
@@ -400,6 +400,13 @@ export function ChatSidebar({ initialChats }: ChatSidebarProps) {
                             >
                                 {theme === "dark" ? <Sun className="mr-2 h-3.5 w-3.5" /> : <Moon className="mr-2 h-3.5 w-3.5" />}
                                 <span>Toggle Theme</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator className="bg-gray-300 dark:bg-gray-700" />
+                            <DropdownMenuItem className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px] flex items-center">
+                                <Link href="/pricing" className="flex items-center">
+                                    <Sparkles className="mr-2 h-3.5 w-3.5" />
+                                    <span>Upgrade Plan</span>
+                                </Link>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator className="bg-gray-300 dark:bg-gray-700" />
                             <DropdownMenuItem

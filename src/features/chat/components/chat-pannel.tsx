@@ -171,6 +171,42 @@ export function ChatPanel({ chatId, initialMessages }: ChatPanelProps) {
         }
     }
 
+    const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+        setErrorMessage(null); // Clear previous error
+        const items = e.clipboardData.items;
+        let imagePasted = false;
+
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            if (item.kind === 'file' && item.type.startsWith('image/')) {
+                imagePasted = true;
+                const file = item.getAsFile();
+
+                if (file) {
+                    if (files.length > 0) {
+                        setErrorMessage("Solo puedes adjuntar un archivo a la vez.");
+                        e.preventDefault(); // Prevent pasting file path/data
+                        return;
+                    }
+
+                    if (file.size > MAX_SIZE_BYTES) {
+                        setErrorMessage(`El archivo supera el límite de ${MAX_SIZE_MB}MB.`);
+                        e.preventDefault(); // Prevent pasting file path/data
+                        return;
+                    }
+
+                    // Valid file
+                    setFiles([file]);
+                    e.preventDefault(); // Prevent pasting file path/data into textarea
+                    // No need to reset fileInputRef here as it's for clipboard paste
+                    break; // Handle only the first valid image found
+                }
+            }
+        }
+        // If an image was pasted and handled, we already prevented default.
+        // If not, let the default paste behavior (for text) occur.
+    };
+
     return (
         <div className="fixed inset-x-0 bottom-0 bg-[#f8f5f2] dark:bg-[#242525] py-4">
             <div className="mx-auto max-w-[44.5rem] px-4">
@@ -222,6 +258,8 @@ export function ChatPanel({ chatId, initialMessages }: ChatPanelProps) {
                                                     className="w-16 h-16 object-cover rounded-md"
                                                     src={URL.createObjectURL(file)}
                                                     alt={file.name}
+                                                    width={64}
+                                                    height={64}
                                                 />
                                             </PreviewContainer>
                                         )
@@ -245,6 +283,7 @@ export function ChatPanel({ chatId, initialMessages }: ChatPanelProps) {
                                 setInputValue(e.target.value)
                             }}
                             onKeyDown={handleKeyDown}
+                            onPaste={handlePaste}
                             placeholder={isLoading ? "Waiting for response..." : "Message..."}
                             className="w-full resize-none border-0 bg-transparent py-4 px-4 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none text-sm text-black dark:text-[#ECECF1] placeholder:text-gray-400"
                             maxRows={6}

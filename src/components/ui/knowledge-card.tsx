@@ -38,13 +38,13 @@ export default function KnowledgeCard({
 
     return (
         <div className="w-full min-w-lg p-2">
-            <Card className="bg-background border-border overflow-hidden">
+            <Card className="bg-[#f8f5f2] dark:bg-[#242525] border-border overflow-hidden">
                 <CardContent className="p-0">
                     {/* Header with Stats */}
                     <div className="flex items-center justify-between px-3 py-2 border-b border-border bg-background/50">
                         <div className="flex items-center gap-2">
                             <Activity className="h-4 w-4 text-primary animate-pulse" />
-                            <h2 className="text-sm font-semibold">Pica Intelligence</h2>
+                            <h2 className="text-sm font-semibold">Adimen Intelligence</h2>
                         </div>
                         <Badge
                             variant="outline"

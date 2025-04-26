@@ -45,9 +45,9 @@ export function AccountMenu({ signOut }: { signOut: () => Promise<ActionResponse
           <IoPersonCircleOutline size={20} />
         </DropdownMenuTrigger>
         <DropdownMenuContent className='me-4 bg-white dark:bg-[#343541] text-gray-900 dark:text-white border-gray-200 dark:border-none min-w-[auto]'>
-          <DropdownMenuItem asChild className="text-xs hover:bg-gray-100 dark:hover:bg-[#444654] focus:bg-gray-100 dark:focus:bg-[#444654] cursor-pointer px-2 py-1 h-7">
+          {/* <DropdownMenuItem asChild className="text-xs hover:bg-gray-100 dark:hover:bg-[#444654] focus:bg-gray-100 dark:focus:bg-[#444654] cursor-pointer px-2 py-1 h-7">
             <Link href='/account'>Account</Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem onClick={handleLogoutClick} className="text-xs hover:bg-gray-100 dark:hover:bg-[#444654] focus:bg-gray-100 dark:focus:bg-[#444654] cursor-pointer px-2 py-1 h-7">
             Log Out
           </DropdownMenuItem>

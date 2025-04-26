@@ -43,6 +43,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { AccountModal } from '@/features/account/components/account-modal'
 import { clearChat, clearChats, getChats, updateChatTitle } from "@/features/chat/actions/chat"
 import { AuthKitButton } from "@/features/chat/components/authkit-button"
 import { supabase } from "@/libs/supabase/supabase-client"
@@ -110,6 +111,7 @@ export function ChatSidebar({ initialChats }: ChatSidebarProps) {
     const editInputRef = useRef<HTMLInputElement>(null)
     const { theme, setTheme } = useTheme()
     const [userData, setUserData] = useState<SupabaseUser | null>(null);
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
     // Sync internal state with the prop when it changes
     useEffect(() => {
@@ -369,55 +371,61 @@ export function ChatSidebar({ initialChats }: ChatSidebarProps) {
                     </SidebarGroup>
                 </SidebarContent>
                 <SidebarFooter className="mt-auto border-t border-gray-300 dark:border-gray-700 p-3">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="w-full justify-start items-center text-left h-auto px-2 py-1.5 hover:bg-[#eae2d8] dark:hover:bg-[#343541]">
-                                <div className="flex items-center gap-2">
-                                    <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
-                                        {userData?.user_metadata?.name?.charAt(0).toUpperCase() || userData?.email?.charAt(0).toUpperCase() || <User size={12} />}
+                    <Dialog open={isSettingsModalOpen} onOpenChange={setIsSettingsModalOpen}>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" className="w-full justify-start items-center text-left h-auto px-2 py-1.5 hover:bg-[#eae2d8] dark:hover:bg-[#343541]">
+                                    <div className="flex items-center gap-2">
+                                        <div className="h-6 w-6 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
+                                            {userData?.user_metadata?.name?.charAt(0).toUpperCase() || userData?.email?.charAt(0).toUpperCase() || <User size={12} />}
+                                        </div>
+                                        <div className="flex flex-col overflow-hidden">
+                                            <span className="text-sm font-medium truncate">{userData?.user_metadata?.name || userData?.email || "User"}</span>
+                                            <span className="text-xs text-black/60 dark:text-white/60 truncate">{userData?.email || "Loading..."}</span>
+                                        </div>
                                     </div>
-                                    <div className="flex flex-col overflow-hidden">
-                                        <span className="text-sm font-medium truncate">{userData?.user_metadata?.name || userData?.email || "User"}</span>
-                                        <span className="text-xs text-black/60 dark:text-white/60 truncate">{userData?.email || "Loading..."}</span>
-                                    </div>
-                                </div>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent
-                            align="end"
-                            side="top"
-                            className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg w-60 mb-1"
-                        >
-                            <DropdownMenuItem asChild className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px]">
-                                <Link href="/settings" className="flex items-center">
-                                    <Settings className="mr-2 h-3.5 w-3.5" />
-                                    <span>Settings</span>
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                                className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px] flex items-center"
-                                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                align="end"
+                                side="top"
+                                className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg w-60 mb-1"
                             >
-                                {theme === "dark" ? <Sun className="mr-2 h-3.5 w-3.5" /> : <Moon className="mr-2 h-3.5 w-3.5" />}
-                                <span>Toggle Theme</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator className="bg-gray-300 dark:bg-gray-700" />
-                            <DropdownMenuItem className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px] flex items-center">
-                                <Link href="/pricing" className="flex items-center">
-                                    <Sparkles className="mr-2 h-3.5 w-3.5" />
-                                    <span>Upgrade Plan</span>
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator className="bg-gray-300 dark:bg-gray-700" />
-                            <DropdownMenuItem
-                                className="text-xs text-destructive dark:text-red-500 hover:!bg-destructive/10 hover:!text-destructive dark:hover:!bg-red-500/10 dark:hover:!text-red-500 focus:bg-destructive/10 focus:text-destructive dark:focus:bg-red-500/10 dark:focus:text-red-500 cursor-pointer rounded-[5px] flex items-center"
-                                onClick={handleSignOut}
-                            >
-                                <LogOut className="mr-2 h-3.5 w-3.5" />
-                                <span>Log out</span>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                                <DialogTrigger asChild>
+                                    <DropdownMenuItem
+                                        className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px] flex items-center"
+                                        onSelect={(e) => { e.preventDefault(); }}
+                                    >
+                                        <Settings className="mr-2 h-3.5 w-3.5" />
+                                        <span>Settings</span>
+                                    </DropdownMenuItem>
+                                </DialogTrigger>
+                                <DropdownMenuItem
+                                    className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px] flex items-center"
+                                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                                >
+                                    {theme === "dark" ? <Sun className="mr-2 h-3.5 w-3.5" /> : <Moon className="mr-2 h-3.5 w-3.5" />}
+                                    <span>Toggle Theme</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator className="bg-gray-300 dark:bg-gray-700" />
+                                <DropdownMenuItem className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px] flex items-center">
+                                    <Link href="/pricing" className="flex items-center">
+                                        <Sparkles className="mr-2 h-3.5 w-3.5" />
+                                        <span>Upgrade Plan</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator className="bg-gray-300 dark:bg-gray-700" />
+                                <DropdownMenuItem
+                                    className="text-xs text-destructive dark:text-red-500 hover:!bg-destructive/10 hover:!text-destructive dark:hover:!bg-red-500/10 dark:hover:!text-red-500 focus:bg-destructive/10 focus:text-destructive dark:focus:bg-red-500/10 dark:focus:text-red-500 cursor-pointer rounded-[5px] flex items-center"
+                                    onClick={handleSignOut}
+                                >
+                                    <LogOut className="mr-2 h-3.5 w-3.5" />
+                                    <span>Log out</span>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        <AccountModal />
+                    </Dialog>
                 </SidebarFooter>
             </Sidebar>
         </TooltipProvider>

@@ -4,8 +4,10 @@
 
 @layer base {
   :root {
-    --background: 240 6% 23%;
-    --foreground: 0 0% 100%;
+    --background: 36 25% 96%;
+    /* Light background: #f8f5f2 */
+    --foreground: 240 6% 23%;
+    /* Darker text for light bg */
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
@@ -39,8 +41,10 @@
   }
 
   .dark {
-    --background: 240 6% 23%;
+    --background: 240 1% 15%;
+    /* Dark background: #242525 */
     --foreground: 0 0% 100%;
+    /* Light text for dark bg */
     --card: 222.2 47.4% 11.2%;
     --card-foreground: 210 40% 98%;
     --popover: 222.2 47.4% 11.2%;

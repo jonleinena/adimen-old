@@ -150,21 +150,20 @@ export function AccountModal({ }: AccountModalProps) {
                         <div className="space-y-6">
                             <h3 className="text-lg font-medium">Account Details</h3>
                             <Separator />
-                            <div className="space-y-4">
+                            <div className="space-y-1.5">
                                 <Label htmlFor="account-email">Email</Label>
-                                <Input id="account-email" type="email" disabled value={userData?.email || 'Loading...'} />
+                                <div id="account-email" className="flex h-10 w-full items-center rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background border-none">
+                                    {userData?.email || 'Loading...'}
+                                </div>
                             </div>
-                            <div className="space-y-4">
+                            <div className="space-y-1.5">
                                 <Label htmlFor="account-name">Name</Label>
-                                <Input id="account-name" disabled value={userData?.user_metadata?.name || 'Not set'} />
+                                <div id="account-name" className="flex h-10 w-full items-center rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background border-none">
+                                    {userData?.user_metadata?.name || 'Not set'}
+                                </div>
                                 <p className="text-xs text-muted-foreground">Name is based on your sign-up method.</p>
                             </div>
-                            <div className="space-y-4">
-                                <Label htmlFor="account-id">User ID</Label>
-                                <Input id="account-id" disabled value={userData?.id || 'Loading...'} />
-                                <p className="text-xs text-muted-foreground">Your unique user identifier.</p>
-                            </div>
-                            {/* Add more account details if needed */}
+
                         </div>
                     )}
 

@@ -4,6 +4,12 @@ import { useEffect, useState } from 'react';
 import { Plug } from 'lucide-react';
 
 import { Button } from "@/components/ui/button";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { supabase } from "@/libs/supabase/supabase-client";
 import { getURL } from "@/utils/get-url";
 import { useAuthKit } from "@picahq/authkit";
@@ -39,15 +45,24 @@ export function AuthKitButton() {
 
 
     return (
-        <Button
-            onClick={open}
-            disabled={!session || !!sessionError}
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-full hover:bg-muted"
-        >
-            <Plug className="h-4 w-4" />
-            <span className="sr-only">Connect</span>
-        </Button>
+        <TooltipProvider delayDuration={100}>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <Button
+                        asChild
+                        onClick={open}
+                        disabled={!session || !!sessionError}
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 rounded-full hover:bg-muted"
+                    >
+                        <Plug className="h-4 w-4 px-2 py-2" />
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
+                    Connect your tools
+                </TooltipContent>
+            </Tooltip>
+        </TooltipProvider>
     );
 }

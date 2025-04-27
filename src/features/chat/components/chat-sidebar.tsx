@@ -362,13 +362,6 @@ export function ChatSidebar({ initialChats }: ChatSidebarProps) {
                             )}
                         </SidebarMenu>
                     </SidebarGroup>
-                    <SidebarSeparator className="bg-gray-300 dark:bg-gray-700" />
-                    <SidebarGroup>
-                        <SidebarGroupLabel className="text-black dark:text-white text-xs px-4">Integrations</SidebarGroupLabel>
-                        <div className="px-4 py-2">
-                            <AuthKitButton />
-                        </div>
-                    </SidebarGroup>
                 </SidebarContent>
                 <SidebarFooter className="mt-auto border-t border-gray-300 dark:border-gray-700 p-3">
                     <Dialog open={isSettingsModalOpen} onOpenChange={setIsSettingsModalOpen}>

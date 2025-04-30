@@ -91,20 +91,6 @@ export default async function HomePage() {
                 <FeaturesSection />
             </Container>
 
-            {/* Solution Preview */}
-            <Container id="solution">
-                <div className="mx-auto max-w-[58rem] space-y-4 text-center">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                        {t('solutions.title')}
-                    </h2>
-                    <p className="text-muted-foreground sm:text-lg">
-                        {t('solutions.description')}
-                    </p>
-                </div>
-                <SolutionPreview />
-            </Container>
-
-            <UseCaseSection />
 
             {/* How It Works */}
             <Container>

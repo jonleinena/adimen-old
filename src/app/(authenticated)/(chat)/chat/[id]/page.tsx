@@ -16,15 +16,18 @@ export default async function ChatPage({
     params,
     searchParams
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
     const user = await getUser()
     const userId = user?.id || "anonymous"
 
-    const chatId = params.id;
+    const [resolvedParams, resolvedSearchParams] = await Promise.all([
+        params,
+        searchParams
+    ]);
 
-    const resolvedSearchParams = await searchParams;
+    const chatId = resolvedParams.id;
 
     let chat = await getChat(chatId)
 

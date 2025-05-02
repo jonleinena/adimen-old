@@ -32,12 +32,11 @@ export default async function PublicLayout({ children }: PropsWithChildren<{}>) 
                                 ? t.rich('percent_off', { percent: promotionDetails.percentOff })
                                 : t.rich('special_offer')}
                         </span>
-                        <Link
-                            href="/pricing"
-                            className="flex items-center gap-x-1 rounded-full bg-primary px-3 py-0.5 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/80"
+                        <span
+                            className="flex items-center gap-x-1 rounded-full bg-primary px-3 py-0.5 text-xs font-medium text-primary-foreground transition-all hover:bg-primary/80 cursor-default"
                         >
                             {t('subscribe')}
-                        </Link>
+                        </span>
                     </div>
                 </div>
             )}

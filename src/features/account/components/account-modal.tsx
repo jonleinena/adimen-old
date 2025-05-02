@@ -43,13 +43,15 @@ import type { User as SupabaseUser } from '@supabase/supabase-js';
 // import { updateUserPreferences } from '@/features/account/actions/user'; // Maybe needed later
 
 interface AccountModalProps {
-    // No props needed as state is managed by parent Dialog
+    // Add prop for triggering pricing URL update
+    openPricing: () => void;
+    // closeAccountModal is no longer needed if Dialog manages its own state
 }
 
 type AccountSection = 'account' | 'subscription' | 'security' | 'general'; // Add General back if needed
 
-// Rename component
-export function AccountModal({ }: AccountModalProps) {
+// Accept openPricing prop
+export function AccountModal({ openPricing }: AccountModalProps) {
     const { theme, setTheme } = useTheme(); // Keep theme state if the toggle remains
     const router = useRouter();
     const [activeSection, setActiveSection] = useState<AccountSection>('account');
@@ -71,7 +73,7 @@ export function AccountModal({ }: AccountModalProps) {
     const handleSignOut = async () => {
         await supabase.auth.signOut();
         router.push('/login');
-        router.refresh();
+        router.refresh(); // Keep refresh to ensure state cleanup
     };
 
     // Placeholder for future implementation
@@ -80,10 +82,10 @@ export function AccountModal({ }: AccountModalProps) {
         // router.push('/forgot-password'); // Or redirect to password reset page
     };
 
-    // Placeholder for future implementation
+    // Update Manage Subscription handler
     const handleManageSubscription = () => {
-        alert("Subscription management not implemented yet. Redirecting to pricing...");
-        router.push('/pricing'); // Example redirect
+        // No need to close this modal explicitly if parent Dialog handles it
+        openPricing(); // Call the passed function to update URL
     };
 
     const handleLanguageChange = async (value: string) => {

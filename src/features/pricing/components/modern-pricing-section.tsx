@@ -188,10 +188,7 @@ export async function ModernPricingSection({
                             <CardFooter>
                                 <TooltipProvider>
                                     {priceForCheckout && typeof createCheckoutAction === 'function' && !isCurrentPlan ? (
-                                        <form action={async () => {
-                                            'use server';
-                                            await createCheckoutAction({ price: priceForCheckout });
-                                        }}>
+                                        <form action={createCheckoutAction.bind(null, { price: priceForCheckout })}>
                                             <Button
                                                 className="w-full"
                                                 type="submit"

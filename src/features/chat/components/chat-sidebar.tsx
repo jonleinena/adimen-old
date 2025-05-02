@@ -216,6 +216,12 @@ export function ChatSidebar({ initialChats }: ChatSidebarProps) {
         }
     }
 
+    const openPricingModal = () => {
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('showPricing', 'true');
+        router.push(currentUrl.toString());
+    };
+
     return (
         <TooltipProvider delayDuration={100}>
             <Sidebar className="bg-[#f8f5f2] dark:bg-[#242525] text-black dark:text-white flex flex-col h-full">
@@ -226,15 +232,13 @@ export function ChatSidebar({ initialChats }: ChatSidebarProps) {
                             <Tooltip>
                                 <TooltipTrigger asChild>
                                     <Button
-                                        asChild
                                         variant="ghost"
                                         size="icon"
                                         className="h-8 w-8 text-black dark:text-white hover:bg-[#eae2d8] dark:hover:bg-[#343541]"
+                                        onClick={() => router.push(`/chat/${nanoid()}`)}
                                     >
-                                        <Link href={`/chat/${nanoid()}`}>
-                                            <PlusCircle className="h-4 w-4" />
-                                            <span className="sr-only">New Chat</span>
-                                        </Link>
+                                        <PlusCircle className="h-4 w-4" />
+                                        <span className="sr-only">New Chat</span>
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent side="bottom" className="bg-black/70 text-white text-xs rounded px-2 py-1">
@@ -401,11 +405,13 @@ export function ChatSidebar({ initialChats }: ChatSidebarProps) {
                                     <span>Toggle Theme</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator className="bg-gray-300 dark:bg-gray-700" />
-                                <DropdownMenuItem className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px] flex items-center">
-                                    <Link href="/pricing" className="flex items-center">
-                                        <Sparkles className="mr-2 h-3.5 w-3.5" />
-                                        <span>Upgrade Plan</span>
-                                    </Link>
+                                <DropdownMenuItem
+                                    className="text-xs hover:bg-[#eae2d8] dark:hover:bg-[#343541] focus:bg-[#eae2d8] dark:focus:bg-[#343541] cursor-pointer rounded-[5px] flex items-center"
+                                    onSelect={(e) => e.preventDefault()}
+                                    onClick={openPricingModal}
+                                >
+                                    <Sparkles className="mr-2 h-3.5 w-3.5" />
+                                    <span>Upgrade Plan</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator className="bg-gray-300 dark:bg-gray-700" />
                                 <DropdownMenuItem
@@ -417,7 +423,7 @@ export function ChatSidebar({ initialChats }: ChatSidebarProps) {
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <AccountModal />
+                        <AccountModal openPricing={openPricingModal} />
                     </Dialog>
                 </SidebarFooter>
             </Sidebar>

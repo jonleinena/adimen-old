@@ -7,6 +7,7 @@ import { useTheme } from "next-themes"
 import { LogOut, Moon, MoreHorizontal, Pencil, PlusCircle, Settings, Sparkles, Sun, Trash2, User } from "lucide-react"
 import { nanoid } from "nanoid"
 
+import { signOut } from "@/app/(public)/auth-actions"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -43,6 +44,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { useToast } from "@/components/ui/use-toast";
 import { AccountModal } from '@/features/account/components/account-modal'
 import { clearChat, clearChats, getChats, updateChatTitle } from "@/features/chat/actions/chat"
 import { AuthKitButton } from "@/features/chat/components/authkit-button"
@@ -50,7 +52,6 @@ import { supabase } from "@/libs/supabase/supabase-client"
 import type { Chat } from "@/types/chat"
 import { cn } from "@/utils/cn"
 import type { User as SupabaseUser } from '@supabase/supabase-js';
-
 interface ChatSidebarProps {
     initialChats: Chat[];
 }
@@ -112,15 +113,28 @@ export function ChatSidebar({ initialChats }: ChatSidebarProps) {
     const { theme, setTheme } = useTheme()
     const [userData, setUserData] = useState<SupabaseUser | null>(null);
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-
+    const { toast } = useToast();
     // Sync internal state with the prop when it changes
     useEffect(() => {
         setChats(initialChats);
     }, [initialChats]);
 
     const handleSignOut = async () => {
-        console.log("Signing out...")
-        router.push('/login')
+        const response = await signOut();
+
+        if (response?.error) {
+            toast({
+                variant: 'destructive',
+                description: 'An error occurred while logging out. Please try again or contact support.',
+            });
+        } else {
+            router.push('/login');
+            router.refresh();
+
+            toast({
+                description: 'You have been logged out.',
+            });
+        }
     }
 
     useEffect(() => {

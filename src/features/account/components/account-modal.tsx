@@ -18,6 +18,7 @@ import {
     User
 } from 'lucide-react';
 
+import { signOut } from "@/app/(public)/auth-actions"
 // Internal UI Components
 import { Button } from '@/components/ui/button';
 import {
@@ -35,6 +36,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from '@/components/ui/use-toast';
 // Internal Modules & Actions
 // import { clearChats } from '@/features/chat/actions/chat'; // Less relevant here
 import { supabase } from '@/libs/supabase/supabase-client';
@@ -57,6 +59,7 @@ export function AccountModal({ openPricing }: AccountModalProps) {
     const [activeSection, setActiveSection] = useState<AccountSection>('account');
     const [userData, setUserData] = useState<SupabaseUser | null>(null);
     const [preferredLanguage, setPreferredLanguage] = useState('en'); // Keep language state
+    const { toast } = useToast(); // Move hook call here
 
     useEffect(() => {
         async function fetchUser() {
@@ -71,9 +74,21 @@ export function AccountModal({ openPricing }: AccountModalProps) {
     }, []);
 
     const handleSignOut = async () => {
-        await supabase.auth.signOut();
-        router.push('/login');
-        router.refresh(); // Keep refresh to ensure state cleanup
+        const response = await signOut();
+
+        if (response?.error) {
+            toast({
+                variant: 'destructive',
+                description: 'An error occurred while logging out. Please try again or contact support.',
+            });
+        } else {
+            router.push('/login');
+            router.refresh();
+
+            toast({
+                description: 'You have been logged out.',
+            });
+        }
     };
 
     // Placeholder for future implementation

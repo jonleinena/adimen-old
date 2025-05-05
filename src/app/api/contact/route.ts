@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
         const { data, error } = await resendClient.emails.send({
             from: senderEmail,
             to: recipientEmail,
-            subject: 'New Contact Form Submission',
+            subject: '[Adimen]New Contact Form Submission',
             react: FormDataEmail({ name, email, company, phone, message }) as React.ReactElement,
         })
 

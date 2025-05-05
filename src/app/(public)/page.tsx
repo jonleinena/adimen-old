@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { ArrowRight, Star } from "lucide-react";
@@ -20,9 +21,9 @@ import { getSubscription } from '@/features/account/controllers/get-subscription
 import { ModernPricingSection } from '@/features/pricing/components/modern-pricing-section';
 import { getProducts } from '@/features/pricing/controllers/get-products';
 
+
 export default async function HomePage() {
     const t = await getTranslations('home');
-
     // Get the user's session, subscription, and products
     const [session, subscription, products] = await Promise.all([
         getSession(),
@@ -131,7 +132,7 @@ export default async function HomePage() {
 
 function HeroSection() {
     const t = useTranslations('hero_section');
-
+    const router = useRouter();
     return (
         <div className="relative container py-24 space-y-8 md:space-y-16">
             <div className="mx-auto max-w-[64rem] space-y-8 text-center">
@@ -145,11 +146,11 @@ function HeroSection() {
                     {t('description')}
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <Button size="lg" className="h-12">
+                    <Button size="lg" className="h-12" onClick={() => router.push('/contact')}>
                         {t('start_trial')}
                         <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
-                    <Button size="lg" variant="outline" className="h-12">
+                    <Button size="lg" variant="outline" className="h-12" onClick={() => router.push('/contact')}>
                         {t('schedule_demo')}
                     </Button>
                 </div>

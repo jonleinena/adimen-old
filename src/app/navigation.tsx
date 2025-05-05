@@ -12,7 +12,6 @@ import { signOut } from './(public)/auth-actions';
 export async function Navigation() {
   const session = await getSession();
   const t = await getTranslations('navigation');
-
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -70,7 +69,9 @@ export async function Navigation() {
                           </Link>
                         </div>
                         <div className="flex flex-col space-y-4">
-                          <Button variant="outline">{t('contact_sales')}</Button>
+                          <Button variant="outline">
+                            <Link href="/contact">{t('contact_sales')}</Link>
+                          </Button>
                           <Button variant="blueOutline" asChild>
                             <Link href="/signup">{t('get_started')}</Link>
                           </Button>

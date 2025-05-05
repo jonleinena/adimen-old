@@ -1,7 +1,7 @@
 "use client"
 
 import Image from 'next/image'
-import { useRouter } from "next/navigation"
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { motion } from "framer-motion"
 
@@ -20,7 +20,6 @@ const officeTools = [
 ]
 
 export function IntegrationPreview() {
-    const router = useRouter()
     const t = useTranslations('integration_preview')
 
     return (
@@ -69,10 +68,11 @@ export function IntegrationPreview() {
                     <h2 className="text-2xl font-bold text-center">{t('cta_heading')}</h2>
                     <div className="flex justify-center">
                         <Button
-                            onClick={() => router.push('/contact')}
                             className="bg-blue-500 text-white hover:bg-blue-600"
                         >
-                            {t('request_integration')}
+                            <Link href="/contact">
+                                {t('request_integration')}
+                            </Link>
                         </Button>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { ArrowRight, Star } from "lucide-react";
@@ -132,7 +132,7 @@ export default async function HomePage() {
 
 function HeroSection() {
     const t = useTranslations('hero_section');
-    const router = useRouter();
+
     return (
         <div className="relative container py-24 space-y-8 md:space-y-16">
             <div className="mx-auto max-w-[64rem] space-y-8 text-center">
@@ -146,12 +146,16 @@ function HeroSection() {
                     {t('description')}
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <Button size="lg" className="h-12" onClick={() => router.push('/contact')}>
-                        {t('start_trial')}
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                    <Button size="lg" className="h-12">
+                        <Link href="/contact">
+                            {t('start_trial')}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
                     </Button>
-                    <Button size="lg" variant="outline" className="h-12" onClick={() => router.push('/contact')}>
-                        {t('schedule_demo')}
+                    <Button size="lg" variant="outline" className="h-12">
+                        <Link href="/contact">
+                            {t('schedule_demo')}
+                        </Link>
                     </Button>
                 </div>
                 <div className="flex items-center justify-center space-x-2 text-sm">

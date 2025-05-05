@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
 import { Button } from "@/components/ui/button"
@@ -9,7 +9,6 @@ import { cn } from "@/utils/cn"
 
 export function FeatureSelector() {
     const [selected, setSelected] = useState<string[]>([])
-    const router = useRouter()
     const t = useTranslations('feature_selector')
 
     const features = t.raw('features') as string[]
@@ -47,10 +46,11 @@ export function FeatureSelector() {
                 ))}
             </div>
             <Button
-                onClick={() => router.push('/contact')}
                 className="w-full mt-4 bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-medium"
             >
-                {t('continue_button')}
+                <Link href="/contact">
+                    {t('continue_button')}
+                </Link>
             </Button>
         </div>
     )

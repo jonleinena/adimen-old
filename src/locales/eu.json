@@ -30,7 +30,7 @@
         }
     },
     "hero_section": {
-        "badge": "500+ ETEk fidatzen dira",
+        "badge": "Integra ezazu AA zure tresnekin",
         "title": "AA automatizazioa negozio guztientzat",
         "description": "Eraldatu zure negozio-eragiketak zure tresnekin perfektuki integratzen diren AA agenteekin. Ez da ezagutza teknikorik behar.",
         "start_trial": "Hasi doako proba",
@@ -39,7 +39,7 @@
     },
     "cta": {
         "title": "Prest al zaude zure negozioa eraldatzeko?",
-        "description": "Batu zaitez Adimen dagoeneko erabiltzen duten ehunka ETEtara lehiakor mantentzeko.",
+        "description": "Batu zaitez Adimenera eta eraldatu zure negozioa",
         "free_trial": "Hasi doako proba",
         "talk_to_sales": "Salmenta-taldearekin hitz egin"
     },

@@ -10,11 +10,42 @@ export default function ContactPage() {
         phone: "",
         message: ""
     })
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
+    const [submitMessage, setSubmitMessage] = useState("")
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        // Handle form submission here
-        console.log(formData)
+        setIsSubmitting(true)
+        setSubmitStatus(null)
+        setSubmitMessage("")
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+
+            const result = await response.json()
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to send message')
+            }
+
+            setSubmitStatus('success')
+            setSubmitMessage("Message sent successfully!")
+            // Optionally clear the form
+            setFormData({ name: "", email: "", company: "", phone: "", message: "" })
+        } catch (error: any) {
+            setSubmitStatus('error')
+            setSubmitMessage(error.message || "An unexpected error occurred.")
+            console.error("Submission error:", error)
+        } finally {
+            setIsSubmitting(false)
+        }
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -94,14 +125,21 @@ export default function ContactPage() {
                         onChange={handleChange}
                         rows={4}
                         className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                        disabled={isSubmitting}
                     />
                 </div>
                 <button
                     type="submit"
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-medium"
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-medium disabled:opacity-50"
+                    disabled={isSubmitting}
                 >
-                    Submit
+                    {isSubmitting ? 'Submitting...' : 'Submit'}
                 </button>
+                {submitStatus && (
+                    <div className={`mt-4 p-3 rounded-md text-sm ${submitStatus === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                        {submitMessage}
+                    </div>
+                )}
             </form>
         </div>
     )

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { ArrowRight, Star } from "lucide-react";
@@ -20,9 +21,9 @@ import { getSubscription } from '@/features/account/controllers/get-subscription
 import { ModernPricingSection } from '@/features/pricing/components/modern-pricing-section';
 import { getProducts } from '@/features/pricing/controllers/get-products';
 
+
 export default async function HomePage() {
     const t = await getTranslations('home');
-
     // Get the user's session, subscription, and products
     const [session, subscription, products] = await Promise.all([
         getSession(),
@@ -146,11 +147,15 @@ function HeroSection() {
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <Button size="lg" className="h-12">
-                        {t('start_trial')}
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        <Link href="/contact">
+                            {t('start_trial')}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
                     </Button>
                     <Button size="lg" variant="outline" className="h-12">
-                        {t('schedule_demo')}
+                        <Link href="/contact">
+                            {t('schedule_demo')}
+                        </Link>
                     </Button>
                 </div>
                 <div className="flex items-center justify-center space-x-2 text-sm">

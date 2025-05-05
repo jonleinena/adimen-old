@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
         // Hardcoding the recipient email as requested
         const recipientEmail = 'leinenajon@gmail.com'
         // Using a placeholder sender email - replace with your verified domain in Resend
-        const senderEmail = 'jon@resumaker-ai.com' // Replace with your actual sender email
+        const senderEmail = 'adimen@resumaker-ai.com' // Replace with your actual sender email
 
         const { data, error } = await resendClient.emails.send({
             from: senderEmail,

@@ -10,6 +10,7 @@ export const maxDuration = 60;
 export const POST = withAuth(async (req) => {
   try {
     const { messages, id: chatId, webSearchEnabled = true }: { messages: Message[], id: string, webSearchEnabled?: boolean } = await req.json();
+    
 
     const referer = req.headers.get('referer')
     const isSharePage = referer?.includes('/share/')
